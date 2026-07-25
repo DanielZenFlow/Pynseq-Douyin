@@ -1,4 +1,4 @@
-# Pynseq for Douyin｜屏序·抖音
+# Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 
 > 屏其不欲见者，复其应有之序。
 
@@ -30,7 +30,7 @@
 ## 安装
 
 1. 在浏览器中安装 Tampermonkey 或其他兼容的用户脚本管理器。
-2. 打开 [用户脚本原始文件](https://raw.githubusercontent.com/DanielZenFlow/Pynseq-Douyin/main/douyin-local-user-blocker.user.js)。
+2. 打开 [Greasy Fork 安装页面](https://greasyfork.org/zh-CN/scripts/588559-pynseq-for-douyin-%E5%B1%8F%E5%BA%8F-%E6%8A%96%E9%9F%B3-%E6%9C%AC%E5%9C%B0%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%E7%9A%84%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-%E4%B8%BB%E9%A1%B5-%E4%BD%9C%E5%93%81%E8%AF%84%E8%AE%BA?locale_override=1)，然后选择“安装此脚本”。也可以直接打开 [GitHub 上的用户脚本原始文件](https://raw.githubusercontent.com/DanielZenFlow/Pynseq-Douyin/main/douyin-local-user-blocker.user.js)。
 3. 在用户脚本管理器中确认安装。
 4. 打开或刷新抖音桌面端网页，按照首次设置向导完成配置。
 
@@ -72,6 +72,7 @@
 
 ## 支持项目
 
+- [在 Greasy Fork 安装或更新 Pynseq for Douyin](https://greasyfork.org/zh-CN/scripts/588559-pynseq-for-douyin-%E5%B1%8F%E5%BA%8F-%E6%8A%96%E9%9F%B3-%E6%9C%AC%E5%9C%B0%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%E7%9A%84%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-%E4%B8%BB%E9%A1%B5-%E4%BD%9C%E5%93%81%E8%AF%84%E8%AE%BA?locale_override=1)
 - [在 GitHub 为 Pynseq for Douyin 点亮 Star](https://github.com/DanielZenFlow/Pynseq-Douyin)
 - [通过 Buy Me a Coffee 支持 DanielZenFlow](https://buymeacoffee.com/danielzenflow)
 - [提交问题或功能建议](https://github.com/DanielZenFlow/Pynseq-Douyin/issues)
@@ -84,7 +85,7 @@
 
 <a id="english"></a>
 
-# Pynseq for Douyin
+# Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 
 > Hide what you do not wish to see, and restore the order that should remain.
 
@@ -114,7 +115,7 @@ The project does not support the Douyin mobile application.
 ## Installation
 
 1. Install Tampermonkey or another compatible userscript manager.
-2. Open the [raw userscript](https://raw.githubusercontent.com/DanielZenFlow/Pynseq-Douyin/main/douyin-local-user-blocker.user.js).
+2. Open the [Greasy Fork installation page](https://greasyfork.org/zh-CN/scripts/588559-pynseq-for-douyin-%E5%B1%8F%E5%BA%8F-%E6%8A%96%E9%9F%B3-%E6%9C%AC%E5%9C%B0%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%E7%9A%84%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-%E4%B8%BB%E9%A1%B5-%E4%BD%9C%E5%93%81%E8%AF%84%E8%AE%BA?locale_override=1) and select "Install this script." Alternatively, open the [raw userscript on GitHub](https://raw.githubusercontent.com/DanielZenFlow/Pynseq-Douyin/main/douyin-local-user-blocker.user.js).
 3. Confirm the installation in the userscript manager.
 4. Open or refresh the Douyin desktop website and complete the onboarding flow.
 
@@ -156,6 +157,7 @@ Export the blocklist under “Settings → Local Blocklist”. The exported file
 
 ## Support
 
+- [Install or update Pynseq for Douyin on Greasy Fork](https://greasyfork.org/zh-CN/scripts/588559-pynseq-for-douyin-%E5%B1%8F%E5%BA%8F-%E6%8A%96%E9%9F%B3-%E6%9C%AC%E5%9C%B0%E9%9A%90%E8%97%8F%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%E7%9A%84%E6%8E%A8%E8%8D%90%E8%A7%86%E9%A2%91-%E4%B8%BB%E9%A1%B5-%E4%BD%9C%E5%93%81%E8%AF%84%E8%AE%BA?locale_override=1)
 - [Star Pynseq for Douyin on GitHub](https://github.com/DanielZenFlow/Pynseq-Douyin)
 - [Support DanielZenFlow on Buy Me a Coffee](https://buymeacoffee.com/danielzenflow)
 - [Report a bug or request a feature](https://github.com/DanielZenFlow/Pynseq-Douyin/issues)

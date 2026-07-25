@@ -1,10 +1,12 @@
 // ==UserScript==
-// @name         Pynseq for Douyin｜屏序·抖音
-// @name:zh-CN   Pynseq for Douyin｜屏序·抖音
-// @name:en      Pynseq for Douyin｜屏序·抖音
+// @name         Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
+// @name:zh-CN   Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
+// @name:en      Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @namespace    https://github.com/DanielZenFlow
 // @version      1.0.0
 // @description  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
+// @description:zh-CN  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
+// @description:en  Locally hide selected users' feed videos, profile posts, comments, danmaku, and live chat on Douyin, with blocklist management and import/export.
 // @author       DanielZenFlow
 // @homepage     https://github.com/DanielZenFlow/Douyin-User-Blocker
 // @supportURL   https://github.com/DanielZenFlow/Douyin-User-Blocker/issues
@@ -26,7 +28,7 @@
 (() => {
   'use strict';
 
-  const SCRIPT_NAME = 'Pynseq for Douyin｜屏序·抖音';
+  const SCRIPT_NAME = 'Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论';
   const SCRIPT_VERSION = '1.0.0';
   const GITHUB_URL = 'https://github.com/DanielZenFlow/Douyin-User-Blocker';
   const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/danielzenflow';
