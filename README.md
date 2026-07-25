@@ -1,4 +1,4 @@
-# Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
+# Pynseq for Douyin｜屏序·抖音
 
 > 屏其不欲见者，复其应有之序。
 
@@ -85,7 +85,7 @@
 
 <a id="english"></a>
 
-# Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
+# Pynseq for Douyin｜屏序·抖音
 
 > Hide what you do not wish to see, and restore the order that should remain.
 
