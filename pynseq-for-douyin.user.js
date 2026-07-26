@@ -3,7 +3,7 @@
 // @name:zh-CN   Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @name:en      Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @namespace    https://github.com/DanielZenFlow
-// @version      1.0.0
+// @version      1.1.0
 // @description  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:zh-CN  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:en  Locally hide selected users' feed videos, profile posts, comments, danmaku, and live chat on Douyin, with blocklist management and import/export.
@@ -29,7 +29,7 @@
   'use strict';
 
   const SCRIPT_NAME = 'Pynseq for Douyin｜屏序·抖音';
-  const SCRIPT_VERSION = '1.0.0';
+  const SCRIPT_VERSION = '1.1.0';
   const GITHUB_URL = 'https://github.com/DanielZenFlow/Douyin-User-Blocker';
   const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/danielzenflow';
   const BUY_ME_A_COFFEE_ICON_URL = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODg0IiBoZWlnaHQ9IjEyNzkiIHZpZXdCb3g9IjAgMCA4ODQgMTI3OSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTc5MS4xMDkgMjk3LjUxOEw3OTAuMjMxIDI5Ny4wMDJMNzg4LjIwMSAyOTYuMzgzQzc4OS4wMTggMjk3LjA3MiA3OTAuMDQgMjk3LjQ3MiA3OTEuMTA5IDI5Ny41MThWMjk3LjUxOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTgwMy44OTYgMzg4Ljg5MUw4MDIuOTE2IDM4OS4xNjZMODAzLjg5NiAzODguODkxWiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNNzkxLjQ4NCAyOTcuMzc3Qzc5MS4zNTkgMjk3LjM2MSA3OTEuMjM3IDI5Ny4zMzIgNzkxLjExOCAyOTcuMjlDNzkxLjExMSAyOTcuMzcxIDc5MS4xMTEgMjk3LjQ1MyA3OTEuMTE4IDI5Ny41MzRDNzkxLjI1MiAyOTcuNTE2IDc5MS4zNzkgMjk3LjQ2MiA3OTEuNDg0IDI5Ny4zNzdWMjk3LjM3N1oiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5MS4xMTMgMjk3LjUyOUg3OTEuMjQ0VjI5Ny40NDdMNzkxLjExMyAyOTcuNTI5WiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNODAzLjExMSAzODguNzI2TDgwNC41OTEgMzg3Ljg4M0w4MDUuMTQyIDM4Ny41NzNMODA1LjY0MSAzODcuMDRDODA0LjcwMiAzODcuNDQ0IDgwMy44NDYgMzg4LjAxNiA4MDMuMTExIDM4OC43MjZWMzg4LjcyNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5My42NjkgMjk5LjUxNUw3OTIuMjIzIDI5OC4xMzhMNzkxLjI0MyAyOTcuNjA1Qzc5MS43NyAyOTguNTM1IDc5Mi42NDEgMjk5LjIyMSA3OTMuNjY5IDI5OS41MTVWMjk5LjUxNVoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTQzMC4wMTkgMTE4Ni4xOEM0MjguODY0IDExODYuNjggNDI3Ljg1MiAxMTg3LjQ2IDQyNy4wNzYgMTE4OC40NUw0MjcuOTg4IDExODcuODdDNDI4LjYwOCAxMTg3LjMgNDI5LjQ4NSAxMTg2LjYzIDQzMC4wMTkgMTE4Ni4xOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTY0MS4xODcgMTE0NC42M0M2NDEuMTg3IDExNDMuMzMgNjQwLjU1MSAxMTQzLjU3IDY0MC43MDUgMTE0OC4yMUM2NDAuNzA1IDExNDcuODQgNjQwLjg2IDExNDcuNDYgNjQwLjkyOSAxMTQ3LjFDNjQxLjAxNSAxMTQ2LjI3IDY0MS4wODQgMTE0NS40NiA2NDEuMTg3IDExNDQuNjNaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik02MTkuMjg0IDExODYuMThDNjE4LjEyOSAxMTg2LjY4IDYxNy4xMTggMTE4Ny40NiA2MTYuMzQyIDExODguNDVMNjE3LjI1NCAxMTg3Ljg3QzYxNy44NzMgMTE4Ny4zIDYxOC43NTEgMTE4Ni42MyA2MTkuMjg0IDExODYuMThaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik0yODEuMzA0IDExOTYuMDZDMjgwLjQyNyAxMTk1LjMgMjc5LjM1NCAxMTk0LjggMjc4LjIwNyAxMTk0LjYxQzI3OS4xMzYgMTE5NS4wNiAyODAuMDY1IDExOTUuNTEgMjgwLjY4NCAxMTk1Ljg1TDI4MS4zMDQgMTE5Ni4wNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTI0Ny44NDEgMTE2NC4wMUMyNDcuNzA0IDExNjIuNjYgMjQ3LjI4OCAxMTYxLjM1IDI0Ni42MTkgMTE2MC4xNkMyNDcuMDkzIDExNjEuMzkgMjQ3LjQ4OSAxMTYyLjY2IDI0Ny44MDYgMTE2My45NEwyNDcuODQxIDExNjQuMDFaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik00NzIuNjIzIDU5MC44MzZDNDI2LjY4MiA2MTAuNTAzIDM3NC41NDYgNjMyLjgwMiAzMDYuOTc2IDYzMi44MDJDMjc4LjcxIDYzMi43NDYgMjUwLjU4IDYyOC44NjggMjIzLjM1MyA2MjEuMjc0TDI3MC4wODYgMTEwMS4wOEMyNzEuNzQgMTEyMS4xMyAyODAuODc2IDExMzkuODMgMjk1LjY3OSAxMTUzLjQ2QzMxMC40ODIgMTE2Ny4wOSAzMjkuODcgMTE3NC42NSAzNDkuOTkyIDExNzQuNjVDMzQ5Ljk5MiAxMTc0LjY1IDQxNi4yNTQgMTE3OC4wOSA0MzguMzY1IDExNzguMDlDNDYyLjE2MSAxMTc4LjA5IDUzMy41MTYgMTE3NC42NSA1MzMuNTE2IDExNzQuNjVDNTUzLjYzNiAxMTc0LjY1IDU3My4wMTkgMTE2Ny4wOCA1ODcuODE5IDExNTMuNDVDNjAyLjYxOSAxMTM5LjgyIDYxMS43NTIgMTEyMS4xMyA2MTMuNDA2IDExMDEuMDhMNjYzLjQ1OSA1NzAuODc2QzY0MS4wOTEgNTYzLjIzNyA2MTguNTE2IDU1OC4xNjEgNTkzLjA2OCA1NTguMTYxQzU0OS4wNTQgNTU4LjE0NCA1MTMuNTkxIDU3My4zMDMgNDcyLjYyMyA1OTAuODM2WiIgZmlsbD0iI0ZGREQwMCIvPgo8cGF0aCBkPSJNNzguNjg4NSAzODYuMTMyTDc5LjQ3OTkgMzg2Ljg3Mkw3OS45OTYyIDM4Ny4xODJDNzkuNTk4NyAzODYuNzg3IDc5LjE2MDMgMzg2LjQzNSA3OC42ODg1IDM4Ni4xMzJWMzg2LjEzMloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTg3OS41NjcgMzQxLjg0OUw4NzIuNTMgMzA2LjM1MkM4NjYuMjE1IDI3NC41MDMgODUxLjg4MiAyNDQuNDA5IDgxOS4xOSAyMzIuODk4QzgwOC43MTEgMjI5LjIxNSA3OTYuODIxIDIyNy42MzMgNzg4Ljc4NiAyMjAuMDFDNzgwLjc1MSAyMTIuMzg4IDc3OC4zNzYgMjAwLjU1IDc3Ni41MTggMTg5LjU3MkM3NzMuMDc2IDE2OS40MjMgNzY5Ljg0MiAxNDkuMjU3IDc2Ni4zMTQgMTI5LjE0M0M3NjMuMjY5IDExMS44NSA3NjAuODYgOTIuNDI0MyA3NTIuOTI4IDc2LjU2Qzc0Mi42MDQgNTUuMjU4NCA3MjEuMTgyIDQyLjgwMDkgNjk5Ljg4IDM0LjU1OUM2ODguOTY1IDMwLjQ4NDQgNjc3LjgyNiAyNy4wMzc1IDY2Ni41MTcgMjQuMjM1MkM2MTMuMjk3IDEwLjE5NDcgNTU3LjM0MiA1LjAzMjc3IDUwMi41OTEgMi4wOTA0N0M0MzYuODc1IC0xLjUzNTc3IDM3MC45ODMgLTAuNDQzMjM0IDMwNS40MjIgNS4zNTk2OEMyNTYuNjI1IDkuNzk4OTQgMjA1LjIyOSAxNS4xNjc0IDE1OC44NTggMzIuMDQ2OUMxNDEuOTEgMzguMjI0IDEyNC40NDUgNDUuNjM5OSAxMTEuNTU4IDU4LjczNDFDOTUuNzQ0OCA3NC44MjIxIDkwLjU4MjkgOTkuNzAyNiAxMDIuMTI4IDExOS43NjVDMTEwLjMzNiAxMzQuMDEyIDEyNC4yMzkgMTQ0LjA3OCAxMzguOTg1IDE1MC43MzdDMTU4LjE5MiAxNTkuMzE3IDE3OC4yNTEgMTY1Ljg0NiAxOTguODI5IDE3MC4yMTVDMjU2LjEyNiAxODIuODc5IDMxNS40NzEgMTg3Ljg1MSAzNzQuMDA3IDE4OS45NjhDNDM4Ljg4NyAxOTIuNTg2IDUwMy44NyAxOTAuNDY0IDU2OC40NCAxODMuNjE4QzU4NC40MDggMTgxLjg2MyA2MDAuMzQ3IDE3OS43NTggNjE2LjI1NyAxNzcuMzA0QzYzNC45OTUgMTc0LjQzIDY0Ny4wMjIgMTQ5LjkyOCA2NDEuNDk5IDEzMi44NTlDNjM0Ljg5MSAxMTIuNDUzIDYxNy4xMzQgMTA0LjUzOCA1OTcuMDU1IDEwNy42MThDNTk0LjA5NSAxMDguMDgyIDU5MS4xNTMgMTA4LjUxMiA1ODguMTkzIDEwOC45NDJMNTg2LjA2IDEwOS4yNTJDNTc5LjI1NyAxMTAuMTEzIDU3Mi40NTUgMTEwLjkxNSA1NjUuNjUzIDExMS42NjFDNTUxLjYwMSAxMTMuMTc1IDUzNy41MTUgMTE0LjQxNCA1MjMuMzk0IDExNS4zNzhDNDkxLjc2OCAxMTcuNTggNDYwLjA1NyAxMTguNTk1IDQyOC4zNjMgMTE4LjY0N0MzOTcuMjE5IDExOC42NDcgMzY2LjA1OCAxMTcuNzY5IDMzNC45ODMgMTE1LjcyMkMzMjAuODA1IDExNC43OTMgMzA2LjY2MSAxMTMuNjExIDI5Mi41NTIgMTEyLjE3N0MyODYuMTM0IDExMS41MDYgMjc5LjczMyAxMTAuODAxIDI3My4zMzMgMTEwLjAwOUwyNjcuMjQxIDEwOS4yMzVMMjY1LjkxNyAxMDkuMDQ2TDI1OS42MDIgMTA4LjEzNEMyNDYuNjk3IDEwNi4xODkgMjMzLjc5MiAxMDMuOTUzIDIyMS4wMjUgMTAxLjI1MUMyMTkuNzM3IDEwMC45NjUgMjE4LjU4NCAxMDAuMjQ5IDIxNy43NTggOTkuMjE5M0MyMTYuOTMyIDk4LjE5MDEgMjE2LjQ4MiA5Ni45MDk5IDIxNi40ODIgOTUuNTkwM0MyMTYuNDgyIDk0LjI3MDYgMjE2LjkzMiA5Mi45OTA0IDIxNy43NTggOTEuOTYxMkMyMTguNTg0IDkwLjkzMTkgMjE5LjczNyA5MC4yMTUyIDIyMS4wMjUgODkuOTI5M0gyMjEuMjY2QzIzMi4zMyA4Ny41NzIxIDI0My40NzkgODUuNTU4OSAyNTQuNjYzIDgzLjgwMzhDMjU4LjM5MiA4My4yMTg4IDI2Mi4xMzEgODIuNjQ1MyAyNjUuODgyIDgyLjA4MzJIMjY1Ljk4NUMyNzIuOTg4IDgxLjYxODYgMjgwLjAyNiA4MC4zNjI1IDI4Ni45OTQgNzkuNTM2NkMzNDcuNjI0IDczLjIzMDIgNDA4LjYxNCA3MS4wODAxIDQ2OS41MzggNzMuMTAxNEM0OTkuMTE1IDczLjk2MTggNTI4LjY3NiA3NS42OTk2IDU1OC4xMTYgNzguNjkzNUM1NjQuNDQ4IDc5LjM0NzQgNTcwLjc0NiA4MC4wMzU3IDU3Ny4wNDMgODAuODA5OUM1NzkuNDUyIDgxLjEwMjUgNTgxLjg3OCA4MS40NDY1IDU4NC4zMDUgODEuNzM5MUw1ODkuMTkxIDgyLjQ0NDVDNjAzLjQzOCA4NC41NjY3IDYxNy42MSA4Ny4xNDE5IDYzMS43MDggOTAuMTcwM0M2NTIuNTk3IDk0LjcxMjggNjc5LjQyMiA5Ni4xOTI1IDY4OC43MTMgMTE5LjA3N0M2OTEuNjczIDEyNi42MzggNjkzLjAxNSAxMzQuNDA4IDY5NC42NDkgMTQyLjAzTDY5Ni43MzEgMTUxLjc1MkM2OTYuNzg2IDE1MS45MjYgNjk2LjgyNiAxNTIuMTA1IDY5Ni44NTIgMTUyLjI4NUM3MDEuNzczIDE3NS4yMjcgNzA2LjcgMTk4LjE2OSA3MTEuNjMyIDIyMS4xMTFDNzExLjk5NCAyMjIuODA2IDcxMi4wMDIgMjI0LjU1NyA3MTEuNjU3IDIyNi4yNTVDNzExLjMxMiAyMjcuOTU0IDcxMC42MjEgMjI5LjU2MiA3MDkuNjI2IDIzMC45ODJDNzA4LjYzMiAyMzIuNDAxIDcwNy4zNTUgMjMzLjYgNzA1Ljg3NyAyMzQuNTA0QzcwNC4zOTggMjM1LjQwOCA3MDIuNzUgMjM1Ljk5NyA3MDEuMDMzIDIzNi4yMzZINzAwLjg5NUw2OTcuODg0IDIzNi42NDlMNjk0LjkwOCAyMzcuMDQ0QzY4NS40NzggMjM4LjI3MiA2NzYuMDM4IDIzOS40MTkgNjY2LjU4NiAyNDAuNDg2QzY0Ny45NjggMjQyLjYwOCA2MjkuMzIyIDI0NC40NDMgNjEwLjY0OCAyNDUuOTkyQzU3My41MzkgMjQ5LjA3NyA1MzYuMzU2IDI1MS4xMDIgNDk5LjA5OCAyNTIuMDY2QzQ4MC4xMTQgMjUyLjU3IDQ2MS4xMzUgMjUyLjgwNiA0NDIuMTYyIDI1Mi43NzFDMzY2LjY0MyAyNTIuNzEyIDI5MS4xODkgMjQ4LjMyMiAyMTYuMTczIDIzOS42MjVDMjA4LjA1MSAyMzguNjYyIDE5OS45MyAyMzcuNjI5IDE5MS44MDggMjM2LjU4QzE5OC4xMDYgMjM3LjM4OSAxODcuMjMxIDIzNS45NiAxODUuMDI5IDIzNS42NTFDMTc5Ljg2NyAyMzQuOTI4IDE3NC43MDUgMjM0LjE3NyAxNjkuNTQzIDIzMy4zOTdDMTUyLjIxNiAyMzAuNzk4IDEzNC45OTMgMjI3LjU5OCAxMTcuNyAyMjQuNzkzQzk2Ljc5NDQgMjIxLjM1MiA3Ni44MDA1IDIyMy4wNzMgNTcuODkwNiAyMzMuMzk3QzQyLjM2ODUgMjQxLjg5MSAyOS44MDU1IDI1NC45MTYgMjEuODc3NiAyNzAuNzM1QzEzLjcyMTcgMjg3LjU5NyAxMS4yOTU2IDMwNS45NTYgNy42NDc4NiAzMjQuMDc1QzQuMDAwMDkgMzQyLjE5MyAtMS42NzgwNSAzNjEuNjg4IDAuNDcyNzUxIDM4MC4yODhDNS4xMDEyOCA0MjAuNDMxIDMzLjE2NSA0NTMuMDU0IDczLjUzMTMgNDYwLjM1QzExMS41MDYgNDY3LjIzMiAxNDkuNjg3IDQ3Mi44MDcgMTg3Ljk3MSA0NzcuNTU2QzMzOC4zNjEgNDk1Ljk3NSA0OTAuMjk0IDQ5OC4xNzggNjQxLjE1NSA0ODQuMTI5QzY1My40NCA0ODIuOTgyIDY2NS43MDggNDgxLjczMiA2NzcuOTU5IDQ4MC4zNzhDNjgxLjc4NiA0NzkuOTU4IDY4NS42NTggNDgwLjM5OCA2ODkuMjkyIDQ4MS42NjhDNjkyLjkyNiA0ODIuOTM4IDY5Ni4yMyA0ODUuMDA1IDY5OC45NjIgNDg3LjcxN0M3MDEuNjk0IDQ5MC40MjkgNzAzLjc4NCA0OTMuNzE4IDcwNS4wOCA0OTcuMzQyQzcwNi4zNzcgNTAwLjk2NyA3MDYuODQ2IDUwNC44MzYgNzA2LjQ1MyA1MDguNjY1TDcwMi42MzMgNTQ1Ljc5N0M2OTQuOTM2IDYyMC44MjggNjg3LjIzOSA2OTUuODU0IDY3OS41NDIgNzcwLjg3NEM2NzEuNTEzIDg0OS42NTcgNjYzLjQzMSA5MjguNDM0IDY1NS4yOTggMTAwNy4yQzY1My4wMDQgMTAyOS4zOSA2NTAuNzEgMTA1MS41NyA2NDguNDE2IDEwNzMuNzRDNjQ2LjIxMyAxMDk1LjU4IDY0NS45MDQgMTExOC4xIDY0MS43NTcgMTEzOS42OEM2MzUuMjE4IDExNzMuNjEgNjEyLjI0OCAxMTk0LjQ1IDU3OC43MyAxMjAyLjA3QzU0OC4wMjIgMTIwOS4wNiA1MTYuNjUyIDEyMTIuNzMgNDg1LjE2MSAxMjEzLjAxQzQ1MC4yNDkgMTIxMy4yIDQxNS4zNTUgMTIxMS42NSAzODAuNDQzIDEyMTEuODRDMzQzLjE3MyAxMjEyLjA1IDI5Ny41MjUgMTIwOC42MSAyNjguNzU2IDExODAuODdDMjQzLjQ3OSAxMTU2LjUxIDIzOS45ODYgMTExOC4zNiAyMzYuNTQ1IDEwODUuMzdDMjMxLjk1NyAxMDQxLjcgMjI3LjQwOSA5OTguMDM5IDIyMi45IDk1NC4zODFMMTk3LjYwNyA3MTEuNjE1TDE4MS4yNDQgNTU0LjUzOEMxODAuOTY4IDU1MS45NCAxODAuNjkzIDU0OS4zNzYgMTgwLjQzNSA1NDYuNzZDMTc4LjQ3MyA1MjguMDIzIDE2NS4yMDcgNTA5LjY4MSAxNDQuMzAxIDUxMC42MjdDMTI2LjQwNyA1MTEuNDE4IDEwNi4wNjkgNTI2LjYyOSAxMDguMTY4IDU0Ni43NkwxMjAuMjk4IDY2My4yMTRMMTQ1LjM4NSA5MDQuMTA0QzE1Mi41MzIgOTcyLjUyOCAxNTkuNjYxIDEwNDAuOTYgMTY2Ljc3MyAxMTA5LjQxQzE2OC4xNSAxMTIyLjUyIDE2OS40NCAxMTM1LjY3IDE3MC44ODUgMTE0OC43OEMxNzguNzQ5IDEyMjAuNDMgMjMzLjQ2NSAxMjU5LjA0IDMwMS4yMjQgMTI2OS45MUMzNDAuNzk5IDEyNzYuMjggMzgxLjMzNyAxMjc3LjU5IDQyMS40OTcgMTI3OC4yNEM0NzIuOTc5IDEyNzkuMDcgNTI0Ljk3NyAxMjgxLjA1IDU3NS42MTUgMTI3MS43MkM2NTAuNjUzIDEyNTcuOTUgNzA2Ljk1MiAxMjA3Ljg1IDcxNC45ODcgMTEzMC4xM0M3MTcuMjgyIDExMDcuNjkgNzE5LjU3NiAxMDg1LjI1IDcyMS44NyAxMDYyLjhDNzI5LjQ5OCA5ODguNTU5IDczNy4xMTUgOTE0LjMxMyA3NDQuNzIgODQwLjA2MUw3NjkuNjAxIDU5Ny40NTFMNzgxLjAwOSA0ODYuMjYzQzc4MS41NzcgNDgwLjc0OSA3ODMuOTA1IDQ3NS41NjUgNzg3LjY0OSA0NzEuNDc4Qzc5MS4zOTIgNDY3LjM5MSA3OTYuMzUyIDQ2NC42MTcgODAxLjc5NCA0NjMuNTY3QzgyMy4yNSA0NTkuMzg2IDg0My43NjEgNDUyLjI0NSA4NTkuMDIzIDQzNS45MTZDODgzLjMxOCA0MDkuOTE4IDg4OC4xNTMgMzc2LjAyMSA4NzkuNTY3IDM0MS44NDlaTTcyLjQzMDEgMzY1LjgzNUM3Mi43NTcgMzY1LjY4IDcyLjE1NDggMzY4LjQ4NCA3MS44OTY3IDM2OS43OTJDNzEuODQ1MSAzNjcuODEzIDcxLjk0ODMgMzY2LjA1OCA3Mi40MzAxIDM2NS44MzVaTTc0LjUxMjEgMzgxLjk0Qzc0LjY4NDIgMzgxLjgxOSA3NS4yMDAzIDM4Mi41MDggNzUuNzMzNyAzODMuMzM0Qzc0LjkyNSAzODIuNTc2IDc0LjQwODkgMzgyLjAwOSA3NC40OTQ5IDM4MS45NEg3NC41MTIxWk03Ni41NTk3IDM4NC42NDFDNzcuMjk5NiAzODUuODk3IDc3LjY5NTMgMzg2LjY4OSA3Ni41NTk3IDM4NC42NDFWMzg0LjY0MVpNODAuNjcyIDM4Ny45NzlIODAuNzc1MkM4MC43NzUyIDM4OC4xIDgwLjk2NDUgMzg4LjIyIDgxLjAzMzMgMzg4LjM0MUM4MC45MTkyIDM4OC4yMDggODAuNzkyNSAzODguMDg3IDgwLjY1NDggMzg3Ljk3OUg4MC42NzJaTTgwMC43OTYgMzgyLjk4OUM3OTMuMDg4IDM5MC4zMTkgNzgxLjQ3MyAzOTMuNzI2IDc2OS45OTYgMzk1LjQzQzY0MS4yOTIgNDE0LjUyOSA1MTAuNzEzIDQyNC4xOTkgMzgwLjU5NyA0MTkuOTMyQzI4Ny40NzYgNDE2Ljc0OSAxOTUuMzM2IDQwNi40MDcgMTAzLjE0NCAzOTMuMzgyQzk0LjExMDIgMzkyLjEwOSA4NC4zMTk3IDM5MC40NTcgNzguMTA4MiAzODMuNzk4QzY2LjQwNzggMzcxLjIzNyA3Mi4xNTQ4IDM0NS45NDQgNzUuMjAwMyAzMzAuNzY4Qzc3Ljk4NzggMzE2Ljg2NSA4My4zMjE4IDI5OC4zMzQgOTkuODU3MiAyOTYuMzU1QzEyNS42NjcgMjkzLjMyNyAxNTUuNjQgMzA0LjIxOCAxODEuMTc1IDMwOC4wOUMyMTEuOTE3IDMxMi43ODEgMjQyLjc3NCAzMTYuNTM4IDI3My43NDUgMzE5LjM2QzQwNS45MjUgMzMxLjQwNSA1NDAuMzI1IDMyOS41MjkgNjcxLjkyIDMxMS45MUM2OTUuOTA1IDMwOC42ODYgNzE5LjgwNSAzMDQuOTQxIDc0My42MTkgMzAwLjY3NEM3NjQuODM1IDI5Ni44NzEgNzg4LjM1NiAyODkuNzMxIDgwMS4xNzUgMzExLjcwM0M4MDkuOTY3IDMyNi42NzMgODExLjEzNyAzNDYuNzAxIDgwOS43NzggMzYzLjYxNUM4MDkuMzU5IDM3MC45ODQgODA2LjEzOSAzNzcuOTE1IDgwMC43NzkgMzgyLjk4OUg4MDAuNzk2WiIgZmlsbD0iIzBEMEMyMiIvPgo8L3N2Zz4K';
@@ -68,11 +68,16 @@
   const FEED_NEXT_SELECTOR = '[data-e2e="video-switch-next-arrow"]';
   const FEED_BLOCKED_ATTR = 'data-dy-local-blocker-feed-blocked';
   const FEED_BLOCKED_VIDEO_ATTR = 'data-dy-local-blocker-feed-video-id';
+  const FEED_BLOCKED_CARD_LAYER_CLASS = 'dy-local-blocker-feed-card-layer';
+  const FEED_BLOCKED_CARD_MODE_CLASS = 'dy-local-blocker-feed-card-mode';
+  const FEED_BLOCKED_CARD_CLASS = 'dy-local-blocker-feed-card';
+  const FEED_BLOCKED_CARD_AUTHOR_CLASS = 'dy-local-blocker-feed-card-author';
   const FEED_TRANSITION_COVER_CLASS = 'dy-local-blocker-feed-transition-cover';
   const FEED_TRANSITION_SCENE_CLASS = 'dy-local-blocker-feed-transition-scene';
   const FEED_TRANSITION_FRAME_CLASS = 'dy-local-blocker-feed-transition-frame';
   const FEED_TRANSITION_BACKDROP_CLASS = 'dy-local-blocker-feed-transition-backdrop';
   const FEED_NAV_DISABLED_ATTR = 'data-dy-local-blocker-nav-disabled';
+  const FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR = 'data-dy-local-blocker-original-aria-disabled';
   const FEED_NAVIGATION_PROTECTED_SELECTOR = [
     '[data-e2e="comment-list"]',
     '#merge-all-comment-container',
@@ -124,6 +129,10 @@
   const danmakuBySecUid = new Map();
   /** @type {Set<string>} */
   const blockedFeedVideoIds = new Set();
+  /** @type {Set<string>} */
+  const revealedBlockedFeedVideoIds = new Set();
+  /** @type {WeakMap<Element, object>} */
+  const blockedFeedActivationWatches = new WeakMap();
 
   let observer = null;
   let domLayerInitialized = false;
@@ -138,11 +147,28 @@
   let feedNavigation = null;
   let feedTransitionCover = null;
   let feedTransitionCoverTimer = 0;
+  let feedBlockedWaitToken = 0;
+  let feedBlockedWait = null;
+  let feedBlockedCardLayer = null;
+  let feedBlockedCardReleaseTimer = 0;
   let feedPreemptUntil = 0;
   let feedPreemptDirection = 0;
+  let feedCardConsumeClickUntil = 0;
+  let feedCardConsumeClickDirection = 0;
+  let feedNativeNavigationLockUntil = 0;
+  let feedNativeNavigationLockStartedAt = 0;
+  let feedNativeNavigationSettledAt = 0;
+  let feedNativeNavigationLockTimer = 0;
+  let feedNativeNavigationSourceSlide = null;
+  let feedNativeNavigationSourceVideoId = '';
   let lastFeedNavigationDirection = 1;
   let feedNavigationSyncQueued = false;
   let feedAudioRestoreToken = 0;
+  let feedAudioUserIntentUntil = 0;
+  let feedRevealPlaybackToken = 0;
+  let pendingRevealedFeedVideoId = '';
+  let activeRevealedFeedVideoId = '';
+  let lastAllowedFeedAudioState = null;
   let managerPage = 1;
   let starReminderScheduled = false;
   let entryNicknameRepairTimer = 0;
@@ -251,6 +277,84 @@
     [${FEED_BLOCKED_ATTR}="1"] * {
       visibility: hidden !important;
       pointer-events: none !important;
+    }
+    .${FEED_BLOCKED_CARD_LAYER_CLASS} {
+      position: fixed !important;
+      z-index: 2147483001 !important;
+      display: grid !important;
+      place-items: center !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      padding: clamp(24px, 5vw, 64px) !important;
+      border: 0 !important;
+      background: #111217 !important;
+      color: rgba(210,210,210,.82) !important;
+      pointer-events: none !important;
+      user-select: none !important;
+      contain: strict !important;
+    }
+    html.${FEED_BLOCKED_CARD_MODE_CLASS} .xgplayer-playswitch:has(
+      ${FEED_PREV_SELECTOR},
+      ${FEED_NEXT_SELECTOR}
+    ) {
+      display: block !important;
+      z-index: 2147483002 !important;
+      visibility: visible !important;
+    }
+    html.${FEED_BLOCKED_CARD_MODE_CLASS} ${FEED_PREV_SELECTOR},
+    html.${FEED_BLOCKED_CARD_MODE_CLASS} ${FEED_NEXT_SELECTOR} {
+      display: block !important;
+      visibility: visible !important;
+    }
+    html.${FEED_BLOCKED_CARD_MODE_CLASS} ${FEED_PREV_SELECTOR}:not([${FEED_NAV_DISABLED_ATTR}="1"]),
+    html.${FEED_BLOCKED_CARD_MODE_CLASS} ${FEED_NEXT_SELECTOR}:not([${FEED_NAV_DISABLED_ATTR}="1"]) {
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+    .${FEED_BLOCKED_CARD_CLASS} {
+      appearance: none !important;
+      display: block !important;
+      width: min(520px, 100%) !important;
+      box-sizing: border-box !important;
+      padding: 30px 32px 28px !important;
+      border: 1px solid rgba(255,255,255,.12) !important;
+      border-radius: 0 !important;
+      background: rgba(31,32,38,.96) !important;
+      box-shadow: 0 18px 48px rgba(0,0,0,.24) !important;
+      color: inherit !important;
+      text-align: center !important;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+      cursor: pointer !important;
+      pointer-events: auto !important;
+    }
+    .${FEED_BLOCKED_CARD_CLASS}:hover {
+      border-color: rgba(255,255,255,.24) !important;
+      background: rgba(37,38,45,.98) !important;
+    }
+    .${FEED_BLOCKED_CARD_CLASS}:focus-visible {
+      outline: 1px solid rgba(218,119,87,.9) !important;
+      outline-offset: 3px !important;
+    }
+    .${FEED_BLOCKED_CARD_CLASS} strong {
+      display: block !important;
+      color: rgba(196,196,196,.78) !important;
+      font-size: 18px !important;
+      font-weight: 650 !important;
+      line-height: 1.55 !important;
+    }
+    .${FEED_BLOCKED_CARD_CLASS} span {
+      display: block !important;
+      margin-top: 10px !important;
+      color: rgba(160,160,160,.78) !important;
+      font-size: 13px !important;
+      font-weight: 450 !important;
+      line-height: 1.65 !important;
+    }
+    .${FEED_BLOCKED_CARD_CLASS} .${FEED_BLOCKED_CARD_AUTHOR_CLASS} {
+      margin-top: 8px !important;
+      color: rgba(188,188,188,.8) !important;
+      font-size: 14px !important;
+      font-weight: 550 !important;
     }
     [${FEED_NAV_DISABLED_ATTR}="1"] {
       opacity: .28 !important;
@@ -1179,8 +1283,10 @@
     document.addEventListener('play', onFeedMediaPlayback, true);
     document.addEventListener('playing', onFeedMediaPlayback, true);
     document.addEventListener('canplay', onFeedMediaPlayback, true);
+    document.addEventListener('volumechange', onFeedMediaPlayback, true);
     document.addEventListener('wheel', onFeedNavigationIntent, { capture: true, passive: false });
     document.addEventListener('pointerdown', (event) => {
+      rememberFeedAudioUserIntent(event);
       onFeedSwitchPointer(event);
       if (event.button !== 0 || Date.now() - contextMenuOpenedAt < 80) return;
       if (contextMenu?.contains(event.target)) return;
@@ -1188,8 +1294,10 @@
     }, true);
     document.addEventListener('click', rememberFeedSwitchDirection, true);
     window.addEventListener('resize', hideUserContextMenu);
+    window.addEventListener('resize', queueFeedNavigationSync);
     window.addEventListener('popstate', queueFullScan);
     document.addEventListener('keydown', (event) => {
+      rememberFeedAudioUserIntent(event);
       if (event.key === 'Escape') hideUserContextMenu();
       if (['ArrowDown', 'PageDown', 'ArrowUp', 'PageUp'].includes(event.key)) {
         onFeedNavigationIntent(event);
@@ -1329,6 +1437,22 @@
       clearBlockedFeedSlide(slide);
       return;
     }
+    if (videoId && revealedBlockedFeedVideoIds.has(videoId)) {
+      blockedFeedVideoIds.delete(videoId);
+      clearBlockedFeedSlide(slide);
+      return;
+    }
+    if (
+      !hasIdentity &&
+      !videoId &&
+      markedVideoId &&
+      blockedFeedVideoIds.has(markedVideoId)
+    ) {
+      // React 更新同一个虚拟滑块时，data-e2e-vid 和作者信息可能短暂同时消失。
+      // 在新视频 ID 出现前保留已确认的屏蔽状态，避免卡片被误撤并泄漏旧媒体。
+      neutralizeFeedMedia(slide);
+      return;
+    }
     const blocked = enabled && settings.hideFeedVideos && (
       (hasIdentity && isBlocked(info)) ||
       (!hasIdentity && videoId && blockedFeedVideoIds.has(videoId))
@@ -1354,24 +1478,35 @@
   function guardBlockedFeedVideo(item) {
     if (!item?.isConnected) return;
     const slide = item.closest(FEED_SLIDE_SELECTOR) || item;
+    const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
+    if (videoId && revealedBlockedFeedVideoIds.has(videoId)) {
+      clearBlockedFeedSlide(slide);
+      return;
+    }
+    // 首屏的 active 标记和播放事件都可能晚于作者信息。必须在暂停媒体前捕获活动态，
+    // 否则“正在播放”这一条后备证据会被脚本自己抹掉，留下不可恢复的空白首屏。
+    const wasActive = isConfirmedActiveFeedSlide(item, slide);
 
     // 不再删除 React/Swiper 管理的 feed-item。直接删除会让抖音的 activeIndex 与播放器实例失配，
     // 表面切到下一条，实际仍由上一条视频占用播放器并继续发声。
     item.classList.remove(HIDDEN_CLASS);
     item.setAttribute(MARK_ATTR, '1');
     slide.setAttribute(FEED_BLOCKED_ATTR, '1');
-    const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
     if (videoId) {
       rememberBlockedFeedVideoId(videoId);
       slide.setAttribute(FEED_BLOCKED_VIDEO_ATTR, videoId);
     }
     neutralizeFeedMedia(slide);
 
-    if (isActiveFeedVideo(item)) skipBlockedActiveFeed(item, preferredFeedSkipDirection());
+    if (wasActive) skipBlockedActiveFeed(item, preferredFeedSkipDirection());
+    else watchBlockedFeedActivation(item, slide);
   }
 
   function clearBlockedFeedSlide(slide) {
     if (!slide) return;
+    if (feedBlockedWait?.blockedSlide === slide && slide.getAttribute(FEED_BLOCKED_ATTR) === '1') {
+      cancelBlockedFeedWait({ resumeSource: true });
+    }
     const markedVideoId = normalizeId(slide.getAttribute(FEED_BLOCKED_VIDEO_ATTR));
     if (markedVideoId) blockedFeedVideoIds.delete(markedVideoId);
     slide.removeAttribute(FEED_BLOCKED_ATTR);
@@ -1423,6 +1558,7 @@
       const rect = slide.getBoundingClientRect();
       if (rect.width < 2 || rect.height < 2) continue;
       const visibleHeight = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+      if (visibleHeight <= 1) continue;
       const visibleRatio = Math.min(1, visibleHeight / Math.max(1, Math.min(rect.height, window.innerHeight)));
       const centerDistance = Math.abs(rect.top + rect.height / 2 - viewportCenter);
       const score = centerDistance - visibleRatio * window.innerHeight;
@@ -1443,6 +1579,190 @@
     ));
   }
 
+  function isFeedSlideAtViewportCenter(slide) {
+    if (!slide?.isConnected) return false;
+    const rect = slide.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return false;
+    const viewportHeight = Math.max(1, window.innerHeight);
+    const visibleHeight = Math.max(0, Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0));
+    const visibleRatio = visibleHeight / Math.max(1, Math.min(rect.height, viewportHeight));
+    const viewportCenter = viewportHeight / 2;
+    return (
+      visibleRatio >= .55 &&
+      rect.top <= viewportCenter &&
+      rect.bottom >= viewportCenter
+    );
+  }
+
+  function isFeedSlideSettledAtViewportCenter(slide) {
+    if (!slide?.isConnected) return false;
+    const rect = slide.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return false;
+    const viewportRect = getFeedSlideViewportRect(slide, rect);
+    const viewportTop = Math.max(0, viewportRect.top);
+    const viewportBottom = Math.min(window.innerHeight, viewportRect.bottom);
+    const viewportHeight = Math.max(1, viewportBottom - viewportTop);
+    const visibleHeight = Math.max(0, Math.min(rect.bottom, viewportBottom) - Math.max(rect.top, viewportTop));
+    const visibleRatio = visibleHeight / Math.max(1, Math.min(rect.height, viewportHeight));
+    const centerDistance = Math.abs(
+      rect.top + rect.height / 2 -
+      (viewportTop + viewportHeight / 2)
+    );
+    const centerTolerance = Math.max(10, Math.min(24, rect.height * .04));
+    return visibleRatio >= .92 && centerDistance <= centerTolerance;
+  }
+
+  function getFeedSlideViewportRect(slide, slideRect = slide?.getBoundingClientRect()) {
+    let ancestor = slide?.parentElement;
+    for (let depth = 0; ancestor && depth < 10; depth += 1, ancestor = ancestor.parentElement) {
+      const rect = ancestor.getBoundingClientRect();
+      const style = getComputedStyle(ancestor);
+      if (
+        /(?:auto|scroll|overlay|hidden|clip)/.test(style.overflowY) &&
+        rect.width >= slideRect.width * .8 &&
+        rect.height >= slideRect.height * .8 &&
+        rect.height <= window.innerHeight * 1.2
+      ) {
+        return rect;
+      }
+    }
+    return {
+      top: 0,
+      bottom: window.innerHeight,
+    };
+  }
+
+  function normalizeSettledFeedScrollerOffset(slide) {
+    if (!slide?.isConnected) return false;
+    let ancestor = slide.parentElement;
+    for (let depth = 0; ancestor && depth < 8; depth += 1, ancestor = ancestor.parentElement) {
+      if (!ancestor.classList?.contains('recommend-slidelist')) continue;
+      if (Math.abs(Number(ancestor.scrollTop) || 0) <= 1) return false;
+      // 抖音切换逻辑已经更新 active 项后，原生滚轮偶尔仍会留下不足一屏的滚动偏移，
+      // 使目标播放器永久偏离吸附位置。信息卡等待结束后将该残余归零。
+      ancestor.scrollTop = 0;
+      return true;
+    }
+    return false;
+  }
+
+  function isConfirmedActiveFeedSlide(item, slide = item?.closest(FEED_SLIDE_SELECTOR) || item) {
+    if (!item?.isConnected || !slide?.isConnected) return false;
+    const activeItem = getActiveFeedItem();
+    if (activeItem) {
+      const activeSlide = activeItem.closest(FEED_SLIDE_SELECTOR) || activeItem;
+      if (activeItem === item || activeSlide === slide) return true;
+      // 首条被屏蔽后，抖音可能已经把下一条移动到中央，却仍把 active 标记留在屏外的首条。
+      // 只有旧 active 自身仍位于中央时才优先相信它，否则以实际居中的滑块为准。
+      if (isFeedSlideAtViewportCenter(activeSlide)) return false;
+    }
+    return isFeedSlideAtViewportCenter(slide);
+  }
+
+  function watchBlockedFeedActivation(item, slide) {
+    if (!item?.isConnected || !slide?.isConnected || blockedFeedActivationWatches.has(slide)) return;
+    const watch = {};
+    blockedFeedActivationWatches.set(slide, watch);
+    const check = (finalCheck = false) => {
+      if (blockedFeedActivationWatches.get(slide) !== watch) return;
+      if (
+        !item.isConnected ||
+        !slide.isConnected ||
+        slide.getAttribute(FEED_BLOCKED_ATTR) !== '1'
+      ) {
+        blockedFeedActivationWatches.delete(slide);
+        return;
+      }
+      if (isConfirmedActiveFeedSlide(item, slide)) {
+        blockedFeedActivationWatches.delete(slide);
+        skipBlockedActiveFeed(item, preferredFeedSkipDirection());
+        return;
+      }
+      if (finalCheck) blockedFeedActivationWatches.delete(slide);
+    };
+    for (const delay of [0, 80, 220, 500, 1000, 1800, 3000]) {
+      window.setTimeout(() => check(delay === 3000), delay);
+    }
+  }
+
+  function rememberRevealedBlockedFeedVideoId(videoId) {
+    const key = normalizeId(videoId);
+    if (!key) return;
+    for (const existingId of [...revealedBlockedFeedVideoIds]) {
+      if (existingId !== key && existingId !== activeRevealedFeedVideoId) {
+        revokeRevealedBlockedFeedVideoId(existingId);
+      }
+    }
+    revealedBlockedFeedVideoIds.delete(key);
+    revealedBlockedFeedVideoIds.add(key);
+    pendingRevealedFeedVideoId = key;
+    while (revealedBlockedFeedVideoIds.size > MAX_BLOCKED_FEED_VIDEO_CACHE) {
+      revealedBlockedFeedVideoIds.delete(revealedBlockedFeedVideoIds.values().next().value);
+    }
+  }
+
+  function markRevealedFeedVideoActive(videoId) {
+    const key = normalizeId(videoId);
+    if (!key || !revealedBlockedFeedVideoIds.has(key)) return;
+    const previousActiveId = activeRevealedFeedVideoId;
+    pendingRevealedFeedVideoId = '';
+    activeRevealedFeedVideoId = key;
+    if (previousActiveId && previousActiveId !== key) {
+      revokeRevealedBlockedFeedVideoId(previousActiveId);
+    }
+  }
+
+  function revokeRevealedBlockedFeedVideoId(videoId) {
+    const key = normalizeId(videoId);
+    if (!key) return;
+    revealedBlockedFeedVideoIds.delete(key);
+    if (pendingRevealedFeedVideoId === key) pendingRevealedFeedVideoId = '';
+    if (activeRevealedFeedVideoId === key) activeRevealedFeedVideoId = '';
+    for (const item of document.querySelectorAll(FEED_VIDEO_SELECTOR)) {
+      if (normalizeId(item.getAttribute('data-e2e-vid')) !== key) continue;
+      processFeedVideoItem(item);
+    }
+  }
+
+  function trackRevealedFeedVideoActivity() {
+    if (!pendingRevealedFeedVideoId && !activeRevealedFeedVideoId) return;
+    const activeItem = getActiveFeedItem();
+    const activeVideoId = normalizeId(activeItem?.getAttribute('data-e2e-vid'));
+    if (!activeVideoId) return;
+    if (pendingRevealedFeedVideoId === activeVideoId) {
+      markRevealedFeedVideoActive(activeVideoId);
+      return;
+    }
+    if (activeRevealedFeedVideoId && activeVideoId !== activeRevealedFeedVideoId) {
+      revokeRevealedBlockedFeedVideoId(activeRevealedFeedVideoId);
+    }
+  }
+
+  function cancelPendingRevealedFeedPlayback() {
+    const pendingVideoId = pendingRevealedFeedVideoId;
+    feedRevealPlaybackToken += 1;
+    if (!pendingVideoId) return;
+    const activeVideoId = normalizeId(getActiveFeedItem()?.getAttribute('data-e2e-vid'));
+    if (activeVideoId === pendingVideoId) {
+      markRevealedFeedVideoActive(pendingVideoId);
+      return;
+    }
+    revokeRevealedBlockedFeedVideoId(pendingVideoId);
+  }
+
+  function getActiveFeedSlideWithFallback(...fallbackSlides) {
+    const activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
+    if (activeSlide && isFeedSlideAtViewportCenter(activeSlide)) return activeSlide;
+    return fallbackSlides.find((slide) => isFeedSlideAtViewportCenter(slide)) || activeSlide || null;
+  }
+
+  function getFeedNavigationActiveSlide(transaction) {
+    const activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
+    const rail = transaction?.sourceSlide?.parentElement || transaction?.targetSlide?.parentElement;
+    if (activeSlide && isFeedSlideAtViewportCenter(activeSlide)) return activeSlide;
+    return getFeedSlides(rail).find((slide) => isFeedSlideAtViewportCenter(slide)) || activeSlide || null;
+  }
+
   function preferredFeedSkipDirection() {
     // 新增屏蔽时 addEntry 会把方向设为向下；此后必须始终服从用户最近一次的导航方向。
     // 不能让旧的“屏蔽后向下”状态覆盖后来发生的向上操作，否则 C→B 时会再次被推回 C。
@@ -1454,6 +1774,12 @@
       try {
         if (!media.hasAttribute('data-dy-local-blocker-original-muted')) {
           media.setAttribute('data-dy-local-blocker-original-muted', media.muted ? '1' : '0');
+        }
+        if (!media.hasAttribute('data-dy-local-blocker-original-autoplay')) {
+          media.setAttribute(
+            'data-dy-local-blocker-original-autoplay',
+            media.hasAttribute('autoplay') || media.autoplay ? '1' : '0',
+          );
         }
         // 仅静音已确认需要屏蔽的媒体，避免暂停生效前泄漏短暂声音。
         media.muted = true;
@@ -1468,15 +1794,114 @@
       // 只恢复脚本为被屏蔽媒体保存的原始状态，并清理旧版音频守卫标记。
       const originalVolume = media.getAttribute('data-dy-local-blocker-original-volume');
       const originalMuted = media.getAttribute('data-dy-local-blocker-original-muted');
+      const originalAutoplay = media.getAttribute('data-dy-local-blocker-original-autoplay');
       try {
         if (originalVolume != null) media.volume = Math.max(0, Math.min(1, Number(originalVolume)));
         if (originalMuted != null) media.muted = originalMuted === '1';
+        if (originalAutoplay === '1') {
+          media.autoplay = true;
+          media.setAttribute('autoplay', '');
+        }
       } catch {}
       media.removeAttribute('data-dy-local-blocker-original-volume');
       media.removeAttribute('data-dy-local-blocker-original-muted');
+      media.removeAttribute('data-dy-local-blocker-original-autoplay');
       media.removeAttribute('data-dy-local-blocker-audio-video-id');
       media.removeAttribute('data-dy-local-blocker-audio-guard-until');
     }
+  }
+
+  function suspendAllowedFeedMedia(root) {
+    const states = [];
+    for (const media of root?.querySelectorAll?.('video, audio') || []) {
+      states.push({
+        media,
+        wasPaused: Boolean(media.paused),
+        muted: Boolean(media.muted),
+        volume: Number.isFinite(Number(media.volume)) ? Number(media.volume) : 1,
+      });
+      try {
+        media.muted = true;
+        media.pause();
+      } catch {}
+    }
+    return states;
+  }
+
+  function muteFeedMediaBehindCard(root) {
+    for (const media of root?.querySelectorAll?.('video, audio') || []) {
+      try {
+        if (!media.muted) media.muted = true;
+      } catch {}
+    }
+  }
+
+  function restoreSuspendedFeedMedia(states, resume = false) {
+    for (const state of states || []) {
+      const media = state?.media;
+      if (!media?.isConnected) continue;
+      try {
+        media.muted = Boolean(state.muted);
+        media.volume = Math.max(0, Math.min(1, Number(state.volume)));
+        if (resume && !state.wasPaused) {
+          const promise = media.play();
+          promise?.catch?.(() => {});
+        }
+      } catch {}
+    }
+  }
+
+  function copyFeedAudioState(audioState) {
+    if (!audioState) return null;
+    const volume = Number(audioState.volume);
+    return {
+      muted: Boolean(audioState.muted),
+      volume: Number.isFinite(volume) ? Math.max(0, Math.min(1, volume)) : 1,
+    };
+  }
+
+  function fallbackFeedAudioState(slide = null) {
+    const media = preferredFeedAudioMedia(slide);
+    const originalMuted = media?.getAttribute?.('data-dy-local-blocker-original-muted');
+    const originalVolume = media?.getAttribute?.('data-dy-local-blocker-original-volume');
+    const candidateVolume = originalVolume == null ? Number(media?.volume) : Number(originalVolume);
+    return {
+      // 被屏蔽媒体在静音前已经保存了真实状态；首条恰好被屏蔽时也必须尊重用户的静音选择。
+      // 只有预加载播放器没有可靠历史值时，才不把它默认的 muted 误当成用户偏好。
+      muted: originalMuted == null ? false : originalMuted === '1',
+      volume: Number.isFinite(candidateVolume) ? Math.max(0, Math.min(1, candidateVolume)) : 1,
+    };
+  }
+
+  function resolveFeedAudioState(slide = null, allowActiveSlideState = false) {
+    if (allowActiveSlideState && slide?.isConnected) {
+      const item = slide.querySelector(FEED_VIDEO_SELECTOR);
+      if (
+        item?.isConnected &&
+        slide.getAttribute(FEED_BLOCKED_ATTR) !== '1' &&
+        item.getAttribute(MARK_ATTR) !== '1' &&
+        isConfirmedActiveFeedSlide(item, slide)
+      ) {
+        const activeState = readFeedAudioState(slide);
+        if (activeState) return activeState;
+      }
+    }
+    return copyFeedAudioState(lastAllowedFeedAudioState) || fallbackFeedAudioState(slide);
+  }
+
+  function rememberFeedAudioUserIntent(event) {
+    if (!event?.isTrusted) return;
+    const target = event.target instanceof Element ? event.target : null;
+    const volumeControl = target?.closest?.('.xgplayer-volume');
+    const muteShortcut = event.type === 'keydown' &&
+      !event.altKey && !event.ctrlKey && !event.metaKey &&
+      String(event.key || '').toLowerCase() === 'm';
+    const focusedVolumeControl = event.type === 'keydown' &&
+      target?.closest?.('.xgplayer-volume');
+    if (!volumeControl && !muteShortcut && !focusedVolumeControl) return;
+    feedAudioUserIntentUntil = Date.now() + 1800;
+    // 用户刚刚操作音量时，必须取消尚未结束的自动恢复窗口。
+    feedAudioRestoreToken += 1;
   }
 
   function preferredFeedAudioMedia(root) {
@@ -1510,13 +1935,17 @@
   }
 
   function activateFeedAudio(item, audioState = null) {
-    if (!audioState || !isActiveFeedVideo(item)) return;
-    const media = preferredFeedAudioMedia(item.closest(FEED_SLIDE_SELECTOR) || item);
+    const slide = item?.closest(FEED_SLIDE_SELECTOR) || item;
+    if (!audioState || !isConfirmedActiveFeedSlide(item, slide)) return;
+    const media = preferredFeedAudioMedia(slide);
     if (!media) return;
+    lastAllowedFeedAudioState = copyFeedAudioState(audioState);
     const token = ++feedAudioRestoreToken;
     const restore = () => {
       if (token !== feedAudioRestoreToken || !media.isConnected) return;
-      if (!isActiveFeedVideo(item) || item.getAttribute(MARK_ATTR) === '1') return;
+      if (feedBlockedCardLayer) return;
+      if (Date.now() < feedAudioUserIntentUntil) return;
+      if (!isConfirmedActiveFeedSlide(item, slide) || item.getAttribute(MARK_ATTR) === '1') return;
       try {
         media.muted = Boolean(audioState.muted);
         media.volume = Math.max(0, Math.min(1, Number(audioState.volume)));
@@ -1537,16 +1966,41 @@
       : (event.key === 'ArrowUp' || event.key === 'PageUp' ? -1 : 1);
     if (!direction) return;
     if (shouldIgnoreFeedNavigationIntent(event, direction)) return;
+    if (event.type === 'keydown' && (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)) return;
+    if (handleFeedBlockedCardNavigation(direction)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+    if (isFeedTransitionInProgress()) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
     feedAudioRestoreToken += 1;
+    cancelPendingRevealedFeedPlayback();
     lastFeedNavigationDirection = direction;
-    if (feedNavigation && direction !== feedNavigation.direction) {
+    if (
+      feedBlockedWait &&
+      feedBlockedWait.stage === 'waiting' &&
+      direction !== feedBlockedWait.direction &&
+      feedBlockedWait.sourceSlide !== feedBlockedWait.blockedSlide
+    ) {
+      cancelBlockedFeedWait({ resumeSource: true });
+    }
+    if (
+      feedNavigation &&
+      (!feedBlockedCardLayer || direction !== feedNavigation.direction)
+    ) {
       cancelFeedNavigation();
     }
-    if (event.type === 'keydown' && (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)) return;
+    window.setTimeout(queueFeedNavigationSync, 1200);
     if (preemptBlockedFeedNavigation(direction)) {
       event.preventDefault();
       event.stopImmediatePropagation();
+      return;
     }
+    armFeedNativeNavigationLock(direction);
   }
 
   function shouldIgnoreFeedNavigationIntent(event, direction) {
@@ -1572,6 +2026,87 @@
     return false;
   }
 
+  function isFeedTransitionInProgress() {
+    return refreshFeedNativeNavigationLock();
+  }
+
+  function refreshFeedNativeNavigationLock() {
+    const now = Date.now();
+    if (!feedNativeNavigationLockUntil || now >= feedNativeNavigationLockUntil) {
+      clearFeedNativeNavigationLock();
+      return false;
+    }
+    // 原生事件派发后，旧滑块会短暂保持居中；不能把它误认为“切换已经结束”。
+    if (now - feedNativeNavigationLockStartedAt >= 320) {
+      const settledSlide = [...document.querySelectorAll(FEED_SLIDE_SELECTOR)]
+        .find((slide) => isFeedSlideSettledAtViewportCenter(slide)) || null;
+      const settledVideoId = normalizeId(
+        settledSlide?.querySelector(FEED_VIDEO_SELECTOR)?.getAttribute('data-e2e-vid')
+      );
+      const reachedDifferentSlide = Boolean(
+        settledSlide &&
+        (
+          !feedNativeNavigationSourceSlide?.isConnected ||
+          settledSlide !== feedNativeNavigationSourceSlide ||
+          (
+            feedNativeNavigationSourceVideoId &&
+            settledVideoId &&
+            settledVideoId !== feedNativeNavigationSourceVideoId
+          )
+        )
+      );
+      if (reachedDifferentSlide) {
+        if (!feedNativeNavigationSettledAt) feedNativeNavigationSettledAt = now;
+        if (now - feedNativeNavigationSettledAt >= 220) {
+          clearFeedNativeNavigationLock();
+          return false;
+        }
+      } else {
+        feedNativeNavigationSettledAt = 0;
+      }
+    }
+    scheduleFeedNativeNavigationLockCheck();
+    return true;
+  }
+
+  function armFeedNativeNavigationLock(direction, duration = 3500) {
+    let activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
+    if (!activeSlide || !isFeedSlideSettledAtViewportCenter(activeSlide)) {
+      activeSlide = [...document.querySelectorAll(FEED_SLIDE_SELECTOR)]
+        .find((slide) => isFeedSlideSettledAtViewportCenter(slide)) || null;
+    }
+    if (!activeSlide || !findAdjacentFeedSlide(activeSlide, direction)) return;
+    const now = Date.now();
+    feedNativeNavigationLockStartedAt = now;
+    feedNativeNavigationLockUntil = now + Math.max(800, duration);
+    feedNativeNavigationSettledAt = 0;
+    feedNativeNavigationSourceSlide = activeSlide;
+    feedNativeNavigationSourceVideoId = normalizeId(
+      activeSlide.querySelector(FEED_VIDEO_SELECTOR)?.getAttribute('data-e2e-vid')
+    );
+    scheduleFeedNativeNavigationLockCheck();
+  }
+
+  function scheduleFeedNativeNavigationLockCheck() {
+    if (feedNativeNavigationLockTimer || !feedNativeNavigationLockUntil) return;
+    feedNativeNavigationLockTimer = window.setTimeout(() => {
+      feedNativeNavigationLockTimer = 0;
+      refreshFeedNativeNavigationLock();
+    }, 80);
+  }
+
+  function clearFeedNativeNavigationLock() {
+    if (feedNativeNavigationLockTimer) {
+      clearTimeout(feedNativeNavigationLockTimer);
+      feedNativeNavigationLockTimer = 0;
+    }
+    feedNativeNavigationLockUntil = 0;
+    feedNativeNavigationLockStartedAt = 0;
+    feedNativeNavigationSettledAt = 0;
+    feedNativeNavigationSourceSlide = null;
+    feedNativeNavigationSourceVideoId = '';
+  }
+
   function onFeedSwitchPointer(event) {
     if (!event?.isTrusted || event.button !== 0 || !enabled || !settings.hideFeedVideos) return;
     const switchButton = event.target instanceof Element
@@ -1584,15 +2119,42 @@
       return;
     }
     const direction = switchButton.matches(FEED_PREV_SELECTOR) ? -1 : 1;
+    if (handleFeedBlockedCardNavigation(direction, true)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+    if (isFeedTransitionInProgress()) {
+      feedCardConsumeClickDirection = direction;
+      feedCardConsumeClickUntil = Date.now() + 1000;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
     feedAudioRestoreToken += 1;
+    cancelPendingRevealedFeedPlayback();
+    window.setTimeout(queueFeedNavigationSync, 1200);
     lastFeedNavigationDirection = direction;
-    if (feedNavigation && direction !== feedNavigation.direction) {
+    if (
+      feedBlockedWait &&
+      feedBlockedWait.stage === 'waiting' &&
+      direction !== feedBlockedWait.direction &&
+      feedBlockedWait.sourceSlide !== feedBlockedWait.blockedSlide
+    ) {
+      cancelBlockedFeedWait({ resumeSource: true });
+    }
+    if (
+      feedNavigation &&
+      (!feedBlockedCardLayer || direction !== feedNavigation.direction)
+    ) {
       cancelFeedNavigation();
     }
     if (preemptBlockedFeedNavigation(direction)) {
       event.preventDefault();
       event.stopImmediatePropagation();
+      return;
     }
+    armFeedNativeNavigationLock(direction);
   }
 
   function rememberFeedSwitchDirection(event) {
@@ -1605,6 +2167,22 @@
     lastFeedNavigationDirection = direction;
     if (
       event.isTrusted &&
+      direction === feedCardConsumeClickDirection &&
+      Date.now() < feedCardConsumeClickUntil
+    ) {
+      feedCardConsumeClickUntil = 0;
+      feedCardConsumeClickDirection = 0;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+    if (event.isTrusted && handleFeedBlockedCardNavigation(direction)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+    if (
+      event.isTrusted &&
       direction === feedPreemptDirection &&
       Date.now() < feedPreemptUntil
     ) {
@@ -1613,21 +2191,95 @@
     }
   }
 
+  function handleFeedBlockedCardNavigation(direction, consumeFollowingClick = false) {
+    const wait = feedBlockedWait;
+    if (!feedBlockedCardLayer || !wait) return false;
+    if (!wait.blockedSlide?.isConnected) {
+      cancelBlockedFeedWait({ resumeSource: true });
+      return true;
+    }
+    const normalizedDirection = Math.sign(direction || 1);
+    if (normalizedDirection !== wait.direction) {
+      if (consumeFollowingClick) {
+        feedCardConsumeClickDirection = normalizedDirection;
+        feedCardConsumeClickUntil = Date.now() + 1000;
+      }
+      cancelFeedNavigation();
+      const activeSlide = getActiveFeedSlideWithFallback(
+        wait.targetSlide,
+        wait.sourceSlide,
+        wait.blockedSlide,
+      );
+      const activeItem = activeSlide?.querySelector(FEED_VIDEO_SELECTOR);
+      const activeAllowed = Boolean(
+        activeItem?.isConnected &&
+        activeSlide?.isConnected &&
+        activeSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1' &&
+        activeItem.getAttribute(MARK_ATTR) !== '1' &&
+        resolveFeedItemFilterState(activeItem) === 'allowed'
+      );
+      if (activeAllowed && isFeedSlideSettledAtViewportCenter(activeSlide)) {
+        const audioState = copyFeedAudioState(wait.audioState) ||
+          resolveFeedAudioState(activeSlide, true);
+        cancelBlockedFeedWait({ resumeSource: activeSlide === wait.sourceSlide });
+        requestAnimationFrame(() => activateFeedAudio(activeItem, audioState));
+        return true;
+      }
+      if (activeAllowed) {
+        wait.minReadyAt = Date.now();
+        feedBlockedCardLayer.setAttribute('data-dy-not-before', String(wait.minReadyAt));
+        releaseFeedBlockedCardWhenReady(activeSlide);
+        return true;
+      }
+      if (activeSlide?.getAttribute(FEED_BLOCKED_ATTR) === '1') {
+        wait.blockedSlide = activeSlide;
+        wait.sourceSlide = activeSlide;
+        wait.targetSlide = null;
+        wait.direction = normalizedDirection;
+        wait.stage = 'waiting';
+        wait.minReadyAt = Date.now();
+        feedBlockedCardLayer.setAttribute('data-dy-not-before', String(wait.minReadyAt));
+        neutralizeFeedMedia(activeSlide);
+        reconcileBlockedFeedWait();
+        return true;
+      }
+      wait.direction = normalizedDirection;
+      wait.stage = 'waiting';
+      wait.minReadyAt = Date.now();
+      feedBlockedCardLayer.setAttribute('data-dy-not-before', String(wait.minReadyAt));
+      scheduleBlockedFeedWait(wait, 80);
+      return true;
+    }
+    positionFeedBlockedCard();
+    reconcileBlockedFeedWait();
+    return true;
+  }
+
   function preemptBlockedFeedNavigation(direction) {
-    const activeItem = getActiveFeedItem();
-    const activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR);
+    let activeItem = getActiveFeedItem();
+    let activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR);
+    if (!activeSlide || !isFeedSlideSettledAtViewportCenter(activeSlide)) {
+      activeSlide = [...document.querySelectorAll(FEED_SLIDE_SELECTOR)]
+        .find((slide) => isFeedSlideSettledAtViewportCenter(slide)) || null;
+      activeItem = activeSlide?.querySelector(FEED_VIDEO_SELECTOR) || null;
+    }
     const rail = activeSlide?.parentElement;
     if (!activeItem || !activeSlide || !rail) return false;
 
     const slides = getFeedSlides(rail);
     const activeIndex = slides.indexOf(activeSlide);
     if (activeIndex < 0) return false;
-    const adjacentSlide = slides[activeIndex + Math.sign(direction || 1)];
+    const normalizedDirection = Math.sign(direction || 1);
+    const adjacentSlide = slides[activeIndex + normalizedDirection];
     if (!adjacentSlide || adjacentSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1') return false;
 
-    const targetSlide = findVisibleFeedSlide(activeSlide, direction);
-    if (targetSlide) startFeedNavigation(activeSlide, targetSlide, direction);
-    return true;
+    // 向上到达虚拟列表起点时不存在可触发的更早内容；静默停在当前允许项，
+    // 不能为了“探测”进入边界屏蔽项并制造一个没有退出目标的信息卡。
+    if (normalizedDirection < 0 && !findAdjacentFeedSlide(adjacentSlide, normalizedDirection)) {
+      queueFeedNavigationSync();
+      return true;
+    }
+    return beginBlockedFeedWait(adjacentSlide, normalizedDirection, activeSlide);
   }
 
   function queueFeedNavigationSync() {
@@ -1635,8 +2287,12 @@
     feedNavigationSyncQueued = true;
     requestAnimationFrame(() => {
       feedNavigationSyncQueued = false;
+      trackRevealedFeedVideoActivity();
       syncFeedNavigationControls();
       reconcileFeedNavigation();
+      reconcileBlockedFeedWait();
+      positionFeedBlockedCard();
+      releaseReadyFeedBlockedCard();
     });
   }
 
@@ -1644,8 +2300,16 @@
     const previousButton = document.querySelector(FEED_PREV_SELECTOR);
     const nextButton = document.querySelector(FEED_NEXT_SELECTOR);
     if (!previousButton && !nextButton) return;
+    if (!enabled || !settings.hideFeedVideos) {
+      setFeedControlDisabled(previousButton, false);
+      setFeedControlDisabled(nextButton, false);
+      return;
+    }
     const activeItem = getActiveFeedItem();
-    const activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR);
+    const activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR) ||
+      [...document.querySelectorAll(FEED_SLIDE_SELECTOR)]
+        .find((slide) => isFeedSlideAtViewportCenter(slide)) ||
+      null;
     const rail = activeSlide?.parentElement;
     if (!activeSlide || !rail) {
       setFeedControlDisabled(previousButton, false);
@@ -1658,10 +2322,8 @@
       slides.slice(0, activeIndex).some((slide) =>
         slide.getAttribute(FEED_BLOCKED_ATTR) !== '1'
       );
-    const hasVisibleNext = activeIndex >= 0 && activeIndex < slides.length - 1 &&
-      slides.slice(activeIndex + 1).some((slide) =>
-        slide.getAttribute(FEED_BLOCKED_ATTR) !== '1'
-      );
+    // 向下即使只有屏蔽项也要保留入口，抖音往往要等相邻项成为 active 才继续填充推荐流。
+    const hasVisibleNext = activeIndex >= 0 && activeIndex < slides.length - 1;
     setFeedControlDisabled(previousButton, activeIndex <= 0 || !hasVisiblePrevious);
     setFeedControlDisabled(nextButton, activeIndex < 0 || activeIndex >= slides.length - 1 || !hasVisibleNext);
   }
@@ -1669,11 +2331,24 @@
   function setFeedControlDisabled(button, disabled) {
     if (!button) return;
     if (disabled) {
+      if (!button.hasAttribute(FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR)) {
+        button.setAttribute(
+          FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR,
+          button.hasAttribute('aria-disabled')
+            ? String(button.getAttribute('aria-disabled'))
+            : '',
+        );
+      }
       button.setAttribute(FEED_NAV_DISABLED_ATTR, '1');
       button.setAttribute('aria-disabled', 'true');
     } else {
       button.removeAttribute(FEED_NAV_DISABLED_ATTR);
-      button.setAttribute('aria-disabled', 'false');
+      if (button.hasAttribute(FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR)) {
+        const originalValue = button.getAttribute(FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR);
+        if (originalValue === '') button.removeAttribute('aria-disabled');
+        else button.setAttribute('aria-disabled', originalValue);
+        button.removeAttribute(FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR);
+      }
     }
   }
 
@@ -1681,10 +2356,10 @@
     return [...(rail?.children || [])].filter((child) => child.matches?.(FEED_SLIDE_SELECTOR));
   }
 
-  function getVisibleFeedNavigationControl(direction = 1) {
+  function getVisibleFeedNavigationControl(direction = 1, ignoreLocalDisabled = false) {
     const selector = direction < 0 ? FEED_PREV_SELECTOR : FEED_NEXT_SELECTOR;
     return [...document.querySelectorAll(selector)].find((button) => {
-      if (button.getAttribute(FEED_NAV_DISABLED_ATTR) === '1') return false;
+      if (!ignoreLocalDisabled && button.getAttribute(FEED_NAV_DISABLED_ATTR) === '1') return false;
       const style = getComputedStyle(button);
       const rect = button.getBoundingClientRect();
       return (
@@ -1713,29 +2388,740 @@
     return null;
   }
 
-  function startFeedNavigation(sourceSlide, targetSlide, direction = 1) {
+  function findAdjacentFeedSlide(slide, direction = 1) {
+    const rail = slide?.parentElement;
+    if (!rail) return null;
+    const slides = getFeedSlides(rail);
+    const activeIndex = slides.indexOf(slide);
+    if (activeIndex < 0) return null;
+    return slides[activeIndex + Math.sign(direction || 1)] || null;
+  }
+
+  function feedSlideVideoId(slide) {
+    return normalizeId(
+      slide?.querySelector?.(FEED_VIDEO_SELECTOR)?.getAttribute('data-e2e-vid')
+    );
+  }
+
+  function findFeedSlideByVideoId(videoId) {
+    const key = normalizeId(videoId);
+    if (!key) return null;
+    return [...document.querySelectorAll(FEED_SLIDE_SELECTOR)].find(
+      (slide) => feedSlideVideoId(slide) === key
+    ) || null;
+  }
+
+  function resolveFeedItemFilterState(item) {
+    if (!item?.isConnected) return 'pending';
+    const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
+    if (videoId && revealedBlockedFeedVideoIds.has(videoId)) return 'allowed';
+    const info = extractFeedAuthorInfo(item);
+    if (!hasAnyIdentity(info)) {
+      return videoId && blockedFeedVideoIds.has(videoId) ? 'blocked' : 'pending';
+    }
+    return isBlocked(info) ? 'blocked' : 'allowed';
+  }
+
+  function findReadyAllowedFeedSlide(slide, direction = 1) {
+    const rail = slide?.parentElement;
+    if (!rail) return null;
+    const slides = getFeedSlides(rail);
+    const activeIndex = slides.indexOf(slide);
+    const step = Math.sign(direction || 1);
+    if (activeIndex < 0) return null;
+
+    for (let index = activeIndex + step; index >= 0 && index < slides.length; index += step) {
+      const candidate = slides[index];
+      if (candidate.getAttribute(FEED_BLOCKED_ATTR) === '1') continue;
+      const item = candidate.querySelector(FEED_VIDEO_SELECTOR);
+      if (!item) return null;
+      const filterState = resolveFeedItemFilterState(item);
+      if (filterState === 'blocked') {
+        guardBlockedFeedVideo(item);
+        continue;
+      }
+      // 不跨过身份尚未解析的项目；它随后可能被确认在屏蔽名单中。
+      if (filterState === 'pending') return null;
+      return candidate;
+    }
+    return null;
+  }
+
+  function beginBlockedFeedWait(blockedSlide, direction = 1, sourceSlide = blockedSlide) {
+    if (
+      !enabled ||
+      !settings.hideFeedVideos ||
+      !blockedSlide?.isConnected ||
+      blockedSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1' ||
+      !sourceSlide?.isConnected
+    ) {
+      return false;
+    }
+
+    let normalizedDirection = Math.sign(direction || 1);
+    if (
+      sourceSlide === blockedSlide &&
+      normalizedDirection < 0 &&
+      !findAdjacentFeedSlide(blockedSlide, normalizedDirection) &&
+      findAdjacentFeedSlide(blockedSlide, -normalizedDirection)
+    ) {
+      // 活动屏蔽项恰好位于虚拟列表边界时，沿原方向没有任何可达状态。
+      // 自动改走唯一存在的方向，避免首条屏蔽或上滑边界形成永久等待。
+      normalizedDirection *= -1;
+    }
+    const existing = feedBlockedWait;
+    if (existing && existing.blockedSlide === blockedSlide) {
+      existing.direction = normalizedDirection;
+      if (existing.stage === 'navigating') {
+        neutralizeFeedMedia(blockedSlide);
+        queueFeedNavigationSync();
+        return true;
+      }
+      positionFeedBlockedCard();
+      reconcileBlockedFeedWait();
+      return true;
+    }
+    if (existing && feedBlockedCardLayer && existing.stage !== 'waiting') {
+      cancelFeedNavigation();
+      restoreSuspendedFeedMedia(existing.sourceMediaStates, false);
+      existing.sourceMediaStates = [];
+      existing.blockedSlide = blockedSlide;
+      existing.sourceSlide = blockedSlide;
+      existing.targetSlide = null;
+      existing.direction = normalizedDirection;
+      existing.stage = 'waiting';
+      existing.lastProbeAt = 0;
+      neutralizeFeedMedia(blockedSlide);
+      positionFeedBlockedCard(blockedSlide);
+      reconcileBlockedFeedWait();
+      return true;
+    }
+
+    cancelBlockedFeedWait({ resumeSource: true, preserveCard: Boolean(feedBlockedCardLayer) });
+    const sourceIsBlocked = sourceSlide.getAttribute(FEED_BLOCKED_ATTR) === '1';
+    const sourceAudioState = resolveFeedAudioState(sourceSlide, !sourceIsBlocked);
+    if (!sourceIsBlocked && sourceAudioState) {
+      lastAllowedFeedAudioState = copyFeedAudioState(sourceAudioState);
+    }
+
+    const startedAt = Date.now();
+    feedBlockedWait = {
+      token: ++feedBlockedWaitToken,
+      blockedSlide,
+      sourceSlide,
+      targetSlide: null,
+      direction: normalizedDirection,
+      stage: 'waiting',
+      startedAt,
+      minReadyAt: startedAt + 3000,
+      lastProbeAt: 0,
+      timer: 0,
+      audioState: sourceAudioState,
+      sourceMediaStates: sourceIsBlocked ? [] : suspendAllowedFeedMedia(sourceSlide),
+    };
+    neutralizeFeedMedia(blockedSlide);
+    showFeedBlockedCard(sourceSlide);
+    reconcileBlockedFeedWait();
+    return true;
+  }
+
+  function reconcileBlockedFeedWait() {
+    const wait = feedBlockedWait;
+    if (!wait || wait.token !== feedBlockedWaitToken) return;
+    if (!enabled || !settings.hideFeedVideos) {
+      cancelBlockedFeedWait({ resumeSource: true });
+      return;
+    }
+
+    if (wait.timer) {
+      clearTimeout(wait.timer);
+      wait.timer = 0;
+    }
+    if (wait.stage === 'settling') return;
+    if (feedNavigation) {
+      wait.stage = 'navigating';
+      reconcileFeedNavigation();
+      scheduleBlockedFeedWait(wait, 160);
+      return;
+    }
+
+    const activeSlide = getActiveFeedSlideWithFallback(wait.sourceSlide, wait.blockedSlide);
+    if (wait.stage === 'navigating') {
+      if (activeSlide?.getAttribute(FEED_BLOCKED_ATTR) === '1') {
+        wait.blockedSlide = activeSlide;
+        wait.sourceSlide = activeSlide;
+        wait.targetSlide = null;
+        wait.stage = 'waiting';
+        neutralizeFeedMedia(activeSlide);
+      } else if (activeSlide?.isConnected) {
+        releaseFeedBlockedCardWhenReady(activeSlide);
+        return;
+      } else {
+        wait.stage = 'waiting';
+      }
+    }
+
+    if (
+      !wait.blockedSlide?.isConnected ||
+      wait.blockedSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1'
+    ) {
+      cancelBlockedFeedWait({ resumeSource: activeSlide === wait.sourceSlide });
+      return;
+    }
+    if (
+      activeSlide &&
+      activeSlide !== wait.sourceSlide &&
+      activeSlide !== wait.blockedSlide &&
+      activeSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1'
+    ) {
+      releaseFeedBlockedCardWhenReady(activeSlide);
+      return;
+    }
+
+    const resolvedDirection = wait.direction;
+    const targetSlide = findReadyAllowedFeedSlide(wait.blockedSlide, resolvedDirection);
+
+    wait.targetSlide = targetSlide;
+    positionFeedBlockedCard();
+    if (Date.now() < wait.minReadyAt) {
+      const remaining = wait.minReadyAt - Date.now();
+      scheduleBlockedFeedWait(wait, remaining > 0 ? Math.min(180, Math.max(40, remaining)) : 180);
+      return;
+    }
+    if (!targetSlide) {
+      // 推荐流末端的后续滑块常常只是空占位；抖音只有在相邻项成为 active 后才会继续填充。
+      // 信息卡已遮住画面且屏蔽媒体已被彻底静音，因此可在卡片背后同向进入屏蔽项触发加载。
+      // 绝不能反向选择上一条，否则用户的向下操作会被错误地解释为向上返回。
+      const stepSource = (
+        activeSlide?.isConnected && isFeedSlideAtViewportCenter(activeSlide)
+          ? activeSlide
+          : wait.sourceSlide
+      );
+      const loadingProbeSlide = (
+        stepSource?.isConnected && isFeedSlideAtViewportCenter(stepSource)
+          ? findAdjacentFeedSlide(stepSource, resolvedDirection)
+          : null
+      );
+      if (loadingProbeSlide) {
+        wait.targetSlide = loadingProbeSlide;
+        wait.stage = 'navigating';
+        if (startFeedNavigation(
+          stepSource,
+          loadingProbeSlide,
+          resolvedDirection,
+          { audioState: wait.audioState },
+        )) {
+          scheduleBlockedFeedWait(wait, 160);
+          return;
+        }
+        wait.stage = 'waiting';
+      }
+      if (probeFeedBeyondLoadedBoundary(wait, stepSource, resolvedDirection)) {
+        scheduleBlockedFeedWait(wait, 240);
+        return;
+      }
+      scheduleBlockedFeedWait(wait, 180);
+      return;
+    }
+
+    wait.stage = 'navigating';
+    wait.direction = resolvedDirection;
+    if (!startFeedNavigation(
+      wait.sourceSlide,
+      targetSlide,
+      resolvedDirection,
+      {
+        audioState: wait.audioState,
+        targetVideoId: feedSlideVideoId(targetSlide),
+      },
+    )) {
+      wait.stage = 'waiting';
+      scheduleBlockedFeedWait(wait, 180);
+      return;
+    }
+    scheduleBlockedFeedWait(wait, 160);
+  }
+
+  function scheduleBlockedFeedWait(wait, delay = 160) {
+    if (!wait || feedBlockedWait !== wait || wait.token !== feedBlockedWaitToken) return;
+    if (wait.timer) clearTimeout(wait.timer);
+    const elapsed = Date.now() - wait.startedAt;
+    const resolvedDelay = elapsed > 20000 ? Math.max(800, delay) : delay;
+    wait.timer = window.setTimeout(reconcileBlockedFeedWait, Math.max(40, resolvedDelay));
+  }
+
+  function probeFeedBeyondLoadedBoundary(wait, sourceSlide, direction = 1) {
+    if (
+      !wait ||
+      feedBlockedWait !== wait ||
+      !sourceSlide?.isConnected ||
+      !isFeedSlideAtViewportCenter(sourceSlide) ||
+      sourceSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1' ||
+      findAdjacentFeedSlide(sourceSlide, direction)
+    ) {
+      return false;
+    }
+    const now = Date.now();
+    if (now - Number(wait.lastProbeAt || 0) < 1200) return false;
+    const control = getVisibleFeedNavigationControl(direction, true);
+    if (!control) return false;
+
+    wait.lastProbeAt = now;
+    wait.stage = 'navigating';
+    feedPreemptDirection = Math.sign(direction || 1);
+    feedPreemptUntil = now + 1800;
+    try {
+      control.click();
+    } catch {
+      wait.stage = 'waiting';
+      return false;
+    }
+    window.setTimeout(queueFeedNavigationSync, 0);
+    return true;
+  }
+
+  function showFeedBlockedCard(anchorSlide) {
+    document.documentElement.classList.add(FEED_BLOCKED_CARD_MODE_CLASS);
+    if (!feedBlockedCardLayer) {
+      const layer = document.createElement('section');
+      layer.className = FEED_BLOCKED_CARD_LAYER_CLASS;
+      layer.setAttribute('role', 'status');
+      layer.setAttribute('aria-live', 'polite');
+      layer.setAttribute('data-dy-not-before', String(feedBlockedWait?.minReadyAt || Date.now()));
+      layer.innerHTML = `
+        <button type="button" class="${FEED_BLOCKED_CARD_CLASS}" title="查看该视频">
+          <strong>已被「${SCRIPT_NAME}」屏蔽</strong>
+          <span class="${FEED_BLOCKED_CARD_AUTHOR_CLASS}"></span>
+          <span>该用户的推荐内容已隐藏。点击查看该视频；继续原方向浏览需等待 3 秒及目标内容就绪，反向滚动可返回刚才浏览的内容。</span>
+        </button>
+      `;
+      layer.querySelector(`.${FEED_BLOCKED_CARD_CLASS}`)
+        ?.addEventListener('click', revealFeedBlockedVideoFromCard, true);
+      (document.body || document.documentElement).appendChild(layer);
+      feedBlockedCardLayer = layer;
+    }
+    feedBlockedCardLayer.setAttribute(
+      'data-dy-not-before',
+      String(feedBlockedWait?.minReadyAt || Date.now()),
+    );
+    updateFeedBlockedCardAuthor();
+    const activeItem = getActiveFeedItem();
+    const activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR);
+    if (
+      activeSlide?.isConnected &&
+      activeSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1' &&
+      activeItem.getAttribute(MARK_ATTR) !== '1'
+    ) {
+      if (feedBlockedWait && !feedBlockedWait.audioState) {
+        feedBlockedWait.audioState = resolveFeedAudioState(activeSlide);
+      }
+      muteFeedMediaBehindCard(activeSlide);
+      armFeedBlockedCardReleaseCheck(80);
+    }
+    positionFeedBlockedCard(anchorSlide);
+  }
+
+  function updateFeedBlockedCardAuthor() {
+    const authorLine = feedBlockedCardLayer?.querySelector(`.${FEED_BLOCKED_CARD_AUTHOR_CLASS}`);
+    if (!authorLine) return;
+    const blockedItem = feedBlockedWait?.blockedSlide?.querySelector(FEED_VIDEO_SELECTOR);
+    const nickname = blockedItem
+      ? visibleUserName(extractFeedAuthorInfo(blockedItem), '')
+      : '';
+    authorLine.textContent = nickname ? `由 @${nickname} 发布` : '由该用户发布';
+  }
+
+  function revealFeedBlockedVideoFromCard(event) {
+    if (!event?.isTrusted) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    const wait = feedBlockedWait;
+    const blockedSlide = (
+      wait?.blockedSlide?.isConnected ? wait.blockedSlide :
+        [...document.querySelectorAll(`[${FEED_BLOCKED_ATTR}="1"]`)]
+          .find((slide) => isFeedSlideAtViewportCenter(slide)) ||
+        null
+    );
+    const blockedItem = blockedSlide?.querySelector(FEED_VIDEO_SELECTOR);
+    const videoId = normalizeId(blockedItem?.getAttribute('data-e2e-vid'));
+    if (!blockedSlide?.isConnected || !blockedItem?.isConnected || !videoId) return;
+
+    const activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
+    const audioState = copyFeedAudioState(wait?.audioState) ||
+      resolveFeedAudioState(activeSlide);
+    let direction = wait?.direction || preferredFeedSkipDirection();
+    if (activeSlide?.parentElement && activeSlide.parentElement === blockedSlide.parentElement) {
+      const slides = getFeedSlides(activeSlide.parentElement);
+      direction = Math.sign(slides.indexOf(blockedSlide) - slides.indexOf(activeSlide)) || direction;
+    }
+
+    rememberRevealedBlockedFeedVideoId(videoId);
+    feedAudioRestoreToken += 1;
+    cancelBlockedFeedWait({ resumeSource: false });
+    clearBlockedFeedSlide(blockedSlide);
+
+    let revealStarted = false;
+    if (activeSlide === blockedSlide || isFeedSlideAtViewportCenter(blockedSlide)) {
+      revealStarted = true;
+      resumeRevealedFeedSlide(blockedSlide, audioState);
+    } else if (
+      activeSlide?.isConnected &&
+      activeSlide.parentElement === blockedSlide.parentElement
+    ) {
+      if (startFeedNavigation(activeSlide, blockedSlide, direction, {
+        audioState,
+        targetVideoId: videoId,
+      })) {
+        revealStarted = true;
+        armRevealedFeedPlayback(blockedSlide, audioState, videoId);
+      }
+    }
+    if (!revealStarted) revokeRevealedBlockedFeedVideoId(videoId);
+    queueFullScan();
+    queueFeedNavigationSync();
+  }
+
+  function resumeRevealedFeedSlide(slide, audioState = null) {
+    if (!slide?.isConnected) return;
+    const item = slide.querySelector(FEED_VIDEO_SELECTOR);
+    if (!item?.isConnected) return;
+    const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
+    if (isActiveFeedVideo(item) || isFeedSlideAtViewportCenter(slide)) {
+      markRevealedFeedVideoActive(videoId);
+    }
+    activateFeedAudio(item, audioState);
+    const media = preferredFeedAudioMedia(slide);
+    if (!media) return;
+    requestAnimationFrame(() => {
+      if (!media.isConnected || !isActiveFeedVideo(item)) return;
+      try {
+        if (audioState) {
+          media.muted = Boolean(audioState.muted);
+          media.volume = Math.max(0, Math.min(1, Number(audioState.volume)));
+        }
+        const promise = media.play();
+        promise?.catch?.(() => {});
+      } catch {}
+    });
+  }
+
+  function armRevealedFeedPlayback(slide, audioState = null, revealedVideoId = '') {
+    const token = ++feedRevealPlaybackToken;
+    const expectedVideoId = normalizeId(revealedVideoId) || feedSlideVideoId(slide);
+    let targetSlide = slide;
+    const deadline = Date.now() + 8000;
+    const check = () => {
+      if (token !== feedRevealPlaybackToken) return;
+      if (!expectedVideoId || !revealedBlockedFeedVideoIds.has(expectedVideoId)) return;
+      if (
+        !targetSlide?.isConnected ||
+        feedSlideVideoId(targetSlide) !== expectedVideoId
+      ) {
+        targetSlide = findFeedSlideByVideoId(expectedVideoId);
+      }
+      const item = targetSlide?.querySelector(FEED_VIDEO_SELECTOR);
+      const videoId = normalizeId(item?.getAttribute('data-e2e-vid'));
+      if (
+        item?.isConnected &&
+        videoId === expectedVideoId &&
+        (isActiveFeedVideo(item) || isFeedSlideAtViewportCenter(targetSlide))
+      ) {
+        markRevealedFeedVideoActive(videoId);
+        resumeRevealedFeedSlide(targetSlide, audioState);
+        return;
+      }
+      if (Date.now() < deadline) {
+        window.setTimeout(check, 60);
+      } else if (pendingRevealedFeedVideoId === expectedVideoId) {
+        revokeRevealedBlockedFeedVideoId(expectedVideoId);
+      }
+    };
+    check();
+  }
+
+  function positionFeedBlockedCard(preferredAnchor = null) {
+    const layer = feedBlockedCardLayer;
+    const wait = feedBlockedWait;
+    if (!layer || !wait) return;
+    updateFeedBlockedCardAuthor();
+    const activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
+    const rail = (
+      activeSlide?.parentElement ||
+      wait.sourceSlide?.parentElement ||
+      wait.blockedSlide?.parentElement
+    );
+    const centeredSlide = getFeedSlides(rail).find((slide) => isFeedSlideAtViewportCenter(slide));
+    const anchor = (
+      preferredAnchor?.isConnected && isFeedSlideAtViewportCenter(preferredAnchor) ? preferredAnchor :
+        centeredSlide?.isConnected ? centeredSlide :
+          activeSlide?.isConnected && isFeedSlideAtViewportCenter(activeSlide) ? activeSlide :
+            null
+    );
+    if (!anchor) return;
+    const rect = anchor.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return;
+    const viewportRect = getFeedTransitionViewportRect(anchor, rect);
+    const left = Math.max(0, viewportRect.left);
+    const top = Math.max(0, viewportRect.top);
+    const width = Math.max(1, Math.min(viewportRect.right, window.innerWidth) - left);
+    const height = Math.max(1, Math.min(viewportRect.bottom, window.innerHeight) - top);
+    layer.style.left = `${left}px`;
+    layer.style.top = `${top}px`;
+    layer.style.width = `${width}px`;
+    layer.style.height = `${height}px`;
+  }
+
+  function isFeedTargetMediaReady(targetSlide) {
+    if (!targetSlide?.isConnected) return false;
+    const item = targetSlide.querySelector(FEED_VIDEO_SELECTOR);
+    if (!item || item.getAttribute(MARK_ATTR) === '1') return false;
+    const filterState = resolveFeedItemFilterState(item);
+    if (filterState === 'blocked') {
+      guardBlockedFeedVideo(item);
+      return false;
+    }
+    if (filterState === 'pending') return false;
+    const videos = [...targetSlide.querySelectorAll('video')].filter((video) => {
+      const rect = video.getBoundingClientRect();
+      const style = getComputedStyle(video);
+      return rect.width > 1 && rect.height > 1 &&
+        style.display !== 'none' && style.visibility !== 'hidden';
+    });
+    if (videos.some((video) => video.readyState >= 2 || video.currentTime > 0)) return true;
+    const targetRect = targetSlide.getBoundingClientRect();
+    return [...targetSlide.querySelectorAll('img')].some((image) => {
+      const rect = image.getBoundingClientRect();
+      const style = getComputedStyle(image);
+      const className = String(image.className || '').toLowerCase();
+      const isBackdrop = (
+        /\bblur\(/i.test(style.filter || '') ||
+        className.includes('background') ||
+        className.includes('backdrop')
+      );
+      return !isBackdrop &&
+        image.complete && image.naturalWidth > 0 &&
+        rect.width >= Math.max(120, targetRect.width * .35) &&
+        rect.height >= Math.max(100, targetRect.height * .35) &&
+        style.display !== 'none' && style.visibility !== 'hidden';
+    });
+  }
+
+  function completeFeedBlockedCard(targetItem, audioState = null) {
+    if (!targetItem?.isConnected) return false;
+    const resolvedAudioState = copyFeedAudioState(audioState) ||
+      resolveFeedAudioState(targetItem.closest(FEED_SLIDE_SELECTOR) || targetItem);
+    if (feedBlockedWait) cancelBlockedFeedWait();
+    else {
+      cancelFeedNavigation();
+      removeFeedBlockedCard();
+    }
+    requestAnimationFrame(() => activateFeedAudio(targetItem, resolvedAudioState));
+    return true;
+  }
+
+  function releaseReadyFeedBlockedCard() {
+    const card = feedBlockedCardLayer;
+    if (!card) return false;
+    const wait = feedBlockedWait;
+    const activeSlide = getActiveFeedSlideWithFallback(
+      wait?.targetSlide,
+      wait?.sourceSlide,
+      wait?.blockedSlide,
+    );
+    const activeItem = activeSlide?.querySelector(FEED_VIDEO_SELECTOR);
+    if (
+      !activeItem?.isConnected ||
+      !activeSlide?.isConnected ||
+      activeSlide.getAttribute(FEED_BLOCKED_ATTR) === '1' ||
+      activeItem.getAttribute(MARK_ATTR) === '1'
+    ) {
+      return false;
+    }
+
+    if (wait && !wait.audioState) {
+      wait.audioState = resolveFeedAudioState(activeSlide);
+    }
+    const audioState = copyFeedAudioState(wait?.audioState) ||
+      resolveFeedAudioState(activeSlide);
+    // 信息卡仍在时，画面和声音必须属于同一个状态；不能先放出下一条的声音。
+    muteFeedMediaBehindCard(activeSlide);
+    if (!isFeedSlideSettledAtViewportCenter(activeSlide)) {
+      if (
+        wait &&
+        wait.targetSlide === activeSlide &&
+        Date.now() >= wait.minReadyAt &&
+        normalizeSettledFeedScrollerOffset(activeSlide)
+      ) {
+        armFeedBlockedCardReleaseCheck(80);
+        return false;
+      }
+      armFeedBlockedCardReleaseCheck(60);
+      return false;
+    }
+    // 从一条允许的视频预先跨越相邻屏蔽项时，原视频在三秒等待期内仍然是 active。
+    // 它不是跳转目标，不能仅因为自身已就绪就撤卡并取消尚未开始的同向跳转。
+    if (
+      wait &&
+      wait.stage === 'waiting' &&
+      wait.sourceSlide !== wait.blockedSlide &&
+      activeSlide === wait.sourceSlide
+    ) {
+      armFeedBlockedCardReleaseCheck(120);
+      return false;
+    }
+    const notBefore = Number(card.getAttribute('data-dy-not-before')) || 0;
+    if (Date.now() < notBefore) {
+      armFeedBlockedCardReleaseCheck(Math.min(3000, Math.max(40, notBefore - Date.now() + 20)));
+      return false;
+    }
+    if (!isFeedTargetMediaReady(activeSlide)) {
+      armFeedBlockedCardReleaseCheck(120);
+      return false;
+    }
+    return completeFeedBlockedCard(activeItem, audioState);
+  }
+
+  function armFeedBlockedCardReleaseCheck(delay = 120) {
+    if (feedBlockedCardReleaseTimer) clearTimeout(feedBlockedCardReleaseTimer);
+    feedBlockedCardReleaseTimer = window.setTimeout(() => {
+      feedBlockedCardReleaseTimer = 0;
+      releaseReadyFeedBlockedCard();
+    }, Math.max(40, delay));
+  }
+
+  function releaseFeedBlockedCardWhenReady(initialTargetSlide) {
+    const wait = feedBlockedWait;
+    if (!wait || wait.token !== feedBlockedWaitToken) return;
+    wait.stage = 'settling';
+    wait.targetSlide = initialTargetSlide;
+    if (!wait.audioState) wait.audioState = resolveFeedAudioState(initialTargetSlide);
+    restoreSuspendedFeedMedia(wait.sourceMediaStates, false);
+    wait.sourceMediaStates = [];
+    // 反向回到原来源项时，来源媒体与目标媒体是同一批节点。
+    // 必须先恢复保存值、再由卡片统一静音，否则恢复动作会在卡片仍显示时泄漏声音。
+    muteFeedMediaBehindCard(initialTargetSlide);
+
+    const check = () => {
+      const current = feedBlockedWait;
+      if (!current || current !== wait || current.token !== feedBlockedWaitToken) return;
+      if (
+        !current.blockedSlide?.isConnected &&
+        !current.sourceSlide?.isConnected &&
+        !current.targetSlide?.isConnected
+      ) {
+        cancelBlockedFeedWait();
+        return;
+      }
+      const activeSlide = getActiveFeedSlideWithFallback(
+        current.targetSlide,
+        current.sourceSlide,
+        current.blockedSlide,
+      );
+      if (activeSlide?.getAttribute(FEED_BLOCKED_ATTR) === '1') {
+        current.blockedSlide = activeSlide;
+        current.sourceSlide = activeSlide;
+        current.targetSlide = null;
+        current.stage = 'waiting';
+        neutralizeFeedMedia(activeSlide);
+        reconcileBlockedFeedWait();
+        return;
+      }
+      if (activeSlide?.isConnected && activeSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1') {
+        current.targetSlide = activeSlide;
+      }
+      positionFeedBlockedCard();
+      if (
+        current.targetSlide?.isConnected &&
+        activeSlide === current.targetSlide &&
+        Date.now() >= current.minReadyAt &&
+        !isFeedSlideSettledAtViewportCenter(current.targetSlide) &&
+        normalizeSettledFeedScrollerOffset(current.targetSlide)
+      ) {
+        current.timer = window.setTimeout(check, 80);
+        return;
+      }
+      if (
+        current.targetSlide?.isConnected &&
+        activeSlide === current.targetSlide &&
+        isFeedSlideSettledAtViewportCenter(current.targetSlide) &&
+        isFeedTargetMediaReady(current.targetSlide)
+      ) {
+        if (!releaseReadyFeedBlockedCard()) {
+          current.timer = window.setTimeout(check, 80);
+        }
+        return;
+      }
+      current.timer = window.setTimeout(check, 80);
+    };
+    if (wait.timer) clearTimeout(wait.timer);
+    wait.timer = window.setTimeout(check, 40);
+  }
+
+  function cancelBlockedFeedWait(options = {}) {
+    const wait = feedBlockedWait;
+    feedBlockedWaitToken += 1;
+    if (wait?.timer) clearTimeout(wait.timer);
+    if (feedNavigation && options.cancelNavigation !== false) cancelFeedNavigation();
+    if (wait?.sourceMediaStates?.length) {
+      const activeSlide = getActiveFeedSlideWithFallback(
+        wait?.targetSlide,
+        wait?.sourceSlide,
+        wait?.blockedSlide,
+      );
+      restoreSuspendedFeedMedia(
+        wait.sourceMediaStates,
+        Boolean(options.resumeSource && activeSlide === wait.sourceSlide),
+      );
+    }
+    feedBlockedWait = null;
+    if (!options.preserveCard) removeFeedBlockedCard();
+  }
+
+  function removeFeedBlockedCard() {
+    if (feedBlockedCardReleaseTimer) {
+      clearTimeout(feedBlockedCardReleaseTimer);
+      feedBlockedCardReleaseTimer = 0;
+    }
+    feedBlockedCardLayer?.remove();
+    feedBlockedCardLayer = null;
+    document.documentElement.classList.remove(FEED_BLOCKED_CARD_MODE_CLASS);
+  }
+
+  function startFeedNavigation(sourceSlide, targetSlide, direction = 1, options = {}) {
     if (!sourceSlide?.isConnected || !targetSlide?.isConnected || sourceSlide === targetSlide) return false;
+    const targetVideoId = normalizeId(options.targetVideoId);
     if (
       feedNavigation &&
       feedNavigation.targetSlide === targetSlide &&
-      feedNavigation.direction === Math.sign(direction || 1)
+      feedNavigation.direction === Math.sign(direction || 1) &&
+      feedNavigation.targetVideoId === targetVideoId &&
+      feedNavigation.sourceSlide?.isConnected &&
+      Date.now() <= feedNavigation.deadlineAt
     ) {
       return true;
     }
 
-    const reuseExistingCover = Boolean(feedNavigation && feedTransitionCover);
-    cancelFeedNavigation({ preserveCover: reuseExistingCover });
+    cancelFeedNavigation();
     const rail = sourceSlide.parentElement;
     const slides = getFeedSlides(rail);
     const sourceIndex = slides.indexOf(sourceSlide);
     const targetIndex = slides.indexOf(targetSlide);
     if (sourceIndex < 0 || targetIndex < 0) return false;
+    if (feedBlockedCardLayer) {
+      if (feedBlockedWait && !feedBlockedWait.audioState) {
+        feedBlockedWait.audioState = resolveFeedAudioState(targetSlide);
+      }
+      muteFeedMediaBehindCard(targetSlide);
+    }
     const distance = Math.abs(targetIndex - sourceIndex);
     const token = ++feedNavigationToken;
     const normalizedDirection = Math.sign(targetIndex - sourceIndex) || Math.sign(direction || 1);
     const startedAt = Date.now();
     const deadlineAt = startedAt + Math.max(8000, distance * 2600 + 3000);
-    const audioState = readFeedAudioState(sourceSlide);
+    const audioState = Object.prototype.hasOwnProperty.call(options, 'audioState')
+      ? copyFeedAudioState(options.audioState)
+      : readFeedAudioState(sourceSlide);
     feedPreemptDirection = normalizedDirection;
     feedPreemptUntil = deadlineAt;
     feedNavigation = {
@@ -1752,15 +3138,8 @@
       startedAt,
       deadlineAt,
       audioState,
+      targetVideoId,
     };
-    const visualSourceSlide = sourceSlide.getAttribute(FEED_BLOCKED_ATTR) === '1'
-      ? (findVisibleFeedSlide(sourceSlide, -normalizedDirection) || targetSlide)
-      : sourceSlide;
-    if (feedTransitionCover) {
-      armFeedTransitionCoverSafety(deadlineAt - startedAt + 2000);
-    } else {
-      showFeedTransitionCover(visualSourceSlide, deadlineAt - startedAt + 2000);
-    }
     reconcileFeedNavigation();
     return true;
   }
@@ -1770,25 +3149,53 @@
     if (!transaction || transaction.token !== feedNavigationToken) return;
     if (
       !transaction.sourceSlide.isConnected ||
-      !transaction.targetSlide.isConnected ||
       Date.now() > transaction.deadlineAt
     ) {
       cancelFeedNavigation();
       return;
     }
+    if (!refreshFeedNavigationTarget(transaction)) {
+      if (transaction.timer) clearTimeout(transaction.timer);
+      transaction.timer = window.setTimeout(() => {
+        if (!feedNavigation || feedNavigation.token !== transaction.token) return;
+        transaction.timer = 0;
+        reconcileFeedNavigation();
+      }, 120);
+      return;
+    }
+    if (!transaction.targetSlide?.isConnected) {
+      cancelFeedNavigation();
+      return;
+    }
 
-    const activeItem = getActiveFeedItem();
-    const activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR);
-    if (!activeSlide) return;
+    const activeSlide = getFeedNavigationActiveSlide(transaction);
+    if (!activeSlide) {
+      if (!transaction.settleCleanup) {
+        if (transaction.timer) clearTimeout(transaction.timer);
+        transaction.timer = window.setTimeout(() => {
+          if (!feedNavigation || feedNavigation.token !== transaction.token) return;
+          transaction.timer = 0;
+          reconcileFeedNavigation();
+        }, 120);
+      }
+      return;
+    }
     if (activeSlide === transaction.targetSlide) {
       if (activeSlide.getAttribute(FEED_BLOCKED_ATTR) === '1') {
-        const replacement = findVisibleFeedSlide(activeSlide, transaction.direction) ||
-          findVisibleFeedSlide(activeSlide, -transaction.direction);
+        const replacement = findReadyAllowedFeedSlide(activeSlide, transaction.direction);
         if (replacement) {
-          startFeedNavigation(activeSlide, replacement, Math.sign(
-            getFeedSlides(activeSlide.parentElement).indexOf(replacement) -
-            getFeedSlides(activeSlide.parentElement).indexOf(activeSlide),
-          ));
+          startFeedNavigation(
+            activeSlide,
+            replacement,
+            Math.sign(
+              getFeedSlides(activeSlide.parentElement).indexOf(replacement) -
+              getFeedSlides(activeSlide.parentElement).indexOf(activeSlide),
+            ),
+            {
+              audioState: transaction.audioState,
+              targetVideoId: feedSlideVideoId(replacement),
+            },
+          );
         } else {
           cancelFeedNavigation();
         }
@@ -1833,7 +3240,7 @@
       const delay = Math.max(48, earliestStepAt - Date.now());
       transaction.timer = window.setTimeout(() => {
         if (!feedNavigation || feedNavigation.token !== transaction.token) return;
-        const currentActive = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
+        const currentActive = getFeedNavigationActiveSlide(transaction);
         if (currentActive !== activeSlide) {
           queueFeedNavigationSync();
           return;
@@ -1854,8 +3261,12 @@
 
   function issueFeedNavigationStep(transaction) {
     if (!feedNavigation || feedNavigation.token !== transaction.token) return;
-    const activeItem = getActiveFeedItem();
-    const activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR);
+    if (!refreshFeedNavigationTarget(transaction)) {
+      if (transaction.timer) clearTimeout(transaction.timer);
+      transaction.timer = window.setTimeout(() => reconcileFeedNavigation(), 120);
+      return;
+    }
+    const activeSlide = getFeedNavigationActiveSlide(transaction);
     if (!activeSlide || activeSlide !== transaction.waitingFrom) {
       queueFeedNavigationSync();
       return;
@@ -1875,7 +3286,7 @@
     }
 
     transaction.direction = Math.sign(targetIndex - currentIndex);
-    const control = getVisibleFeedNavigationControl(transaction.direction);
+    const control = getVisibleFeedNavigationControl(transaction.direction, true);
     if (!control) {
       if (Date.now() >= transaction.deadlineAt) {
         cancelFeedNavigation();
@@ -1901,7 +3312,7 @@
     if (transaction.timer) clearTimeout(transaction.timer);
     transaction.timer = window.setTimeout(() => {
       if (!feedNavigation || feedNavigation.token !== transaction.token) return;
-      const currentActive = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
+      const currentActive = getFeedNavigationActiveSlide(transaction);
       if (currentActive !== transaction.waitingFrom) {
         queueFeedNavigationSync();
         return;
@@ -1921,26 +3332,58 @@
 
   function finishFeedNavigation(transaction) {
     if (!feedNavigation || feedNavigation.token !== transaction.token) return;
+    if (!refreshFeedNavigationTarget(transaction)) {
+      cancelFeedNavigation();
+      return;
+    }
     const targetItem = transaction.targetSlide.querySelector(FEED_VIDEO_SELECTOR);
     const targetSlide = transaction.targetSlide;
-    cancelFeedNavigation({ preserveCover: true });
+    cancelFeedNavigation();
     if (targetItem && targetItem.getAttribute(MARK_ATTR) !== '1') {
       clearBlockedFeedSlide(targetSlide);
-      activateFeedAudio(targetItem, transaction.audioState);
+      if (feedBlockedCardLayer) {
+        if (feedBlockedWait && !feedBlockedWait.audioState) {
+          feedBlockedWait.audioState = copyFeedAudioState(transaction.audioState) ||
+            resolveFeedAudioState(targetSlide);
+        }
+        muteFeedMediaBehindCard(targetSlide);
+      } else if (
+        revealedBlockedFeedVideoIds.has(normalizeId(targetItem.getAttribute('data-e2e-vid')))
+      ) {
+        resumeRevealedFeedSlide(targetSlide, transaction.audioState);
+      } else {
+        activateFeedAudio(targetItem, transaction.audioState);
+      }
     }
-    releaseFeedTransitionCoverWhenReady(targetSlide);
+    if (feedBlockedWait) releaseFeedBlockedCardWhenReady(targetSlide);
+    else releaseReadyFeedBlockedCard();
     queueFullScan();
     queueFeedNavigationSync();
   }
 
-  function cancelFeedNavigation(options = {}) {
+  function refreshFeedNavigationTarget(transaction) {
+    const expectedVideoId = normalizeId(transaction?.targetVideoId);
+    if (!expectedVideoId) return Boolean(transaction?.targetSlide?.isConnected);
+    if (
+      transaction.targetSlide?.isConnected &&
+      feedSlideVideoId(transaction.targetSlide) === expectedVideoId
+    ) {
+      return true;
+    }
+    const replacement = findFeedSlideByVideoId(expectedVideoId);
+    if (!replacement) return false;
+    transaction.targetSlide = replacement;
+    return true;
+  }
+
+  function cancelFeedNavigation() {
     feedNavigationToken += 1;
     if (feedNavigation?.timer) clearTimeout(feedNavigation.timer);
     feedNavigation?.settleCleanup?.();
     feedNavigation = null;
     feedPreemptDirection = 0;
     feedPreemptUntil = 0;
-    if (!options.preserveCover) removeFeedTransitionCover();
+    removeFeedTransitionCover();
   }
 
   function getFeedTransitionViewportRect(sourceSlide, sourceRect) {
@@ -2330,16 +3773,11 @@
   }
 
   function skipBlockedActiveFeed(item, direction = 1) {
-    if (!item?.isConnected || !isActiveFeedVideo(item)) return;
+    if (!item?.isConnected) return;
     const blockedSlide = item.closest(FEED_SLIDE_SELECTOR) || item;
+    if (!isConfirmedActiveFeedSlide(item, blockedSlide)) return;
     neutralizeFeedMedia(blockedSlide);
-    let targetSlide = findVisibleFeedSlide(blockedSlide, direction);
-    let resolvedDirection = Math.sign(direction || 1);
-    if (!targetSlide) {
-      resolvedDirection *= -1;
-      targetSlide = findVisibleFeedSlide(blockedSlide, resolvedDirection);
-    }
-    if (targetSlide) startFeedNavigation(blockedSlide, targetSlide, resolvedDirection);
+    beginBlockedFeedWait(blockedSlide, direction, blockedSlide);
   }
 
   function onFeedMediaPlayback(event) {
@@ -2351,22 +3789,65 @@
     const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
     const info = extractFeedAuthorInfo(item);
     const hasIdentity = hasAnyIdentity(info);
-    const blocked = enabled && settings.hideFeedVideos && (
+    const revealed = Boolean(videoId && revealedBlockedFeedVideoIds.has(videoId));
+    const blocked = !revealed && enabled && settings.hideFeedVideos && (
       (hasIdentity && isBlocked(info)) ||
       (!hasIdentity && videoId && blockedFeedVideoIds.has(videoId))
     );
     if (!blocked) {
+      const allowedSlide = item.closest(FEED_SLIDE_SELECTOR) || item;
       if (hasIdentity && videoId) blockedFeedVideoIds.delete(videoId);
-      if (hasIdentity) clearBlockedFeedSlide(item.closest(FEED_SLIDE_SELECTOR) || item);
+      if (hasIdentity) clearBlockedFeedSlide(allowedSlide);
+      if (
+        feedBlockedCardLayer &&
+        isConfirmedActiveFeedSlide(item, allowedSlide)
+      ) {
+        if (feedBlockedWait && !feedBlockedWait.audioState) {
+          feedBlockedWait.audioState = resolveFeedAudioState(allowedSlide);
+        }
+        const guardedAudioState = copyFeedAudioState(feedBlockedWait?.audioState) ||
+          resolveFeedAudioState(allowedSlide);
+        muteFeedMediaBehindCard(allowedSlide);
+        if (guardedAudioState) lastAllowedFeedAudioState = guardedAudioState;
+        releaseReadyFeedBlockedCard();
+        queueFeedNavigationSync();
+        return;
+      }
+      if (isConfirmedActiveFeedSlide(item, allowedSlide)) {
+        const activeAudioState = readFeedAudioState(allowedSlide);
+        if (activeAudioState) {
+          const userChangedAudio = Date.now() < feedAudioUserIntentUntil;
+          if (
+            !activeAudioState.muted ||
+            userChangedAudio ||
+            !lastAllowedFeedAudioState
+          ) {
+            lastAllowedFeedAudioState = activeAudioState;
+          } else if (lastAllowedFeedAudioState.muted === false) {
+            // 新播放器成为 active 的最初数百毫秒可能沿用预加载时的 muted=true。
+            // 没有用户静音意图时，继续恢复上一条已确认的非静音状态。
+            activateFeedAudio(item, lastAllowedFeedAudioState);
+          }
+        }
+      }
+      queueFeedNavigationSync();
       return;
     }
 
-    neutralizeFeedMedia(item.closest(FEED_SLIDE_SELECTOR) || item);
-    if (isActiveFeedVideo(item)) skipBlockedActiveFeed(item, preferredFeedSkipDirection());
+    const blockedSlide = item.closest(FEED_SLIDE_SELECTOR) || item;
+    const wasActive = isConfirmedActiveFeedSlide(item, blockedSlide);
+    neutralizeFeedMedia(blockedSlide);
+    if (wasActive) skipBlockedActiveFeed(item, preferredFeedSkipDirection());
   }
 
   function clearFeedSkip() {
     feedAudioRestoreToken += 1;
+    feedRevealPlaybackToken += 1;
+    revealedBlockedFeedVideoIds.clear();
+    pendingRevealedFeedVideoId = '';
+    activeRevealedFeedVideoId = '';
+    clearFeedNativeNavigationLock();
+    cancelBlockedFeedWait({ resumeSource: true });
     cancelFeedNavigation();
   }
 
@@ -3173,7 +4654,9 @@
       return false;
     }
 
-    const activeFeedItem = document.querySelector('[data-e2e="feed-active-video"]');
+    // 抖音切换时可能同时保留多个 feed-active-video，querySelector 会取到屏外的旧节点。
+    // 必须沿用状态机的“实际居中/正在播放项”判断，否则屏蔽当前视频时可能继承上一次向上滚动的方向。
+    const activeFeedItem = getActiveFeedItem();
     const isBlockingActiveFeed = Boolean(
       activeFeedItem &&
       settings.hideFeedVideos &&
@@ -4046,6 +5529,7 @@
       entries = [];
       blockedFeedVideoIds.clear();
       saveEntries();
+      queueFullScan();
       toast('本地屏蔽名单已清空');
     });
     escHandler = (event) => {
