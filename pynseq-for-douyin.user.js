@@ -28,7 +28,7 @@
 (() => {
   'use strict';
 
-  const SCRIPT_NAME = 'Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论';
+  const SCRIPT_NAME = 'Pynseq for Douyin｜屏序·抖音';
   const SCRIPT_VERSION = '1.0.0';
   const GITHUB_URL = 'https://github.com/DanielZenFlow/Douyin-User-Blocker';
   const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/danielzenflow';
