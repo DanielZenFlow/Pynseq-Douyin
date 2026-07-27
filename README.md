@@ -8,7 +8,7 @@
 
 ## 功能
 
-- 在推荐页和关注页隐藏名单用户发布的视频，并在切换视频时跳过已屏蔽内容。
+- 在推荐页和关注页隐藏名单用户发布的视频，被屏蔽的内容不会进入信息流，浏览时不会出现停顿或占位。
 - 在名单用户主页隐藏作品区域，同时提供快捷解除屏蔽入口。
 - 隐藏名单用户发布的视频评论、回复、弹幕和直播聊天内容。
 - 在视频作者、评论用户和直播用户的右键菜单中提供屏蔽操作。
@@ -93,7 +93,7 @@
 
 ## Features
 
-- Hides videos posted by blocked users in the recommendation and following feeds and skips blocked items during feed navigation.
+- Hides videos posted by blocked users in the recommendation and following feeds; blocked items never enter the feed, so browsing continues without pauses or placeholders.
 - Hides the works section on a blocked user's profile and provides a quick unblock action.
 - Hides video comments, replies, danmaku, and live-chat messages posted by blocked users.
 - Adds blocking actions to context menus for video authors, commenters, and live users.

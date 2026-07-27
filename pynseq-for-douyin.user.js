@@ -3,7 +3,7 @@
 // @name:zh-CN   Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @name:en      Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @namespace    https://github.com/DanielZenFlow
-// @version      1.1.0
+// @version      1.2.0
 // @description  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:zh-CN  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:en  Locally hide selected users' feed videos, profile posts, comments, danmaku, and live chat on Douyin, with blocklist management and import/export.
@@ -29,7 +29,7 @@
   'use strict';
 
   const SCRIPT_NAME = 'Pynseq for Douyin｜屏序·抖音';
-  const SCRIPT_VERSION = '1.1.0';
+  const SCRIPT_VERSION = '1.2.0';
   const GITHUB_URL = 'https://github.com/DanielZenFlow/Douyin-User-Blocker';
   const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/danielzenflow';
   const BUY_ME_A_COFFEE_ICON_URL = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODg0IiBoZWlnaHQ9IjEyNzkiIHZpZXdCb3g9IjAgMCA4ODQgMTI3OSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTc5MS4xMDkgMjk3LjUxOEw3OTAuMjMxIDI5Ny4wMDJMNzg4LjIwMSAyOTYuMzgzQzc4OS4wMTggMjk3LjA3MiA3OTAuMDQgMjk3LjQ3MiA3OTEuMTA5IDI5Ny41MThWMjk3LjUxOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTgwMy44OTYgMzg4Ljg5MUw4MDIuOTE2IDM4OS4xNjZMODAzLjg5NiAzODguODkxWiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNNzkxLjQ4NCAyOTcuMzc3Qzc5MS4zNTkgMjk3LjM2MSA3OTEuMjM3IDI5Ny4zMzIgNzkxLjExOCAyOTcuMjlDNzkxLjExMSAyOTcuMzcxIDc5MS4xMTEgMjk3LjQ1MyA3OTEuMTE4IDI5Ny41MzRDNzkxLjI1MiAyOTcuNTE2IDc5MS4zNzkgMjk3LjQ2MiA3OTEuNDg0IDI5Ny4zNzdWMjk3LjM3N1oiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5MS4xMTMgMjk3LjUyOUg3OTEuMjQ0VjI5Ny40NDdMNzkxLjExMyAyOTcuNTI5WiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNODAzLjExMSAzODguNzI2TDgwNC41OTEgMzg3Ljg4M0w4MDUuMTQyIDM4Ny41NzNMODA1LjY0MSAzODcuMDRDODA0LjcwMiAzODcuNDQ0IDgwMy44NDYgMzg4LjAxNiA4MDMuMTExIDM4OC43MjZWMzg4LjcyNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5My42NjkgMjk5LjUxNUw3OTIuMjIzIDI5OC4xMzhMNzkxLjI0MyAyOTcuNjA1Qzc5MS43NyAyOTguNTM1IDc5Mi42NDEgMjk5LjIyMSA3OTMuNjY5IDI5OS41MTVWMjk5LjUxNVoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTQzMC4wMTkgMTE4Ni4xOEM0MjguODY0IDExODYuNjggNDI3Ljg1MiAxMTg3LjQ2IDQyNy4wNzYgMTE4OC40NUw0MjcuOTg4IDExODcuODdDNDI4LjYwOCAxMTg3LjMgNDI5LjQ4NSAxMTg2LjYzIDQzMC4wMTkgMTE4Ni4xOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTY0MS4xODcgMTE0NC42M0M2NDEuMTg3IDExNDMuMzMgNjQwLjU1MSAxMTQzLjU3IDY0MC43MDUgMTE0OC4yMUM2NDAuNzA1IDExNDcuODQgNjQwLjg2IDExNDcuNDYgNjQwLjkyOSAxMTQ3LjFDNjQxLjAxNSAxMTQ2LjI3IDY0MS4wODQgMTE0NS40NiA2NDEuMTg3IDExNDQuNjNaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik02MTkuMjg0IDExODYuMThDNjE4LjEyOSAxMTg2LjY4IDYxNy4xMTggMTE4Ny40NiA2MTYuMzQyIDExODguNDVMNjE3LjI1NCAxMTg3Ljg3QzYxNy44NzMgMTE4Ny4zIDYxOC43NTEgMTE4Ni42MyA2MTkuMjg0IDExODYuMThaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik0yODEuMzA0IDExOTYuMDZDMjgwLjQyNyAxMTk1LjMgMjc5LjM1NCAxMTk0LjggMjc4LjIwNyAxMTk0LjYxQzI3OS4xMzYgMTE5NS4wNiAyODAuMDY1IDExOTUuNTEgMjgwLjY4NCAxMTk1Ljg1TDI4MS4zMDQgMTE5Ni4wNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTI0Ny44NDEgMTE2NC4wMUMyNDcuNzA0IDExNjIuNjYgMjQ3LjI4OCAxMTYxLjM1IDI0Ni42MTkgMTE2MC4xNkMyNDcuMDkzIDExNjEuMzkgMjQ3LjQ4OSAxMTYyLjY2IDI0Ny44MDYgMTE2My45NEwyNDcuODQxIDExNjQuMDFaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik00NzIuNjIzIDU5MC44MzZDNDI2LjY4MiA2MTAuNTAzIDM3NC41NDYgNjMyLjgwMiAzMDYuOTc2IDYzMi44MDJDMjc4LjcxIDYzMi43NDYgMjUwLjU4IDYyOC44NjggMjIzLjM1MyA2MjEuMjc0TDI3MC4wODYgMTEwMS4wOEMyNzEuNzQgMTEyMS4xMyAyODAuODc2IDExMzkuODMgMjk1LjY3OSAxMTUzLjQ2QzMxMC40ODIgMTE2Ny4wOSAzMjkuODcgMTE3NC42NSAzNDkuOTkyIDExNzQuNjVDMzQ5Ljk5MiAxMTc0LjY1IDQxNi4yNTQgMTE3OC4wOSA0MzguMzY1IDExNzguMDlDNDYyLjE2MSAxMTc4LjA5IDUzMy41MTYgMTE3NC42NSA1MzMuNTE2IDExNzQuNjVDNTUzLjYzNiAxMTc0LjY1IDU3My4wMTkgMTE2Ny4wOCA1ODcuODE5IDExNTMuNDVDNjAyLjYxOSAxMTM5LjgyIDYxMS43NTIgMTEyMS4xMyA2MTMuNDA2IDExMDEuMDhMNjYzLjQ1OSA1NzAuODc2QzY0MS4wOTEgNTYzLjIzNyA2MTguNTE2IDU1OC4xNjEgNTkzLjA2OCA1NTguMTYxQzU0OS4wNTQgNTU4LjE0NCA1MTMuNTkxIDU3My4zMDMgNDcyLjYyMyA1OTAuODM2WiIgZmlsbD0iI0ZGREQwMCIvPgo8cGF0aCBkPSJNNzguNjg4NSAzODYuMTMyTDc5LjQ3OTkgMzg2Ljg3Mkw3OS45OTYyIDM4Ny4xODJDNzkuNTk4NyAzODYuNzg3IDc5LjE2MDMgMzg2LjQzNSA3OC42ODg1IDM4Ni4xMzJWMzg2LjEzMloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTg3OS41NjcgMzQxLjg0OUw4NzIuNTMgMzA2LjM1MkM4NjYuMjE1IDI3NC41MDMgODUxLjg4MiAyNDQuNDA5IDgxOS4xOSAyMzIuODk4QzgwOC43MTEgMjI5LjIxNSA3OTYuODIxIDIyNy42MzMgNzg4Ljc4NiAyMjAuMDFDNzgwLjc1MSAyMTIuMzg4IDc3OC4zNzYgMjAwLjU1IDc3Ni41MTggMTg5LjU3MkM3NzMuMDc2IDE2OS40MjMgNzY5Ljg0MiAxNDkuMjU3IDc2Ni4zMTQgMTI5LjE0M0M3NjMuMjY5IDExMS44NSA3NjAuODYgOTIuNDI0MyA3NTIuOTI4IDc2LjU2Qzc0Mi42MDQgNTUuMjU4NCA3MjEuMTgyIDQyLjgwMDkgNjk5Ljg4IDM0LjU1OUM2ODguOTY1IDMwLjQ4NDQgNjc3LjgyNiAyNy4wMzc1IDY2Ni41MTcgMjQuMjM1MkM2MTMuMjk3IDEwLjE5NDcgNTU3LjM0MiA1LjAzMjc3IDUwMi41OTEgMi4wOTA0N0M0MzYuODc1IC0xLjUzNTc3IDM3MC45ODMgLTAuNDQzMjM0IDMwNS40MjIgNS4zNTk2OEMyNTYuNjI1IDkuNzk4OTQgMjA1LjIyOSAxNS4xNjc0IDE1OC44NTggMzIuMDQ2OUMxNDEuOTEgMzguMjI0IDEyNC40NDUgNDUuNjM5OSAxMTEuNTU4IDU4LjczNDFDOTUuNzQ0OCA3NC44MjIxIDkwLjU4MjkgOTkuNzAyNiAxMDIuMTI4IDExOS43NjVDMTEwLjMzNiAxMzQuMDEyIDEyNC4yMzkgMTQ0LjA3OCAxMzguOTg1IDE1MC43MzdDMTU4LjE5MiAxNTkuMzE3IDE3OC4yNTEgMTY1Ljg0NiAxOTguODI5IDE3MC4yMTVDMjU2LjEyNiAxODIuODc5IDMxNS40NzEgMTg3Ljg1MSAzNzQuMDA3IDE4OS45NjhDNDM4Ljg4NyAxOTIuNTg2IDUwMy44NyAxOTAuNDY0IDU2OC40NCAxODMuNjE4QzU4NC40MDggMTgxLjg2MyA2MDAuMzQ3IDE3OS43NTggNjE2LjI1NyAxNzcuMzA0QzYzNC45OTUgMTc0LjQzIDY0Ny4wMjIgMTQ5LjkyOCA2NDEuNDk5IDEzMi44NTlDNjM0Ljg5MSAxMTIuNDUzIDYxNy4xMzQgMTA0LjUzOCA1OTcuMDU1IDEwNy42MThDNTk0LjA5NSAxMDguMDgyIDU5MS4xNTMgMTA4LjUxMiA1ODguMTkzIDEwOC45NDJMNTg2LjA2IDEwOS4yNTJDNTc5LjI1NyAxMTAuMTEzIDU3Mi40NTUgMTEwLjkxNSA1NjUuNjUzIDExMS42NjFDNTUxLjYwMSAxMTMuMTc1IDUzNy41MTUgMTE0LjQxNCA1MjMuMzk0IDExNS4zNzhDNDkxLjc2OCAxMTcuNTggNDYwLjA1NyAxMTguNTk1IDQyOC4zNjMgMTE4LjY0N0MzOTcuMjE5IDExOC42NDcgMzY2LjA1OCAxMTcuNzY5IDMzNC45ODMgMTE1LjcyMkMzMjAuODA1IDExNC43OTMgMzA2LjY2MSAxMTMuNjExIDI5Mi41NTIgMTEyLjE3N0MyODYuMTM0IDExMS41MDYgMjc5LjczMyAxMTAuODAxIDI3My4zMzMgMTEwLjAwOUwyNjcuMjQxIDEwOS4yMzVMMjY1LjkxNyAxMDkuMDQ2TDI1OS42MDIgMTA4LjEzNEMyNDYuNjk3IDEwNi4xODkgMjMzLjc5MiAxMDMuOTUzIDIyMS4wMjUgMTAxLjI1MUMyMTkuNzM3IDEwMC45NjUgMjE4LjU4NCAxMDAuMjQ5IDIxNy43NTggOTkuMjE5M0MyMTYuOTMyIDk4LjE5MDEgMjE2LjQ4MiA5Ni45MDk5IDIxNi40ODIgOTUuNTkwM0MyMTYuNDgyIDk0LjI3MDYgMjE2LjkzMiA5Mi45OTA0IDIxNy43NTggOTEuOTYxMkMyMTguNTg0IDkwLjkzMTkgMjE5LjczNyA5MC4yMTUyIDIyMS4wMjUgODkuOTI5M0gyMjEuMjY2QzIzMi4zMyA4Ny41NzIxIDI0My40NzkgODUuNTU4OSAyNTQuNjYzIDgzLjgwMzhDMjU4LjM5MiA4My4yMTg4IDI2Mi4xMzEgODIuNjQ1MyAyNjUuODgyIDgyLjA4MzJIMjY1Ljk4NUMyNzIuOTg4IDgxLjYxODYgMjgwLjAyNiA4MC4zNjI1IDI4Ni45OTQgNzkuNTM2NkMzNDcuNjI0IDczLjIzMDIgNDA4LjYxNCA3MS4wODAxIDQ2OS41MzggNzMuMTAxNEM0OTkuMTE1IDczLjk2MTggNTI4LjY3NiA3NS42OTk2IDU1OC4xMTYgNzguNjkzNUM1NjQuNDQ4IDc5LjM0NzQgNTcwLjc0NiA4MC4wMzU3IDU3Ny4wNDMgODAuODA5OUM1NzkuNDUyIDgxLjEwMjUgNTgxLjg3OCA4MS40NDY1IDU4NC4zMDUgODEuNzM5MUw1ODkuMTkxIDgyLjQ0NDVDNjAzLjQzOCA4NC41NjY3IDYxNy42MSA4Ny4xNDE5IDYzMS43MDggOTAuMTcwM0M2NTIuNTk3IDk0LjcxMjggNjc5LjQyMiA5Ni4xOTI1IDY4OC43MTMgMTE5LjA3N0M2OTEuNjczIDEyNi42MzggNjkzLjAxNSAxMzQuNDA4IDY5NC42NDkgMTQyLjAzTDY5Ni43MzEgMTUxLjc1MkM2OTYuNzg2IDE1MS45MjYgNjk2LjgyNiAxNTIuMTA1IDY5Ni44NTIgMTUyLjI4NUM3MDEuNzczIDE3NS4yMjcgNzA2LjcgMTk4LjE2OSA3MTEuNjMyIDIyMS4xMTFDNzExLjk5NCAyMjIuODA2IDcxMi4wMDIgMjI0LjU1NyA3MTEuNjU3IDIyNi4yNTVDNzExLjMxMiAyMjcuOTU0IDcxMC42MjEgMjI5LjU2MiA3MDkuNjI2IDIzMC45ODJDNzA4LjYzMiAyMzIuNDAxIDcwNy4zNTUgMjMzLjYgNzA1Ljg3NyAyMzQuNTA0QzcwNC4zOTggMjM1LjQwOCA3MDIuNzUgMjM1Ljk5NyA3MDEuMDMzIDIzNi4yMzZINzAwLjg5NUw2OTcuODg0IDIzNi42NDlMNjk0LjkwOCAyMzcuMDQ0QzY4NS40NzggMjM4LjI3MiA2NzYuMDM4IDIzOS40MTkgNjY2LjU4NiAyNDAuNDg2QzY0Ny45NjggMjQyLjYwOCA2MjkuMzIyIDI0NC40NDMgNjEwLjY0OCAyNDUuOTkyQzU3My41MzkgMjQ5LjA3NyA1MzYuMzU2IDI1MS4xMDIgNDk5LjA5OCAyNTIuMDY2QzQ4MC4xMTQgMjUyLjU3IDQ2MS4xMzUgMjUyLjgwNiA0NDIuMTYyIDI1Mi43NzFDMzY2LjY0MyAyNTIuNzEyIDI5MS4xODkgMjQ4LjMyMiAyMTYuMTczIDIzOS42MjVDMjA4LjA1MSAyMzguNjYyIDE5OS45MyAyMzcuNjI5IDE5MS44MDggMjM2LjU4QzE5OC4xMDYgMjM3LjM4OSAxODcuMjMxIDIzNS45NiAxODUuMDI5IDIzNS42NTFDMTc5Ljg2NyAyMzQuOTI4IDE3NC43MDUgMjM0LjE3NyAxNjkuNTQzIDIzMy4zOTdDMTUyLjIxNiAyMzAuNzk4IDEzNC45OTMgMjI3LjU5OCAxMTcuNyAyMjQuNzkzQzk2Ljc5NDQgMjIxLjM1MiA3Ni44MDA1IDIyMy4wNzMgNTcuODkwNiAyMzMuMzk3QzQyLjM2ODUgMjQxLjg5MSAyOS44MDU1IDI1NC45MTYgMjEuODc3NiAyNzAuNzM1QzEzLjcyMTcgMjg3LjU5NyAxMS4yOTU2IDMwNS45NTYgNy42NDc4NiAzMjQuMDc1QzQuMDAwMDkgMzQyLjE5MyAtMS42NzgwNSAzNjEuNjg4IDAuNDcyNzUxIDM4MC4yODhDNS4xMDEyOCA0MjAuNDMxIDMzLjE2NSA0NTMuMDU0IDczLjUzMTMgNDYwLjM1QzExMS41MDYgNDY3LjIzMiAxNDkuNjg3IDQ3Mi44MDcgMTg3Ljk3MSA0NzcuNTU2QzMzOC4zNjEgNDk1Ljk3NSA0OTAuMjk0IDQ5OC4xNzggNjQxLjE1NSA0ODQuMTI5QzY1My40NCA0ODIuOTgyIDY2NS43MDggNDgxLjczMiA2NzcuOTU5IDQ4MC4zNzhDNjgxLjc4NiA0NzkuOTU4IDY4NS42NTggNDgwLjM5OCA2ODkuMjkyIDQ4MS42NjhDNjkyLjkyNiA0ODIuOTM4IDY5Ni4yMyA0ODUuMDA1IDY5OC45NjIgNDg3LjcxN0M3MDEuNjk0IDQ5MC40MjkgNzAzLjc4NCA0OTMuNzE4IDcwNS4wOCA0OTcuMzQyQzcwNi4zNzcgNTAwLjk2NyA3MDYuODQ2IDUwNC44MzYgNzA2LjQ1MyA1MDguNjY1TDcwMi42MzMgNTQ1Ljc5N0M2OTQuOTM2IDYyMC44MjggNjg3LjIzOSA2OTUuODU0IDY3OS41NDIgNzcwLjg3NEM2NzEuNTEzIDg0OS42NTcgNjYzLjQzMSA5MjguNDM0IDY1NS4yOTggMTAwNy4yQzY1My4wMDQgMTAyOS4zOSA2NTAuNzEgMTA1MS41NyA2NDguNDE2IDEwNzMuNzRDNjQ2LjIxMyAxMDk1LjU4IDY0NS45MDQgMTExOC4xIDY0MS43NTcgMTEzOS42OEM2MzUuMjE4IDExNzMuNjEgNjEyLjI0OCAxMTk0LjQ1IDU3OC43MyAxMjAyLjA3QzU0OC4wMjIgMTIwOS4wNiA1MTYuNjUyIDEyMTIuNzMgNDg1LjE2MSAxMjEzLjAxQzQ1MC4yNDkgMTIxMy4yIDQxNS4zNTUgMTIxMS42NSAzODAuNDQzIDEyMTEuODRDMzQzLjE3MyAxMjEyLjA1IDI5Ny41MjUgMTIwOC42MSAyNjguNzU2IDExODAuODdDMjQzLjQ3OSAxMTU2LjUxIDIzOS45ODYgMTExOC4zNiAyMzYuNTQ1IDEwODUuMzdDMjMxLjk1NyAxMDQxLjcgMjI3LjQwOSA5OTguMDM5IDIyMi45IDk1NC4zODFMMTk3LjYwNyA3MTEuNjE1TDE4MS4yNDQgNTU0LjUzOEMxODAuOTY4IDU1MS45NCAxODAuNjkzIDU0OS4zNzYgMTgwLjQzNSA1NDYuNzZDMTc4LjQ3MyA1MjguMDIzIDE2NS4yMDcgNTA5LjY4MSAxNDQuMzAxIDUxMC42MjdDMTI2LjQwNyA1MTEuNDE4IDEwNi4wNjkgNTI2LjYyOSAxMDguMTY4IDU0Ni43NkwxMjAuMjk4IDY2My4yMTRMMTQ1LjM4NSA5MDQuMTA0QzE1Mi41MzIgOTcyLjUyOCAxNTkuNjYxIDEwNDAuOTYgMTY2Ljc3MyAxMTA5LjQxQzE2OC4xNSAxMTIyLjUyIDE2OS40NCAxMTM1LjY3IDE3MC44ODUgMTE0OC43OEMxNzguNzQ5IDEyMjAuNDMgMjMzLjQ2NSAxMjU5LjA0IDMwMS4yMjQgMTI2OS45MUMzNDAuNzk5IDEyNzYuMjggMzgxLjMzNyAxMjc3LjU5IDQyMS40OTcgMTI3OC4yNEM0NzIuOTc5IDEyNzkuMDcgNTI0Ljk3NyAxMjgxLjA1IDU3NS42MTUgMTI3MS43MkM2NTAuNjUzIDEyNTcuOTUgNzA2Ljk1MiAxMjA3Ljg1IDcxNC45ODcgMTEzMC4xM0M3MTcuMjgyIDExMDcuNjkgNzE5LjU3NiAxMDg1LjI1IDcyMS44NyAxMDYyLjhDNzI5LjQ5OCA5ODguNTU5IDczNy4xMTUgOTE0LjMxMyA3NDQuNzIgODQwLjA2MUw3NjkuNjAxIDU5Ny40NTFMNzgxLjAwOSA0ODYuMjYzQzc4MS41NzcgNDgwLjc0OSA3ODMuOTA1IDQ3NS41NjUgNzg3LjY0OSA0NzEuNDc4Qzc5MS4zOTIgNDY3LjM5MSA3OTYuMzUyIDQ2NC42MTcgODAxLjc5NCA0NjMuNTY3QzgyMy4yNSA0NTkuMzg2IDg0My43NjEgNDUyLjI0NSA4NTkuMDIzIDQzNS45MTZDODgzLjMxOCA0MDkuOTE4IDg4OC4xNTMgMzc2LjAyMSA4NzkuNTY3IDM0MS44NDlaTTcyLjQzMDEgMzY1LjgzNUM3Mi43NTcgMzY1LjY4IDcyLjE1NDggMzY4LjQ4NCA3MS44OTY3IDM2OS43OTJDNzEuODQ1MSAzNjcuODEzIDcxLjk0ODMgMzY2LjA1OCA3Mi40MzAxIDM2NS44MzVaTTc0LjUxMjEgMzgxLjk0Qzc0LjY4NDIgMzgxLjgxOSA3NS4yMDAzIDM4Mi41MDggNzUuNzMzNyAzODMuMzM0Qzc0LjkyNSAzODIuNTc2IDc0LjQwODkgMzgyLjAwOSA3NC40OTQ5IDM4MS45NEg3NC41MTIxWk03Ni41NTk3IDM4NC42NDFDNzcuMjk5NiAzODUuODk3IDc3LjY5NTMgMzg2LjY4OSA3Ni41NTk3IDM4NC42NDFWMzg0LjY0MVpNODAuNjcyIDM4Ny45NzlIODAuNzc1MkM4MC43NzUyIDM4OC4xIDgwLjk2NDUgMzg4LjIyIDgxLjAzMzMgMzg4LjM0MUM4MC45MTkyIDM4OC4yMDggODAuNzkyNSAzODguMDg3IDgwLjY1NDggMzg3Ljk3OUg4MC42NzJaTTgwMC43OTYgMzgyLjk4OUM3OTMuMDg4IDM5MC4zMTkgNzgxLjQ3MyAzOTMuNzI2IDc2OS45OTYgMzk1LjQzQzY0MS4yOTIgNDE0LjUyOSA1MTAuNzEzIDQyNC4xOTkgMzgwLjU5NyA0MTkuOTMyQzI4Ny40NzYgNDE2Ljc0OSAxOTUuMzM2IDQwNi40MDcgMTAzLjE0NCAzOTMuMzgyQzk0LjExMDIgMzkyLjEwOSA4NC4zMTk3IDM5MC40NTcgNzguMTA4MiAzODMuNzk4QzY2LjQwNzggMzcxLjIzNyA3Mi4xNTQ4IDM0NS45NDQgNzUuMjAwMyAzMzAuNzY4Qzc3Ljk4NzggMzE2Ljg2NSA4My4zMjE4IDI5OC4zMzQgOTkuODU3MiAyOTYuMzU1QzEyNS42NjcgMjkzLjMyNyAxNTUuNjQgMzA0LjIxOCAxODEuMTc1IDMwOC4wOUMyMTEuOTE3IDMxMi43ODEgMjQyLjc3NCAzMTYuNTM4IDI3My43NDUgMzE5LjM2QzQwNS45MjUgMzMxLjQwNSA1NDAuMzI1IDMyOS41MjkgNjcxLjkyIDMxMS45MUM2OTUuOTA1IDMwOC42ODYgNzE5LjgwNSAzMDQuOTQxIDc0My42MTkgMzAwLjY3NEM3NjQuODM1IDI5Ni44NzEgNzg4LjM1NiAyODkuNzMxIDgwMS4xNzUgMzExLjcwM0M4MDkuOTY3IDMyNi42NzMgODExLjEzNyAzNDYuNzAxIDgwOS43NzggMzYzLjYxNUM4MDkuMzU5IDM3MC45ODQgODA2LjEzOSAzNzcuOTE1IDgwMC43NzkgMzgyLjk4OUg4MDAuNzk2WiIgZmlsbD0iIzBEMEMyMiIvPgo8L3N2Zz4K';
@@ -68,28 +68,11 @@
   const FEED_NEXT_SELECTOR = '[data-e2e="video-switch-next-arrow"]';
   const FEED_BLOCKED_ATTR = 'data-dy-local-blocker-feed-blocked';
   const FEED_BLOCKED_VIDEO_ATTR = 'data-dy-local-blocker-feed-video-id';
-  const FEED_BLOCKED_CARD_LAYER_CLASS = 'dy-local-blocker-feed-card-layer';
-  const FEED_BLOCKED_CARD_MODE_CLASS = 'dy-local-blocker-feed-card-mode';
   const FEED_BLOCKED_CARD_CLASS = 'dy-local-blocker-feed-card';
   const FEED_BLOCKED_CARD_AUTHOR_CLASS = 'dy-local-blocker-feed-card-author';
-  const FEED_TRANSITION_COVER_CLASS = 'dy-local-blocker-feed-transition-cover';
-  const FEED_TRANSITION_SCENE_CLASS = 'dy-local-blocker-feed-transition-scene';
-  const FEED_TRANSITION_FRAME_CLASS = 'dy-local-blocker-feed-transition-frame';
-  const FEED_TRANSITION_BACKDROP_CLASS = 'dy-local-blocker-feed-transition-backdrop';
-  const FEED_NAV_DISABLED_ATTR = 'data-dy-local-blocker-nav-disabled';
-  const FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR = 'data-dy-local-blocker-original-aria-disabled';
-  const FEED_NAVIGATION_PROTECTED_SELECTOR = [
-    '[data-e2e="comment-list"]',
-    '#merge-all-comment-container',
-    '#videoSideCard',
-    '#relatedVideoCard',
-    '[role="dialog"]',
-    'input',
-    'textarea',
-    'select',
-    '[contenteditable="true"]',
-    '[contenteditable=""]',
-  ].join(', ');
+  const FEED_BLOCKED_CARD_ACTION_CLASS = 'dy-local-blocker-feed-card-action';
+  // 推荐流单批响应实测在 100KB 以上；低于此长度的响应不可能是视频列表，直接跳过解析。
+  const MIN_FEED_PAYLOAD_LENGTH = 20000;
   const MANAGER_PAGE_SIZE = 20;
   const MAX_BLOCK_ENTRIES = 20000;
   const MAX_IMPORT_FILE_BYTES = 8 * 1024 * 1024;
@@ -129,10 +112,9 @@
   const danmakuBySecUid = new Map();
   /** @type {Set<string>} */
   const blockedFeedVideoIds = new Set();
-  /** @type {Set<string>} */
-  const revealedBlockedFeedVideoIds = new Set();
-  /** @type {WeakMap<Element, object>} */
-  const blockedFeedActivationWatches = new WeakMap();
+  // 卡片上的“解除屏蔽”是一次临时查看：只对当前这一条、且只在它仍停留在当前位置时有效。
+  // 一旦切走，屏蔽立即恢复，符合“屏蔽是持久状态”的常规预期。
+  let revealedFeedVideoId = '';
 
   let observer = null;
   let domLayerInitialized = false;
@@ -143,32 +125,6 @@
   let activeContext = null;
   let contextMenuOpenedAt = 0;
   let contextNicknameRequestToken = 0;
-  let feedNavigationToken = 0;
-  let feedNavigation = null;
-  let feedTransitionCover = null;
-  let feedTransitionCoverTimer = 0;
-  let feedBlockedWaitToken = 0;
-  let feedBlockedWait = null;
-  let feedBlockedCardLayer = null;
-  let feedBlockedCardReleaseTimer = 0;
-  let feedPreemptUntil = 0;
-  let feedPreemptDirection = 0;
-  let feedCardConsumeClickUntil = 0;
-  let feedCardConsumeClickDirection = 0;
-  let feedNativeNavigationLockUntil = 0;
-  let feedNativeNavigationLockStartedAt = 0;
-  let feedNativeNavigationSettledAt = 0;
-  let feedNativeNavigationLockTimer = 0;
-  let feedNativeNavigationSourceSlide = null;
-  let feedNativeNavigationSourceVideoId = '';
-  let lastFeedNavigationDirection = 1;
-  let feedNavigationSyncQueued = false;
-  let feedAudioRestoreToken = 0;
-  let feedAudioUserIntentUntil = 0;
-  let feedRevealPlaybackToken = 0;
-  let pendingRevealedFeedVideoId = '';
-  let activeRevealedFeedVideoId = '';
-  let lastAllowedFeedAudioState = null;
   let managerPage = 1;
   let starReminderScheduled = false;
   let entryNicknameRepairTimer = 0;
@@ -270,73 +226,45 @@
       animation: none !important;
     }
     [${FEED_BLOCKED_ATTR}="1"] {
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-    [${FEED_BLOCKED_ATTR}="1"] * {
-      visibility: hidden !important;
-      pointer-events: none !important;
-    }
-    .${FEED_BLOCKED_CARD_LAYER_CLASS} {
-      position: fixed !important;
-      z-index: 2147483001 !important;
-      display: grid !important;
-      place-items: center !important;
-      box-sizing: border-box !important;
-      overflow: hidden !important;
-      padding: clamp(24px, 5vw, 64px) !important;
-      border: 0 !important;
+      position: relative !important;
       background: #111217 !important;
-      color: rgba(210,210,210,.82) !important;
+    }
+    [${FEED_BLOCKED_ATTR}="1"] > *:not(.${FEED_BLOCKED_CARD_CLASS}) {
+      visibility: hidden !important;
       pointer-events: none !important;
-      user-select: none !important;
-      contain: strict !important;
-    }
-    html.${FEED_BLOCKED_CARD_MODE_CLASS} .xgplayer-playswitch:has(
-      ${FEED_PREV_SELECTOR},
-      ${FEED_NEXT_SELECTOR}
-    ) {
-      display: block !important;
-      z-index: 2147483002 !important;
-      visibility: visible !important;
-    }
-    html.${FEED_BLOCKED_CARD_MODE_CLASS} ${FEED_PREV_SELECTOR},
-    html.${FEED_BLOCKED_CARD_MODE_CLASS} ${FEED_NEXT_SELECTOR} {
-      display: block !important;
-      visibility: visible !important;
-    }
-    html.${FEED_BLOCKED_CARD_MODE_CLASS} ${FEED_PREV_SELECTOR}:not([${FEED_NAV_DISABLED_ATTR}="1"]),
-    html.${FEED_BLOCKED_CARD_MODE_CLASS} ${FEED_NEXT_SELECTOR}:not([${FEED_NAV_DISABLED_ATTR}="1"]) {
-      pointer-events: auto !important;
-      cursor: pointer !important;
     }
     .${FEED_BLOCKED_CARD_CLASS} {
       appearance: none !important;
-      display: block !important;
-      width: min(520px, 100%) !important;
+      position: absolute !important;
+      inset: 0 !important;
+      z-index: 2 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
       box-sizing: border-box !important;
-      padding: 30px 32px 28px !important;
-      border: 1px solid rgba(255,255,255,.12) !important;
+      margin: 0 !important;
+      padding: clamp(24px, 5vw, 64px) !important;
+      border: 0 !important;
       border-radius: 0 !important;
-      background: rgba(31,32,38,.96) !important;
-      box-shadow: 0 18px 48px rgba(0,0,0,.24) !important;
-      color: inherit !important;
+      background: #111217 !important;
+      color: rgba(210,210,210,.82) !important;
       text-align: center !important;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
       cursor: pointer !important;
       pointer-events: auto !important;
+      visibility: visible !important;
     }
     .${FEED_BLOCKED_CARD_CLASS}:hover {
-      border-color: rgba(255,255,255,.24) !important;
-      background: rgba(37,38,45,.98) !important;
+      background: #16171d !important;
     }
     .${FEED_BLOCKED_CARD_CLASS}:focus-visible {
       outline: 1px solid rgba(218,119,87,.9) !important;
-      outline-offset: 3px !important;
+      outline-offset: -4px !important;
     }
     .${FEED_BLOCKED_CARD_CLASS} strong {
       display: block !important;
+      max-width: 22em !important;
       color: rgba(196,196,196,.78) !important;
       font-size: 18px !important;
       font-weight: 650 !important;
@@ -344,6 +272,7 @@
     }
     .${FEED_BLOCKED_CARD_CLASS} span {
       display: block !important;
+      max-width: 22em !important;
       margin-top: 10px !important;
       color: rgba(160,160,160,.78) !important;
       font-size: 13px !important;
@@ -356,53 +285,11 @@
       font-size: 14px !important;
       font-weight: 550 !important;
     }
-    [${FEED_NAV_DISABLED_ATTR}="1"] {
-      opacity: .28 !important;
-      pointer-events: none !important;
-      cursor: default !important;
-    }
-    .${FEED_TRANSITION_COVER_CLASS} {
-      position: fixed !important;
-      z-index: 2147483000 !important;
-      overflow: hidden !important;
-      border: 0 !important;
-      background: #111217 !important;
-      box-shadow: none !important;
-      pointer-events: none !important;
-      opacity: 1 !important;
-      contain: strict !important;
-    }
-    .${FEED_TRANSITION_SCENE_CLASS} {
-      position: absolute !important;
-      z-index: 2 !important;
-      margin: 0 !important;
-      transform: none !important;
-      transition: none !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      pointer-events: none !important;
-    }
-    .${FEED_TRANSITION_SCENE_CLASS},
-    .${FEED_TRANSITION_SCENE_CLASS} * {
-      animation: none !important;
-      transition: none !important;
-      caret-color: transparent !important;
-      pointer-events: none !important;
-    }
-    .${FEED_TRANSITION_FRAME_CLASS} {
-      position: absolute !important;
-      display: block !important;
-      border: 0 !important;
-      background: transparent !important;
-    }
-    .${FEED_TRANSITION_BACKDROP_CLASS} {
-      position: absolute !important;
-      display: block !important;
-      max-width: none !important;
-      max-height: none !important;
-      border: 0 !important;
-      pointer-events: none !important;
-      user-select: none !important;
+    .${FEED_BLOCKED_CARD_CLASS} .${FEED_BLOCKED_CARD_ACTION_CLASS} {
+      margin-top: 14px !important;
+      color: rgba(214,214,214,.92) !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
     }
     .${COMMENT_BUTTON_CLASS} {
       appearance: none !important;
@@ -1284,24 +1171,15 @@
     document.addEventListener('playing', onFeedMediaPlayback, true);
     document.addEventListener('canplay', onFeedMediaPlayback, true);
     document.addEventListener('volumechange', onFeedMediaPlayback, true);
-    document.addEventListener('wheel', onFeedNavigationIntent, { capture: true, passive: false });
     document.addEventListener('pointerdown', (event) => {
-      rememberFeedAudioUserIntent(event);
-      onFeedSwitchPointer(event);
       if (event.button !== 0 || Date.now() - contextMenuOpenedAt < 80) return;
       if (contextMenu?.contains(event.target)) return;
       hideUserContextMenu();
     }, true);
-    document.addEventListener('click', rememberFeedSwitchDirection, true);
     window.addEventListener('resize', hideUserContextMenu);
-    window.addEventListener('resize', queueFeedNavigationSync);
     window.addEventListener('popstate', queueFullScan);
     document.addEventListener('keydown', (event) => {
-      rememberFeedAudioUserIntent(event);
       if (event.key === 'Escape') hideUserContextMenu();
-      if (['ArrowDown', 'PageDown', 'ArrowUp', 'PageUp'].includes(event.key)) {
-        onFeedNavigationIntent(event);
-      }
       if (event.altKey && event.shiftKey && event.code === 'KeyB') {
         if (!event.isTrusted) return;
         event.preventDefault();
@@ -1345,14 +1223,12 @@
 
   function processClosestItem(root) {
     if (!(root instanceof Element)) return;
-    if (root.closest(`.${FEED_TRANSITION_COVER_CLASS}`)) return;
     const item = root.closest(CONTENT_ITEM_SELECTOR);
     if (item) processRoot(item);
   }
 
   function processRelatedRoot(root) {
     if (!(root instanceof Element)) return;
-    if (root.closest(`.${FEED_TRANSITION_COVER_CLASS}`)) return;
     processRoot(root);
     const item = root.closest(CONTENT_ITEM_SELECTOR);
     if (item && item !== root) processRoot(item);
@@ -1360,7 +1236,6 @@
 
   function processRoot(root) {
     if (!(root instanceof Element)) return;
-    if (root.closest(`.${FEED_TRANSITION_COVER_CLASS}`)) return;
 
     const selectors = {
       comments: COMMENT_ITEM_SELECTOR,
@@ -1373,7 +1248,6 @@
     processMatching(root, selectors.danmaku, processDanmakuItem);
     processMatching(root, selectors.live, processLiveChatItem);
     processMatching(root, selectors.feed, processFeedVideoItem);
-    queueFeedNavigationSync();
   }
 
   function processMatching(root, selector, callback) {
@@ -1421,27 +1295,36 @@
   }
 
   function processFeedVideoItem(item) {
-    if (item.closest(`.${FEED_TRANSITION_COVER_CLASS}`)) return;
-    const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
     const slide = item.closest(FEED_SLIDE_SELECTOR) || item;
+    const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
     const markedVideoId = normalizeId(slide.getAttribute(FEED_BLOCKED_VIDEO_ATTR));
     if (markedVideoId && videoId && markedVideoId !== videoId) {
+      // 虚拟列表复用同一个滑块节点时，旧的屏蔽标记必须随视频 ID 一起失效。
       blockedFeedVideoIds.delete(markedVideoId);
       clearBlockedFeedSlide(slide);
     }
 
-    const info = extractFeedAuthorInfo(item);
-    const hasIdentity = hasAnyIdentity(info);
     if (!enabled || !settings.hideFeedVideos) {
       if (videoId) blockedFeedVideoIds.delete(videoId);
       clearBlockedFeedSlide(slide);
       return;
     }
-    if (videoId && revealedBlockedFeedVideoIds.has(videoId)) {
-      blockedFeedVideoIds.delete(videoId);
+    if (videoId && videoId === revealedFeedVideoId) {
       clearBlockedFeedSlide(slide);
       return;
     }
+    if (
+      revealedFeedVideoId &&
+      videoId &&
+      videoId !== revealedFeedVideoId &&
+      isConfirmedActiveFeedSlide(item, slide)
+    ) {
+      // 另一条视频成为当前项，说明用户已经离开临时查看的那一条，立即恢复它的屏蔽。
+      revokeRevealedFeedVideo();
+    }
+
+    const info = extractFeedAuthorInfo(item);
+    const hasIdentity = hasAnyIdentity(info);
     if (
       !hasIdentity &&
       !videoId &&
@@ -1449,11 +1332,13 @@
       blockedFeedVideoIds.has(markedVideoId)
     ) {
       // React 更新同一个虚拟滑块时，data-e2e-vid 和作者信息可能短暂同时消失。
-      // 在新视频 ID 出现前保留已确认的屏蔽状态，避免卡片被误撤并泄漏旧媒体。
+      // 在新视频 ID 出现前保留已确认的屏蔽状态，避免旧媒体泄漏。
       neutralizeFeedMedia(slide);
+      ensureFeedBlockedCard(slide, item);
       return;
     }
-    const blocked = enabled && settings.hideFeedVideos && (
+
+    const blocked = (
       (hasIdentity && isBlocked(info)) ||
       (!hasIdentity && videoId && blockedFeedVideoIds.has(videoId))
     );
@@ -1475,19 +1360,15 @@
     else element.removeAttribute(MARK_ATTR);
   }
 
+  // 数据层过滤会在 React 拿到响应之前移除被屏蔽的推荐条目，因此正常浏览时
+  // feed 里根本不会出现屏蔽项。这里只负责唯一的残留场景：用户刚刚屏蔽了
+  // 缓冲区内已经渲染出来的作者，这些条目无法再退回数据层处理。
   function guardBlockedFeedVideo(item) {
     if (!item?.isConnected) return;
     const slide = item.closest(FEED_SLIDE_SELECTOR) || item;
     const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
-    if (videoId && revealedBlockedFeedVideoIds.has(videoId)) {
-      clearBlockedFeedSlide(slide);
-      return;
-    }
-    // 首屏的 active 标记和播放事件都可能晚于作者信息。必须在暂停媒体前捕获活动态，
-    // 否则“正在播放”这一条后备证据会被脚本自己抹掉，留下不可恢复的空白首屏。
-    const wasActive = isConfirmedActiveFeedSlide(item, slide);
 
-    // 不再删除 React/Swiper 管理的 feed-item。直接删除会让抖音的 activeIndex 与播放器实例失配，
+    // 不删除 React/Swiper 管理的 feed-item。直接删除会让抖音的 activeIndex 与播放器实例失配，
     // 表面切到下一条，实际仍由上一条视频占用播放器并继续发声。
     item.classList.remove(HIDDEN_CLASS);
     item.setAttribute(MARK_ATTR, '1');
@@ -1497,18 +1378,14 @@
       slide.setAttribute(FEED_BLOCKED_VIDEO_ATTR, videoId);
     }
     neutralizeFeedMedia(slide);
-
-    if (wasActive) skipBlockedActiveFeed(item, preferredFeedSkipDirection());
-    else watchBlockedFeedActivation(item, slide);
+    ensureFeedBlockedCard(slide, item);
   }
 
   function clearBlockedFeedSlide(slide) {
     if (!slide) return;
-    if (feedBlockedWait?.blockedSlide === slide && slide.getAttribute(FEED_BLOCKED_ATTR) === '1') {
-      cancelBlockedFeedWait({ resumeSource: true });
-    }
     const markedVideoId = normalizeId(slide.getAttribute(FEED_BLOCKED_VIDEO_ATTR));
     if (markedVideoId) blockedFeedVideoIds.delete(markedVideoId);
+    removeFeedBlockedCard(slide);
     slide.removeAttribute(FEED_BLOCKED_ATTR);
     slide.removeAttribute(FEED_BLOCKED_VIDEO_ATTR);
     for (const item of slide.matches?.(FEED_VIDEO_SELECTOR)
@@ -1531,16 +1408,15 @@
   }
 
   function getActiveFeedItem() {
-    const marked = [...document.querySelectorAll('[data-e2e="feed-active-video"]')]
-      .filter((item) => !item.closest(`.${FEED_TRANSITION_COVER_CLASS}`));
-    const visibleMarked = pickNearestFeedItem(marked);
+    const visibleMarked = pickNearestFeedItem(
+      [...document.querySelectorAll('[data-e2e="feed-active-video"]')]
+    );
     if (visibleMarked) return visibleMarked;
 
     // 直播/视频切换或首屏装载时，active 标记可能短暂缺席。此时只信任正在播放的媒体，
     // 不按 DOM 顺序猜测，避免把预加载项误判为活动视频。
     const playingItems = new Set();
     for (const media of document.querySelectorAll(`${FEED_SLIDE_SELECTOR} video, ${FEED_SLIDE_SELECTOR} audio`)) {
-      if (media.closest(`.${FEED_TRANSITION_COVER_CLASS}`)) continue;
       if (!media.paused) {
         const item = media.closest(FEED_VIDEO_SELECTOR);
         if (item) playingItems.add(item);
@@ -1570,15 +1446,6 @@
     return bestItem;
   }
 
-  function isActiveFeedVideo(item) {
-    if (!item) return false;
-    const active = getActiveFeedItem();
-    return Boolean(active && (
-      active === item ||
-      active.closest(FEED_SLIDE_SELECTOR) === item.closest(FEED_SLIDE_SELECTOR)
-    ));
-  }
-
   function isFeedSlideAtViewportCenter(slide) {
     if (!slide?.isConnected) return false;
     const rect = slide.getBoundingClientRect();
@@ -1594,179 +1461,120 @@
     );
   }
 
-  function isFeedSlideSettledAtViewportCenter(slide) {
-    if (!slide?.isConnected) return false;
-    const rect = slide.getBoundingClientRect();
-    if (rect.width < 2 || rect.height < 2) return false;
-    const viewportRect = getFeedSlideViewportRect(slide, rect);
-    const viewportTop = Math.max(0, viewportRect.top);
-    const viewportBottom = Math.min(window.innerHeight, viewportRect.bottom);
-    const viewportHeight = Math.max(1, viewportBottom - viewportTop);
-    const visibleHeight = Math.max(0, Math.min(rect.bottom, viewportBottom) - Math.max(rect.top, viewportTop));
-    const visibleRatio = visibleHeight / Math.max(1, Math.min(rect.height, viewportHeight));
-    const centerDistance = Math.abs(
-      rect.top + rect.height / 2 -
-      (viewportTop + viewportHeight / 2)
-    );
-    const centerTolerance = Math.max(10, Math.min(24, rect.height * .04));
-    return visibleRatio >= .92 && centerDistance <= centerTolerance;
-  }
-
-  function getFeedSlideViewportRect(slide, slideRect = slide?.getBoundingClientRect()) {
-    let ancestor = slide?.parentElement;
-    for (let depth = 0; ancestor && depth < 10; depth += 1, ancestor = ancestor.parentElement) {
-      const rect = ancestor.getBoundingClientRect();
-      const style = getComputedStyle(ancestor);
-      if (
-        /(?:auto|scroll|overlay|hidden|clip)/.test(style.overflowY) &&
-        rect.width >= slideRect.width * .8 &&
-        rect.height >= slideRect.height * .8 &&
-        rect.height <= window.innerHeight * 1.2
-      ) {
-        return rect;
-      }
-    }
-    return {
-      top: 0,
-      bottom: window.innerHeight,
-    };
-  }
-
-  function normalizeSettledFeedScrollerOffset(slide) {
-    if (!slide?.isConnected) return false;
-    let ancestor = slide.parentElement;
-    for (let depth = 0; ancestor && depth < 8; depth += 1, ancestor = ancestor.parentElement) {
-      if (!ancestor.classList?.contains('recommend-slidelist')) continue;
-      if (Math.abs(Number(ancestor.scrollTop) || 0) <= 1) return false;
-      // 抖音切换逻辑已经更新 active 项后，原生滚轮偶尔仍会留下不足一屏的滚动偏移，
-      // 使目标播放器永久偏离吸附位置。信息卡等待结束后将该残余归零。
-      ancestor.scrollTop = 0;
-      return true;
-    }
-    return false;
-  }
-
   function isConfirmedActiveFeedSlide(item, slide = item?.closest(FEED_SLIDE_SELECTOR) || item) {
     if (!item?.isConnected || !slide?.isConnected) return false;
     const activeItem = getActiveFeedItem();
     if (activeItem) {
       const activeSlide = activeItem.closest(FEED_SLIDE_SELECTOR) || activeItem;
       if (activeItem === item || activeSlide === slide) return true;
-      // 首条被屏蔽后，抖音可能已经把下一条移动到中央，却仍把 active 标记留在屏外的首条。
+      // 切换过程中抖音可能已经把下一条移到中央，却仍把 active 标记留在屏外的旧条目。
       // 只有旧 active 自身仍位于中央时才优先相信它，否则以实际居中的滑块为准。
       if (isFeedSlideAtViewportCenter(activeSlide)) return false;
     }
     return isFeedSlideAtViewportCenter(slide);
   }
 
-  function watchBlockedFeedActivation(item, slide) {
-    if (!item?.isConnected || !slide?.isConnected || blockedFeedActivationWatches.has(slide)) return;
-    const watch = {};
-    blockedFeedActivationWatches.set(slide, watch);
-    const check = (finalCheck = false) => {
-      if (blockedFeedActivationWatches.get(slide) !== watch) return;
-      if (
-        !item.isConnected ||
-        !slide.isConnected ||
-        slide.getAttribute(FEED_BLOCKED_ATTR) !== '1'
-      ) {
-        blockedFeedActivationWatches.delete(slide);
-        return;
-      }
-      if (isConfirmedActiveFeedSlide(item, slide)) {
-        blockedFeedActivationWatches.delete(slide);
-        skipBlockedActiveFeed(item, preferredFeedSkipDirection());
-        return;
-      }
-      if (finalCheck) blockedFeedActivationWatches.delete(slide);
-    };
-    for (const delay of [0, 80, 220, 500, 1000, 1800, 3000]) {
-      window.setTimeout(() => check(delay === 3000), delay);
+  function feedSlideVideoId(slide) {
+    return normalizeId(
+      slide?.querySelector?.(FEED_VIDEO_SELECTOR)?.getAttribute('data-e2e-vid')
+    );
+  }
+
+  function getVisibleFeedNavigationControl(direction = 1) {
+    const selector = direction < 0 ? FEED_PREV_SELECTOR : FEED_NEXT_SELECTOR;
+    return [...document.querySelectorAll(selector)].find((button) => {
+      const style = getComputedStyle(button);
+      const rect = button.getBoundingClientRect();
+      return (
+        style.display !== 'none' &&
+        style.visibility !== 'hidden' &&
+        Number(style.opacity || 1) > 0 &&
+        rect.width > 0 &&
+        rect.height > 0
+      );
+    }) || null;
+  }
+
+  // 信息卡直接画在被屏蔽的滑块内部，而不是浮在视口上。它随轨道一起移动、
+  // 随滑块回收一起消失，因此不需要定位、就绪判定或任何定时器；那个屏幕位置
+  // 永远有内容，空白在结构上不可能出现。
+  function ensureFeedBlockedCard(slide, item) {
+    if (!slide?.isConnected) return;
+    let card = slide.querySelector(`:scope > .${FEED_BLOCKED_CARD_CLASS}`);
+    if (!card) {
+      card = document.createElement('button');
+      card.type = 'button';
+      card.className = FEED_BLOCKED_CARD_CLASS;
+      card.title = '解除屏蔽';
+      card.innerHTML = `
+        <strong>已被「${SCRIPT_NAME}」屏蔽</strong>
+        <span class="${FEED_BLOCKED_CARD_AUTHOR_CLASS}"></span>
+        <span>该用户的内容已隐藏，后续推荐不会再出现。</span>
+        <span class="${FEED_BLOCKED_CARD_ACTION_CLASS}">点击解除屏蔽</span>
+      `;
+      card.addEventListener('click', onFeedBlockedCardClick, true);
+      slide.appendChild(card);
+    }
+    const authorLine = card.querySelector(`.${FEED_BLOCKED_CARD_AUTHOR_CLASS}`);
+    if (authorLine) {
+      const nickname = item ? visibleUserName(extractFeedAuthorInfo(item), '') : '';
+      authorLine.textContent = nickname ? `由 @${nickname} 发布` : '由该用户发布';
     }
   }
 
-  function rememberRevealedBlockedFeedVideoId(videoId) {
-    const key = normalizeId(videoId);
-    if (!key) return;
-    for (const existingId of [...revealedBlockedFeedVideoIds]) {
-      if (existingId !== key && existingId !== activeRevealedFeedVideoId) {
-        revokeRevealedBlockedFeedVideoId(existingId);
-      }
-    }
-    revealedBlockedFeedVideoIds.delete(key);
-    revealedBlockedFeedVideoIds.add(key);
-    pendingRevealedFeedVideoId = key;
-    while (revealedBlockedFeedVideoIds.size > MAX_BLOCKED_FEED_VIDEO_CACHE) {
-      revealedBlockedFeedVideoIds.delete(revealedBlockedFeedVideoIds.values().next().value);
-    }
+  function removeFeedBlockedCard(slide) {
+    slide?.querySelector?.(`:scope > .${FEED_BLOCKED_CARD_CLASS}`)?.remove();
   }
 
-  function markRevealedFeedVideoActive(videoId) {
-    const key = normalizeId(videoId);
-    if (!key || !revealedBlockedFeedVideoIds.has(key)) return;
-    const previousActiveId = activeRevealedFeedVideoId;
-    pendingRevealedFeedVideoId = '';
-    activeRevealedFeedVideoId = key;
-    if (previousActiveId && previousActiveId !== key) {
-      revokeRevealedBlockedFeedVideoId(previousActiveId);
-    }
+  // 点击卡片只做一件事：撤掉这一格的屏蔽标记。视频本来就还在原地，
+  // 不涉及任何导航或轮播状态，因此没有可失败的步骤。
+  function onFeedBlockedCardClick(event) {
+    if (!event?.isTrusted) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const slide = event.currentTarget.closest(FEED_SLIDE_SELECTOR);
+    const videoId = feedSlideVideoId(slide);
+    revealedFeedVideoId = videoId;
+    clearBlockedFeedSlide(slide);
+    restoreRevealedFeedAudio(slide);
   }
 
-  function revokeRevealedBlockedFeedVideoId(videoId) {
-    const key = normalizeId(videoId);
-    if (!key) return;
-    revealedBlockedFeedVideoIds.delete(key);
-    if (pendingRevealedFeedVideoId === key) pendingRevealedFeedVideoId = '';
-    if (activeRevealedFeedVideoId === key) activeRevealedFeedVideoId = '';
+  function revokeRevealedFeedVideo() {
+    const videoId = revealedFeedVideoId;
+    // 先清空再重扫，避免重入。
+    revealedFeedVideoId = '';
+    if (!videoId) return;
     for (const item of document.querySelectorAll(FEED_VIDEO_SELECTOR)) {
-      if (normalizeId(item.getAttribute('data-e2e-vid')) !== key) continue;
-      processFeedVideoItem(item);
+      if (normalizeId(item.getAttribute('data-e2e-vid')) === videoId) processFeedVideoItem(item);
     }
   }
 
-  function trackRevealedFeedVideoActivity() {
-    if (!pendingRevealedFeedVideoId && !activeRevealedFeedVideoId) return;
-    const activeItem = getActiveFeedItem();
-    const activeVideoId = normalizeId(activeItem?.getAttribute('data-e2e-vid'));
-    if (!activeVideoId) return;
-    if (pendingRevealedFeedVideoId === activeVideoId) {
-      markRevealedFeedVideoActive(activeVideoId);
-      return;
+  // 屏蔽期间记录的 muted 往往是抖音预加载阶段的静音状态，直接还原会让恢复出来的
+  // 视频没有声音。用户点击“查看该视频”是明确的观看意图，因此这里主动取消静音，
+  // 而不是沿用那个不可信的记录值。
+  function restoreRevealedFeedAudio(slide) {
+    if (!slide?.isConnected) return;
+    for (const media of slide.querySelectorAll('video, audio')) {
+      try {
+        media.muted = false;
+        if (!(Number(media.volume) > 0)) media.volume = 1;
+      } catch {}
     }
-    if (activeRevealedFeedVideoId && activeVideoId !== activeRevealedFeedVideoId) {
-      revokeRevealedBlockedFeedVideoId(activeRevealedFeedVideoId);
+    const media = slide.querySelector('video');
+    if (media && isFeedSlideAtViewportCenter(slide)) {
+      try { media.play?.()?.catch?.(() => {}); } catch {}
     }
   }
 
-  function cancelPendingRevealedFeedPlayback() {
-    const pendingVideoId = pendingRevealedFeedVideoId;
-    feedRevealPlaybackToken += 1;
-    if (!pendingVideoId) return;
-    const activeVideoId = normalizeId(getActiveFeedItem()?.getAttribute('data-e2e-vid'));
-    if (activeVideoId === pendingVideoId) {
-      markRevealedFeedVideoActive(pendingVideoId);
-      return;
-    }
-    revokeRevealedBlockedFeedVideoId(pendingVideoId);
-  }
-
-  function getActiveFeedSlideWithFallback(...fallbackSlides) {
-    const activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
-    if (activeSlide && isFeedSlideAtViewportCenter(activeSlide)) return activeSlide;
-    return fallbackSlides.find((slide) => isFeedSlideAtViewportCenter(slide)) || activeSlide || null;
-  }
-
-  function getFeedNavigationActiveSlide(transaction) {
-    const activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
-    const rail = transaction?.sourceSlide?.parentElement || transaction?.targetSlide?.parentElement;
-    if (activeSlide && isFeedSlideAtViewportCenter(activeSlide)) return activeSlide;
-    return getFeedSlides(rail).find((slide) => isFeedSlideAtViewportCenter(slide)) || activeSlide || null;
-  }
-
-  function preferredFeedSkipDirection() {
-    // 新增屏蔽时 addEntry 会把方向设为向下；此后必须始终服从用户最近一次的导航方向。
-    // 不能让旧的“屏蔽后向下”状态覆盖后来发生的向上操作，否则 C→B 时会再次被推回 C。
-    return lastFeedNavigationDirection;
+  // 屏蔽正在观看的这一条时，替用户点一次抖音自己的“下一条”。
+  // 这是全脚本仅剩的自动动作：只在用户刚刚按下屏蔽的那一刻触发一次，
+  // 单次、无重试、无方向推断。主动滚到某张屏蔽卡片上时不会触发，
+  // 否则会与用户的滚动方向对抗。即便点击没生效，用户看到的也是信息卡而不是空白。
+  function advanceFromBlockedActiveSlide(slide) {
+    if (!enabled || !settings.hideFeedVideos || !slide?.isConnected) return;
+    const control = getVisibleFeedNavigationControl(1);
+    if (!control) return;
+    try { control.click(); } catch {}
   }
 
   function neutralizeFeedMedia(root) {
@@ -1791,2064 +1599,33 @@
 
   function restoreFeedMedia(root) {
     for (const media of root.querySelectorAll('video, audio')) {
-      // 只恢复脚本为被屏蔽媒体保存的原始状态，并清理旧版音频守卫标记。
-      const originalVolume = media.getAttribute('data-dy-local-blocker-original-volume');
       const originalMuted = media.getAttribute('data-dy-local-blocker-original-muted');
       const originalAutoplay = media.getAttribute('data-dy-local-blocker-original-autoplay');
       try {
-        if (originalVolume != null) media.volume = Math.max(0, Math.min(1, Number(originalVolume)));
         if (originalMuted != null) media.muted = originalMuted === '1';
         if (originalAutoplay === '1') {
           media.autoplay = true;
           media.setAttribute('autoplay', '');
         }
       } catch {}
-      media.removeAttribute('data-dy-local-blocker-original-volume');
       media.removeAttribute('data-dy-local-blocker-original-muted');
       media.removeAttribute('data-dy-local-blocker-original-autoplay');
-      media.removeAttribute('data-dy-local-blocker-audio-video-id');
-      media.removeAttribute('data-dy-local-blocker-audio-guard-until');
     }
-  }
-
-  function suspendAllowedFeedMedia(root) {
-    const states = [];
-    for (const media of root?.querySelectorAll?.('video, audio') || []) {
-      states.push({
-        media,
-        wasPaused: Boolean(media.paused),
-        muted: Boolean(media.muted),
-        volume: Number.isFinite(Number(media.volume)) ? Number(media.volume) : 1,
-      });
-      try {
-        media.muted = true;
-        media.pause();
-      } catch {}
-    }
-    return states;
-  }
-
-  function muteFeedMediaBehindCard(root) {
-    for (const media of root?.querySelectorAll?.('video, audio') || []) {
-      try {
-        if (!media.muted) media.muted = true;
-      } catch {}
-    }
-  }
-
-  function restoreSuspendedFeedMedia(states, resume = false) {
-    for (const state of states || []) {
-      const media = state?.media;
-      if (!media?.isConnected) continue;
-      try {
-        media.muted = Boolean(state.muted);
-        media.volume = Math.max(0, Math.min(1, Number(state.volume)));
-        if (resume && !state.wasPaused) {
-          const promise = media.play();
-          promise?.catch?.(() => {});
-        }
-      } catch {}
-    }
-  }
-
-  function copyFeedAudioState(audioState) {
-    if (!audioState) return null;
-    const volume = Number(audioState.volume);
-    return {
-      muted: Boolean(audioState.muted),
-      volume: Number.isFinite(volume) ? Math.max(0, Math.min(1, volume)) : 1,
-    };
-  }
-
-  function fallbackFeedAudioState(slide = null) {
-    const media = preferredFeedAudioMedia(slide);
-    const originalMuted = media?.getAttribute?.('data-dy-local-blocker-original-muted');
-    const originalVolume = media?.getAttribute?.('data-dy-local-blocker-original-volume');
-    const candidateVolume = originalVolume == null ? Number(media?.volume) : Number(originalVolume);
-    return {
-      // 被屏蔽媒体在静音前已经保存了真实状态；首条恰好被屏蔽时也必须尊重用户的静音选择。
-      // 只有预加载播放器没有可靠历史值时，才不把它默认的 muted 误当成用户偏好。
-      muted: originalMuted == null ? false : originalMuted === '1',
-      volume: Number.isFinite(candidateVolume) ? Math.max(0, Math.min(1, candidateVolume)) : 1,
-    };
-  }
-
-  function resolveFeedAudioState(slide = null, allowActiveSlideState = false) {
-    if (allowActiveSlideState && slide?.isConnected) {
-      const item = slide.querySelector(FEED_VIDEO_SELECTOR);
-      if (
-        item?.isConnected &&
-        slide.getAttribute(FEED_BLOCKED_ATTR) !== '1' &&
-        item.getAttribute(MARK_ATTR) !== '1' &&
-        isConfirmedActiveFeedSlide(item, slide)
-      ) {
-        const activeState = readFeedAudioState(slide);
-        if (activeState) return activeState;
-      }
-    }
-    return copyFeedAudioState(lastAllowedFeedAudioState) || fallbackFeedAudioState(slide);
-  }
-
-  function rememberFeedAudioUserIntent(event) {
-    if (!event?.isTrusted) return;
-    const target = event.target instanceof Element ? event.target : null;
-    const volumeControl = target?.closest?.('.xgplayer-volume');
-    const muteShortcut = event.type === 'keydown' &&
-      !event.altKey && !event.ctrlKey && !event.metaKey &&
-      String(event.key || '').toLowerCase() === 'm';
-    const focusedVolumeControl = event.type === 'keydown' &&
-      target?.closest?.('.xgplayer-volume');
-    if (!volumeControl && !muteShortcut && !focusedVolumeControl) return;
-    feedAudioUserIntentUntil = Date.now() + 1800;
-    // 用户刚刚操作音量时，必须取消尚未结束的自动恢复窗口。
-    feedAudioRestoreToken += 1;
-  }
-
-  function preferredFeedAudioMedia(root) {
-    const media = [...(root?.querySelectorAll?.('audio, video') || [])];
-    if (!media.length) return null;
-    const foreground = media.filter((candidate) => {
-      if (candidate.tagName === 'AUDIO') return true;
-      const style = getComputedStyle(candidate);
-      const className = String(candidate.className || '').toLowerCase();
-      return !/\bblur\(/i.test(style.filter || '') &&
-        !className.includes('background') &&
-        !className.includes('backdrop') &&
-        !className.includes('media-blur');
-    });
-    return foreground.find((candidate) => !candidate.paused) ||
-      foreground[0] ||
-      media.find((candidate) => !candidate.paused) ||
-      media[0];
-  }
-
-  function readFeedAudioState(slide) {
-    const media = preferredFeedAudioMedia(slide);
-    if (!media) return null;
-    const originalMuted = media.getAttribute('data-dy-local-blocker-original-muted');
-    const originalVolume = media.getAttribute('data-dy-local-blocker-original-volume');
-    const volume = originalVolume == null ? Number(media.volume) : Number(originalVolume);
-    return {
-      muted: originalMuted == null ? Boolean(media.muted) : originalMuted === '1',
-      volume: Number.isFinite(volume) ? Math.max(0, Math.min(1, volume)) : 1,
-    };
-  }
-
-  function activateFeedAudio(item, audioState = null) {
-    const slide = item?.closest(FEED_SLIDE_SELECTOR) || item;
-    if (!audioState || !isConfirmedActiveFeedSlide(item, slide)) return;
-    const media = preferredFeedAudioMedia(slide);
-    if (!media) return;
-    lastAllowedFeedAudioState = copyFeedAudioState(audioState);
-    const token = ++feedAudioRestoreToken;
-    const restore = () => {
-      if (token !== feedAudioRestoreToken || !media.isConnected) return;
-      if (feedBlockedCardLayer) return;
-      if (Date.now() < feedAudioUserIntentUntil) return;
-      if (!isConfirmedActiveFeedSlide(item, slide) || item.getAttribute(MARK_ATTR) === '1') return;
-      try {
-        media.muted = Boolean(audioState.muted);
-        media.volume = Math.max(0, Math.min(1, Number(audioState.volume)));
-      } catch {}
-    };
-    restore();
-    // 抖音切换播放器实例后可能在数百毫秒内重新写入 muted。
-    // 每次跨越屏蔽项都建立新的短恢复窗口，不再按 videoId 只恢复第一次。
-    for (const delay of [80, 220, 500, 900, 1400]) {
-      window.setTimeout(restore, delay);
-    }
-  }
-
-  function onFeedNavigationIntent(event) {
-    if (!event?.isTrusted || !enabled || !settings.hideFeedVideos) return;
-    const direction = event.type === 'wheel'
-      ? Math.sign(event.deltaY)
-      : (event.key === 'ArrowUp' || event.key === 'PageUp' ? -1 : 1);
-    if (!direction) return;
-    if (shouldIgnoreFeedNavigationIntent(event, direction)) return;
-    if (event.type === 'keydown' && (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)) return;
-    if (handleFeedBlockedCardNavigation(direction)) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
-    if (isFeedTransitionInProgress()) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
-    feedAudioRestoreToken += 1;
-    cancelPendingRevealedFeedPlayback();
-    lastFeedNavigationDirection = direction;
-    if (
-      feedBlockedWait &&
-      feedBlockedWait.stage === 'waiting' &&
-      direction !== feedBlockedWait.direction &&
-      feedBlockedWait.sourceSlide !== feedBlockedWait.blockedSlide
-    ) {
-      cancelBlockedFeedWait({ resumeSource: true });
-    }
-    if (
-      feedNavigation &&
-      (!feedBlockedCardLayer || direction !== feedNavigation.direction)
-    ) {
-      cancelFeedNavigation();
-    }
-    window.setTimeout(queueFeedNavigationSync, 1200);
-    if (preemptBlockedFeedNavigation(direction)) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
-    armFeedNativeNavigationLock(direction);
-  }
-
-  function shouldIgnoreFeedNavigationIntent(event, direction) {
-    const target = event.target instanceof Element ? event.target : null;
-    if (!target) return false;
-    if (target.closest(FEED_NAVIGATION_PROTECTED_SELECTOR)) return true;
-    if (event.type !== 'wheel') return false;
-
-    const path = typeof event.composedPath === 'function'
-      ? event.composedPath()
-      : [];
-    for (const node of path) {
-      if (!(node instanceof Element)) continue;
-      if (node.matches(FEED_SLIDE_SELECTOR)) break;
-      const style = getComputedStyle(node);
-      if (!/(?:auto|scroll|overlay)/.test(style.overflowY)) continue;
-      if (node.scrollHeight <= node.clientHeight + 1) continue;
-      const canScroll = direction < 0
-        ? node.scrollTop > 1
-        : node.scrollTop + node.clientHeight < node.scrollHeight - 1;
-      if (canScroll) return true;
-    }
-    return false;
-  }
-
-  function isFeedTransitionInProgress() {
-    return refreshFeedNativeNavigationLock();
-  }
-
-  function refreshFeedNativeNavigationLock() {
-    const now = Date.now();
-    if (!feedNativeNavigationLockUntil || now >= feedNativeNavigationLockUntil) {
-      clearFeedNativeNavigationLock();
-      return false;
-    }
-    // 原生事件派发后，旧滑块会短暂保持居中；不能把它误认为“切换已经结束”。
-    if (now - feedNativeNavigationLockStartedAt >= 320) {
-      const settledSlide = [...document.querySelectorAll(FEED_SLIDE_SELECTOR)]
-        .find((slide) => isFeedSlideSettledAtViewportCenter(slide)) || null;
-      const settledVideoId = normalizeId(
-        settledSlide?.querySelector(FEED_VIDEO_SELECTOR)?.getAttribute('data-e2e-vid')
-      );
-      const reachedDifferentSlide = Boolean(
-        settledSlide &&
-        (
-          !feedNativeNavigationSourceSlide?.isConnected ||
-          settledSlide !== feedNativeNavigationSourceSlide ||
-          (
-            feedNativeNavigationSourceVideoId &&
-            settledVideoId &&
-            settledVideoId !== feedNativeNavigationSourceVideoId
-          )
-        )
-      );
-      if (reachedDifferentSlide) {
-        if (!feedNativeNavigationSettledAt) feedNativeNavigationSettledAt = now;
-        if (now - feedNativeNavigationSettledAt >= 220) {
-          clearFeedNativeNavigationLock();
-          return false;
-        }
-      } else {
-        feedNativeNavigationSettledAt = 0;
-      }
-    }
-    scheduleFeedNativeNavigationLockCheck();
-    return true;
-  }
-
-  function armFeedNativeNavigationLock(direction, duration = 3500) {
-    let activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
-    if (!activeSlide || !isFeedSlideSettledAtViewportCenter(activeSlide)) {
-      activeSlide = [...document.querySelectorAll(FEED_SLIDE_SELECTOR)]
-        .find((slide) => isFeedSlideSettledAtViewportCenter(slide)) || null;
-    }
-    if (!activeSlide || !findAdjacentFeedSlide(activeSlide, direction)) return;
-    const now = Date.now();
-    feedNativeNavigationLockStartedAt = now;
-    feedNativeNavigationLockUntil = now + Math.max(800, duration);
-    feedNativeNavigationSettledAt = 0;
-    feedNativeNavigationSourceSlide = activeSlide;
-    feedNativeNavigationSourceVideoId = normalizeId(
-      activeSlide.querySelector(FEED_VIDEO_SELECTOR)?.getAttribute('data-e2e-vid')
-    );
-    scheduleFeedNativeNavigationLockCheck();
-  }
-
-  function scheduleFeedNativeNavigationLockCheck() {
-    if (feedNativeNavigationLockTimer || !feedNativeNavigationLockUntil) return;
-    feedNativeNavigationLockTimer = window.setTimeout(() => {
-      feedNativeNavigationLockTimer = 0;
-      refreshFeedNativeNavigationLock();
-    }, 80);
-  }
-
-  function clearFeedNativeNavigationLock() {
-    if (feedNativeNavigationLockTimer) {
-      clearTimeout(feedNativeNavigationLockTimer);
-      feedNativeNavigationLockTimer = 0;
-    }
-    feedNativeNavigationLockUntil = 0;
-    feedNativeNavigationLockStartedAt = 0;
-    feedNativeNavigationSettledAt = 0;
-    feedNativeNavigationSourceSlide = null;
-    feedNativeNavigationSourceVideoId = '';
-  }
-
-  function onFeedSwitchPointer(event) {
-    if (!event?.isTrusted || event.button !== 0 || !enabled || !settings.hideFeedVideos) return;
-    const switchButton = event.target instanceof Element
-      ? event.target.closest(`${FEED_PREV_SELECTOR}, ${FEED_NEXT_SELECTOR}`)
-      : null;
-    if (!switchButton) return;
-    if (switchButton.getAttribute(FEED_NAV_DISABLED_ATTR) === '1') {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
-    const direction = switchButton.matches(FEED_PREV_SELECTOR) ? -1 : 1;
-    if (handleFeedBlockedCardNavigation(direction, true)) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
-    if (isFeedTransitionInProgress()) {
-      feedCardConsumeClickDirection = direction;
-      feedCardConsumeClickUntil = Date.now() + 1000;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
-    feedAudioRestoreToken += 1;
-    cancelPendingRevealedFeedPlayback();
-    window.setTimeout(queueFeedNavigationSync, 1200);
-    lastFeedNavigationDirection = direction;
-    if (
-      feedBlockedWait &&
-      feedBlockedWait.stage === 'waiting' &&
-      direction !== feedBlockedWait.direction &&
-      feedBlockedWait.sourceSlide !== feedBlockedWait.blockedSlide
-    ) {
-      cancelBlockedFeedWait({ resumeSource: true });
-    }
-    if (
-      feedNavigation &&
-      (!feedBlockedCardLayer || direction !== feedNavigation.direction)
-    ) {
-      cancelFeedNavigation();
-    }
-    if (preemptBlockedFeedNavigation(direction)) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
-    armFeedNativeNavigationLock(direction);
-  }
-
-  function rememberFeedSwitchDirection(event) {
-    if (!enabled || !settings.hideFeedVideos) return;
-    const switchButton = event.target instanceof Element
-      ? event.target.closest(`${FEED_PREV_SELECTOR}, ${FEED_NEXT_SELECTOR}`)
-      : null;
-    if (!switchButton) return;
-    const direction = switchButton.matches(FEED_PREV_SELECTOR) ? -1 : 1;
-    lastFeedNavigationDirection = direction;
-    if (
-      event.isTrusted &&
-      direction === feedCardConsumeClickDirection &&
-      Date.now() < feedCardConsumeClickUntil
-    ) {
-      feedCardConsumeClickUntil = 0;
-      feedCardConsumeClickDirection = 0;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
-    if (event.isTrusted && handleFeedBlockedCardNavigation(direction)) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
-    if (
-      event.isTrusted &&
-      direction === feedPreemptDirection &&
-      Date.now() < feedPreemptUntil
-    ) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
-  }
-
-  function handleFeedBlockedCardNavigation(direction, consumeFollowingClick = false) {
-    const wait = feedBlockedWait;
-    if (!feedBlockedCardLayer || !wait) return false;
-    if (!wait.blockedSlide?.isConnected) {
-      cancelBlockedFeedWait({ resumeSource: true });
-      return true;
-    }
-    const normalizedDirection = Math.sign(direction || 1);
-    if (normalizedDirection !== wait.direction) {
-      if (consumeFollowingClick) {
-        feedCardConsumeClickDirection = normalizedDirection;
-        feedCardConsumeClickUntil = Date.now() + 1000;
-      }
-      cancelFeedNavigation();
-      const activeSlide = getActiveFeedSlideWithFallback(
-        wait.targetSlide,
-        wait.sourceSlide,
-        wait.blockedSlide,
-      );
-      const activeItem = activeSlide?.querySelector(FEED_VIDEO_SELECTOR);
-      const activeAllowed = Boolean(
-        activeItem?.isConnected &&
-        activeSlide?.isConnected &&
-        activeSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1' &&
-        activeItem.getAttribute(MARK_ATTR) !== '1' &&
-        resolveFeedItemFilterState(activeItem) === 'allowed'
-      );
-      if (activeAllowed && isFeedSlideSettledAtViewportCenter(activeSlide)) {
-        const audioState = copyFeedAudioState(wait.audioState) ||
-          resolveFeedAudioState(activeSlide, true);
-        cancelBlockedFeedWait({ resumeSource: activeSlide === wait.sourceSlide });
-        requestAnimationFrame(() => activateFeedAudio(activeItem, audioState));
-        return true;
-      }
-      if (activeAllowed) {
-        wait.minReadyAt = Date.now();
-        feedBlockedCardLayer.setAttribute('data-dy-not-before', String(wait.minReadyAt));
-        releaseFeedBlockedCardWhenReady(activeSlide);
-        return true;
-      }
-      if (activeSlide?.getAttribute(FEED_BLOCKED_ATTR) === '1') {
-        wait.blockedSlide = activeSlide;
-        wait.sourceSlide = activeSlide;
-        wait.targetSlide = null;
-        wait.direction = normalizedDirection;
-        wait.stage = 'waiting';
-        wait.minReadyAt = Date.now();
-        feedBlockedCardLayer.setAttribute('data-dy-not-before', String(wait.minReadyAt));
-        neutralizeFeedMedia(activeSlide);
-        reconcileBlockedFeedWait();
-        return true;
-      }
-      wait.direction = normalizedDirection;
-      wait.stage = 'waiting';
-      wait.minReadyAt = Date.now();
-      feedBlockedCardLayer.setAttribute('data-dy-not-before', String(wait.minReadyAt));
-      scheduleBlockedFeedWait(wait, 80);
-      return true;
-    }
-    positionFeedBlockedCard();
-    reconcileBlockedFeedWait();
-    return true;
-  }
-
-  function preemptBlockedFeedNavigation(direction) {
-    let activeItem = getActiveFeedItem();
-    let activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR);
-    if (!activeSlide || !isFeedSlideSettledAtViewportCenter(activeSlide)) {
-      activeSlide = [...document.querySelectorAll(FEED_SLIDE_SELECTOR)]
-        .find((slide) => isFeedSlideSettledAtViewportCenter(slide)) || null;
-      activeItem = activeSlide?.querySelector(FEED_VIDEO_SELECTOR) || null;
-    }
-    const rail = activeSlide?.parentElement;
-    if (!activeItem || !activeSlide || !rail) return false;
-
-    const slides = getFeedSlides(rail);
-    const activeIndex = slides.indexOf(activeSlide);
-    if (activeIndex < 0) return false;
-    const normalizedDirection = Math.sign(direction || 1);
-    const adjacentSlide = slides[activeIndex + normalizedDirection];
-    if (!adjacentSlide || adjacentSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1') return false;
-
-    // 向上到达虚拟列表起点时不存在可触发的更早内容；静默停在当前允许项，
-    // 不能为了“探测”进入边界屏蔽项并制造一个没有退出目标的信息卡。
-    if (normalizedDirection < 0 && !findAdjacentFeedSlide(adjacentSlide, normalizedDirection)) {
-      queueFeedNavigationSync();
-      return true;
-    }
-    return beginBlockedFeedWait(adjacentSlide, normalizedDirection, activeSlide);
-  }
-
-  function queueFeedNavigationSync() {
-    if (feedNavigationSyncQueued) return;
-    feedNavigationSyncQueued = true;
-    requestAnimationFrame(() => {
-      feedNavigationSyncQueued = false;
-      trackRevealedFeedVideoActivity();
-      syncFeedNavigationControls();
-      reconcileFeedNavigation();
-      reconcileBlockedFeedWait();
-      positionFeedBlockedCard();
-      releaseReadyFeedBlockedCard();
-    });
-  }
-
-  function syncFeedNavigationControls() {
-    const previousButton = document.querySelector(FEED_PREV_SELECTOR);
-    const nextButton = document.querySelector(FEED_NEXT_SELECTOR);
-    if (!previousButton && !nextButton) return;
-    if (!enabled || !settings.hideFeedVideos) {
-      setFeedControlDisabled(previousButton, false);
-      setFeedControlDisabled(nextButton, false);
-      return;
-    }
-    const activeItem = getActiveFeedItem();
-    const activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR) ||
-      [...document.querySelectorAll(FEED_SLIDE_SELECTOR)]
-        .find((slide) => isFeedSlideAtViewportCenter(slide)) ||
-      null;
-    const rail = activeSlide?.parentElement;
-    if (!activeSlide || !rail) {
-      setFeedControlDisabled(previousButton, false);
-      setFeedControlDisabled(nextButton, false);
-      return;
-    }
-    const slides = getFeedSlides(rail);
-    const activeIndex = slides.indexOf(activeSlide);
-    const hasVisiblePrevious = activeIndex > 0 &&
-      slides.slice(0, activeIndex).some((slide) =>
-        slide.getAttribute(FEED_BLOCKED_ATTR) !== '1'
-      );
-    // 向下即使只有屏蔽项也要保留入口，抖音往往要等相邻项成为 active 才继续填充推荐流。
-    const hasVisibleNext = activeIndex >= 0 && activeIndex < slides.length - 1;
-    setFeedControlDisabled(previousButton, activeIndex <= 0 || !hasVisiblePrevious);
-    setFeedControlDisabled(nextButton, activeIndex < 0 || activeIndex >= slides.length - 1 || !hasVisibleNext);
-  }
-
-  function setFeedControlDisabled(button, disabled) {
-    if (!button) return;
-    if (disabled) {
-      if (!button.hasAttribute(FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR)) {
-        button.setAttribute(
-          FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR,
-          button.hasAttribute('aria-disabled')
-            ? String(button.getAttribute('aria-disabled'))
-            : '',
-        );
-      }
-      button.setAttribute(FEED_NAV_DISABLED_ATTR, '1');
-      button.setAttribute('aria-disabled', 'true');
-    } else {
-      button.removeAttribute(FEED_NAV_DISABLED_ATTR);
-      if (button.hasAttribute(FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR)) {
-        const originalValue = button.getAttribute(FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR);
-        if (originalValue === '') button.removeAttribute('aria-disabled');
-        else button.setAttribute('aria-disabled', originalValue);
-        button.removeAttribute(FEED_NAV_ORIGINAL_ARIA_DISABLED_ATTR);
-      }
-    }
-  }
-
-  function getFeedSlides(rail) {
-    return [...(rail?.children || [])].filter((child) => child.matches?.(FEED_SLIDE_SELECTOR));
-  }
-
-  function getVisibleFeedNavigationControl(direction = 1, ignoreLocalDisabled = false) {
-    const selector = direction < 0 ? FEED_PREV_SELECTOR : FEED_NEXT_SELECTOR;
-    return [...document.querySelectorAll(selector)].find((button) => {
-      if (!ignoreLocalDisabled && button.getAttribute(FEED_NAV_DISABLED_ATTR) === '1') return false;
-      const style = getComputedStyle(button);
-      const rect = button.getBoundingClientRect();
-      return (
-        style.display !== 'none' &&
-        style.visibility !== 'hidden' &&
-        Number(style.opacity || 1) > 0 &&
-        rect.width > 0 &&
-        rect.height > 0
-      );
-    }) || null;
-  }
-
-  function findVisibleFeedSlide(slide, direction = 1) {
-    const rail = slide.parentElement;
-    if (!rail) return null;
-    const slides = getFeedSlides(rail);
-    const activeIndex = slides.indexOf(slide);
-    if (activeIndex < 0) return null;
-    for (
-      let index = activeIndex + Math.sign(direction || 1);
-      index >= 0 && index < slides.length;
-      index += Math.sign(direction || 1)
-    ) {
-      if (slides[index].getAttribute(FEED_BLOCKED_ATTR) !== '1') return slides[index];
-    }
-    return null;
-  }
-
-  function findAdjacentFeedSlide(slide, direction = 1) {
-    const rail = slide?.parentElement;
-    if (!rail) return null;
-    const slides = getFeedSlides(rail);
-    const activeIndex = slides.indexOf(slide);
-    if (activeIndex < 0) return null;
-    return slides[activeIndex + Math.sign(direction || 1)] || null;
-  }
-
-  function feedSlideVideoId(slide) {
-    return normalizeId(
-      slide?.querySelector?.(FEED_VIDEO_SELECTOR)?.getAttribute('data-e2e-vid')
-    );
-  }
-
-  function findFeedSlideByVideoId(videoId) {
-    const key = normalizeId(videoId);
-    if (!key) return null;
-    return [...document.querySelectorAll(FEED_SLIDE_SELECTOR)].find(
-      (slide) => feedSlideVideoId(slide) === key
-    ) || null;
-  }
-
-  function resolveFeedItemFilterState(item) {
-    if (!item?.isConnected) return 'pending';
-    const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
-    if (videoId && revealedBlockedFeedVideoIds.has(videoId)) return 'allowed';
-    const info = extractFeedAuthorInfo(item);
-    if (!hasAnyIdentity(info)) {
-      return videoId && blockedFeedVideoIds.has(videoId) ? 'blocked' : 'pending';
-    }
-    return isBlocked(info) ? 'blocked' : 'allowed';
-  }
-
-  function findReadyAllowedFeedSlide(slide, direction = 1) {
-    const rail = slide?.parentElement;
-    if (!rail) return null;
-    const slides = getFeedSlides(rail);
-    const activeIndex = slides.indexOf(slide);
-    const step = Math.sign(direction || 1);
-    if (activeIndex < 0) return null;
-
-    for (let index = activeIndex + step; index >= 0 && index < slides.length; index += step) {
-      const candidate = slides[index];
-      if (candidate.getAttribute(FEED_BLOCKED_ATTR) === '1') continue;
-      const item = candidate.querySelector(FEED_VIDEO_SELECTOR);
-      if (!item) return null;
-      const filterState = resolveFeedItemFilterState(item);
-      if (filterState === 'blocked') {
-        guardBlockedFeedVideo(item);
-        continue;
-      }
-      // 不跨过身份尚未解析的项目；它随后可能被确认在屏蔽名单中。
-      if (filterState === 'pending') return null;
-      return candidate;
-    }
-    return null;
-  }
-
-  function beginBlockedFeedWait(blockedSlide, direction = 1, sourceSlide = blockedSlide) {
-    if (
-      !enabled ||
-      !settings.hideFeedVideos ||
-      !blockedSlide?.isConnected ||
-      blockedSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1' ||
-      !sourceSlide?.isConnected
-    ) {
-      return false;
-    }
-
-    let normalizedDirection = Math.sign(direction || 1);
-    if (
-      sourceSlide === blockedSlide &&
-      normalizedDirection < 0 &&
-      !findAdjacentFeedSlide(blockedSlide, normalizedDirection) &&
-      findAdjacentFeedSlide(blockedSlide, -normalizedDirection)
-    ) {
-      // 活动屏蔽项恰好位于虚拟列表边界时，沿原方向没有任何可达状态。
-      // 自动改走唯一存在的方向，避免首条屏蔽或上滑边界形成永久等待。
-      normalizedDirection *= -1;
-    }
-    const existing = feedBlockedWait;
-    if (existing && existing.blockedSlide === blockedSlide) {
-      existing.direction = normalizedDirection;
-      if (existing.stage === 'navigating') {
-        neutralizeFeedMedia(blockedSlide);
-        queueFeedNavigationSync();
-        return true;
-      }
-      positionFeedBlockedCard();
-      reconcileBlockedFeedWait();
-      return true;
-    }
-    if (existing && feedBlockedCardLayer && existing.stage !== 'waiting') {
-      cancelFeedNavigation();
-      restoreSuspendedFeedMedia(existing.sourceMediaStates, false);
-      existing.sourceMediaStates = [];
-      existing.blockedSlide = blockedSlide;
-      existing.sourceSlide = blockedSlide;
-      existing.targetSlide = null;
-      existing.direction = normalizedDirection;
-      existing.stage = 'waiting';
-      existing.lastProbeAt = 0;
-      neutralizeFeedMedia(blockedSlide);
-      positionFeedBlockedCard(blockedSlide);
-      reconcileBlockedFeedWait();
-      return true;
-    }
-
-    cancelBlockedFeedWait({ resumeSource: true, preserveCard: Boolean(feedBlockedCardLayer) });
-    const sourceIsBlocked = sourceSlide.getAttribute(FEED_BLOCKED_ATTR) === '1';
-    const sourceAudioState = resolveFeedAudioState(sourceSlide, !sourceIsBlocked);
-    if (!sourceIsBlocked && sourceAudioState) {
-      lastAllowedFeedAudioState = copyFeedAudioState(sourceAudioState);
-    }
-
-    const startedAt = Date.now();
-    feedBlockedWait = {
-      token: ++feedBlockedWaitToken,
-      blockedSlide,
-      sourceSlide,
-      targetSlide: null,
-      direction: normalizedDirection,
-      stage: 'waiting',
-      startedAt,
-      minReadyAt: startedAt + 3000,
-      lastProbeAt: 0,
-      timer: 0,
-      audioState: sourceAudioState,
-      sourceMediaStates: sourceIsBlocked ? [] : suspendAllowedFeedMedia(sourceSlide),
-    };
-    neutralizeFeedMedia(blockedSlide);
-    showFeedBlockedCard(sourceSlide);
-    reconcileBlockedFeedWait();
-    return true;
-  }
-
-  function reconcileBlockedFeedWait() {
-    const wait = feedBlockedWait;
-    if (!wait || wait.token !== feedBlockedWaitToken) return;
-    if (!enabled || !settings.hideFeedVideos) {
-      cancelBlockedFeedWait({ resumeSource: true });
-      return;
-    }
-
-    if (wait.timer) {
-      clearTimeout(wait.timer);
-      wait.timer = 0;
-    }
-    if (wait.stage === 'settling') return;
-    if (feedNavigation) {
-      wait.stage = 'navigating';
-      reconcileFeedNavigation();
-      scheduleBlockedFeedWait(wait, 160);
-      return;
-    }
-
-    const activeSlide = getActiveFeedSlideWithFallback(wait.sourceSlide, wait.blockedSlide);
-    if (wait.stage === 'navigating') {
-      if (activeSlide?.getAttribute(FEED_BLOCKED_ATTR) === '1') {
-        wait.blockedSlide = activeSlide;
-        wait.sourceSlide = activeSlide;
-        wait.targetSlide = null;
-        wait.stage = 'waiting';
-        neutralizeFeedMedia(activeSlide);
-      } else if (activeSlide?.isConnected) {
-        releaseFeedBlockedCardWhenReady(activeSlide);
-        return;
-      } else {
-        wait.stage = 'waiting';
-      }
-    }
-
-    if (
-      !wait.blockedSlide?.isConnected ||
-      wait.blockedSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1'
-    ) {
-      cancelBlockedFeedWait({ resumeSource: activeSlide === wait.sourceSlide });
-      return;
-    }
-    if (
-      activeSlide &&
-      activeSlide !== wait.sourceSlide &&
-      activeSlide !== wait.blockedSlide &&
-      activeSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1'
-    ) {
-      releaseFeedBlockedCardWhenReady(activeSlide);
-      return;
-    }
-
-    const resolvedDirection = wait.direction;
-    const targetSlide = findReadyAllowedFeedSlide(wait.blockedSlide, resolvedDirection);
-
-    wait.targetSlide = targetSlide;
-    positionFeedBlockedCard();
-    if (Date.now() < wait.minReadyAt) {
-      const remaining = wait.minReadyAt - Date.now();
-      scheduleBlockedFeedWait(wait, remaining > 0 ? Math.min(180, Math.max(40, remaining)) : 180);
-      return;
-    }
-    if (!targetSlide) {
-      // 推荐流末端的后续滑块常常只是空占位；抖音只有在相邻项成为 active 后才会继续填充。
-      // 信息卡已遮住画面且屏蔽媒体已被彻底静音，因此可在卡片背后同向进入屏蔽项触发加载。
-      // 绝不能反向选择上一条，否则用户的向下操作会被错误地解释为向上返回。
-      const stepSource = (
-        activeSlide?.isConnected && isFeedSlideAtViewportCenter(activeSlide)
-          ? activeSlide
-          : wait.sourceSlide
-      );
-      const loadingProbeSlide = (
-        stepSource?.isConnected && isFeedSlideAtViewportCenter(stepSource)
-          ? findAdjacentFeedSlide(stepSource, resolvedDirection)
-          : null
-      );
-      if (loadingProbeSlide) {
-        wait.targetSlide = loadingProbeSlide;
-        wait.stage = 'navigating';
-        if (startFeedNavigation(
-          stepSource,
-          loadingProbeSlide,
-          resolvedDirection,
-          { audioState: wait.audioState },
-        )) {
-          scheduleBlockedFeedWait(wait, 160);
-          return;
-        }
-        wait.stage = 'waiting';
-      }
-      if (probeFeedBeyondLoadedBoundary(wait, stepSource, resolvedDirection)) {
-        scheduleBlockedFeedWait(wait, 240);
-        return;
-      }
-      scheduleBlockedFeedWait(wait, 180);
-      return;
-    }
-
-    wait.stage = 'navigating';
-    wait.direction = resolvedDirection;
-    if (!startFeedNavigation(
-      wait.sourceSlide,
-      targetSlide,
-      resolvedDirection,
-      {
-        audioState: wait.audioState,
-        targetVideoId: feedSlideVideoId(targetSlide),
-      },
-    )) {
-      wait.stage = 'waiting';
-      scheduleBlockedFeedWait(wait, 180);
-      return;
-    }
-    scheduleBlockedFeedWait(wait, 160);
-  }
-
-  function scheduleBlockedFeedWait(wait, delay = 160) {
-    if (!wait || feedBlockedWait !== wait || wait.token !== feedBlockedWaitToken) return;
-    if (wait.timer) clearTimeout(wait.timer);
-    const elapsed = Date.now() - wait.startedAt;
-    const resolvedDelay = elapsed > 20000 ? Math.max(800, delay) : delay;
-    wait.timer = window.setTimeout(reconcileBlockedFeedWait, Math.max(40, resolvedDelay));
-  }
-
-  function probeFeedBeyondLoadedBoundary(wait, sourceSlide, direction = 1) {
-    if (
-      !wait ||
-      feedBlockedWait !== wait ||
-      !sourceSlide?.isConnected ||
-      !isFeedSlideAtViewportCenter(sourceSlide) ||
-      sourceSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1' ||
-      findAdjacentFeedSlide(sourceSlide, direction)
-    ) {
-      return false;
-    }
-    const now = Date.now();
-    if (now - Number(wait.lastProbeAt || 0) < 1200) return false;
-    const control = getVisibleFeedNavigationControl(direction, true);
-    if (!control) return false;
-
-    wait.lastProbeAt = now;
-    wait.stage = 'navigating';
-    feedPreemptDirection = Math.sign(direction || 1);
-    feedPreemptUntil = now + 1800;
-    try {
-      control.click();
-    } catch {
-      wait.stage = 'waiting';
-      return false;
-    }
-    window.setTimeout(queueFeedNavigationSync, 0);
-    return true;
-  }
-
-  function showFeedBlockedCard(anchorSlide) {
-    document.documentElement.classList.add(FEED_BLOCKED_CARD_MODE_CLASS);
-    if (!feedBlockedCardLayer) {
-      const layer = document.createElement('section');
-      layer.className = FEED_BLOCKED_CARD_LAYER_CLASS;
-      layer.setAttribute('role', 'status');
-      layer.setAttribute('aria-live', 'polite');
-      layer.setAttribute('data-dy-not-before', String(feedBlockedWait?.minReadyAt || Date.now()));
-      layer.innerHTML = `
-        <button type="button" class="${FEED_BLOCKED_CARD_CLASS}" title="查看该视频">
-          <strong>已被「${SCRIPT_NAME}」屏蔽</strong>
-          <span class="${FEED_BLOCKED_CARD_AUTHOR_CLASS}"></span>
-          <span>该用户的推荐内容已隐藏。点击查看该视频；继续原方向浏览需等待 3 秒及目标内容就绪，反向滚动可返回刚才浏览的内容。</span>
-        </button>
-      `;
-      layer.querySelector(`.${FEED_BLOCKED_CARD_CLASS}`)
-        ?.addEventListener('click', revealFeedBlockedVideoFromCard, true);
-      (document.body || document.documentElement).appendChild(layer);
-      feedBlockedCardLayer = layer;
-    }
-    feedBlockedCardLayer.setAttribute(
-      'data-dy-not-before',
-      String(feedBlockedWait?.minReadyAt || Date.now()),
-    );
-    updateFeedBlockedCardAuthor();
-    const activeItem = getActiveFeedItem();
-    const activeSlide = activeItem?.closest(FEED_SLIDE_SELECTOR);
-    if (
-      activeSlide?.isConnected &&
-      activeSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1' &&
-      activeItem.getAttribute(MARK_ATTR) !== '1'
-    ) {
-      if (feedBlockedWait && !feedBlockedWait.audioState) {
-        feedBlockedWait.audioState = resolveFeedAudioState(activeSlide);
-      }
-      muteFeedMediaBehindCard(activeSlide);
-      armFeedBlockedCardReleaseCheck(80);
-    }
-    positionFeedBlockedCard(anchorSlide);
-  }
-
-  function updateFeedBlockedCardAuthor() {
-    const authorLine = feedBlockedCardLayer?.querySelector(`.${FEED_BLOCKED_CARD_AUTHOR_CLASS}`);
-    if (!authorLine) return;
-    const blockedItem = feedBlockedWait?.blockedSlide?.querySelector(FEED_VIDEO_SELECTOR);
-    const nickname = blockedItem
-      ? visibleUserName(extractFeedAuthorInfo(blockedItem), '')
-      : '';
-    authorLine.textContent = nickname ? `由 @${nickname} 发布` : '由该用户发布';
-  }
-
-  function revealFeedBlockedVideoFromCard(event) {
-    if (!event?.isTrusted) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-
-    const wait = feedBlockedWait;
-    const blockedSlide = (
-      wait?.blockedSlide?.isConnected ? wait.blockedSlide :
-        [...document.querySelectorAll(`[${FEED_BLOCKED_ATTR}="1"]`)]
-          .find((slide) => isFeedSlideAtViewportCenter(slide)) ||
-        null
-    );
-    const blockedItem = blockedSlide?.querySelector(FEED_VIDEO_SELECTOR);
-    const videoId = normalizeId(blockedItem?.getAttribute('data-e2e-vid'));
-    if (!blockedSlide?.isConnected || !blockedItem?.isConnected || !videoId) return;
-
-    const activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
-    const audioState = copyFeedAudioState(wait?.audioState) ||
-      resolveFeedAudioState(activeSlide);
-    let direction = wait?.direction || preferredFeedSkipDirection();
-    if (activeSlide?.parentElement && activeSlide.parentElement === blockedSlide.parentElement) {
-      const slides = getFeedSlides(activeSlide.parentElement);
-      direction = Math.sign(slides.indexOf(blockedSlide) - slides.indexOf(activeSlide)) || direction;
-    }
-
-    rememberRevealedBlockedFeedVideoId(videoId);
-    feedAudioRestoreToken += 1;
-    cancelBlockedFeedWait({ resumeSource: false });
-    clearBlockedFeedSlide(blockedSlide);
-
-    let revealStarted = false;
-    if (activeSlide === blockedSlide || isFeedSlideAtViewportCenter(blockedSlide)) {
-      revealStarted = true;
-      resumeRevealedFeedSlide(blockedSlide, audioState);
-    } else if (
-      activeSlide?.isConnected &&
-      activeSlide.parentElement === blockedSlide.parentElement
-    ) {
-      if (startFeedNavigation(activeSlide, blockedSlide, direction, {
-        audioState,
-        targetVideoId: videoId,
-      })) {
-        revealStarted = true;
-        armRevealedFeedPlayback(blockedSlide, audioState, videoId);
-      }
-    }
-    if (!revealStarted) revokeRevealedBlockedFeedVideoId(videoId);
-    queueFullScan();
-    queueFeedNavigationSync();
-  }
-
-  function resumeRevealedFeedSlide(slide, audioState = null) {
-    if (!slide?.isConnected) return;
-    const item = slide.querySelector(FEED_VIDEO_SELECTOR);
-    if (!item?.isConnected) return;
-    const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
-    if (isActiveFeedVideo(item) || isFeedSlideAtViewportCenter(slide)) {
-      markRevealedFeedVideoActive(videoId);
-    }
-    activateFeedAudio(item, audioState);
-    const media = preferredFeedAudioMedia(slide);
-    if (!media) return;
-    requestAnimationFrame(() => {
-      if (!media.isConnected || !isActiveFeedVideo(item)) return;
-      try {
-        if (audioState) {
-          media.muted = Boolean(audioState.muted);
-          media.volume = Math.max(0, Math.min(1, Number(audioState.volume)));
-        }
-        const promise = media.play();
-        promise?.catch?.(() => {});
-      } catch {}
-    });
-  }
-
-  function armRevealedFeedPlayback(slide, audioState = null, revealedVideoId = '') {
-    const token = ++feedRevealPlaybackToken;
-    const expectedVideoId = normalizeId(revealedVideoId) || feedSlideVideoId(slide);
-    let targetSlide = slide;
-    const deadline = Date.now() + 8000;
-    const check = () => {
-      if (token !== feedRevealPlaybackToken) return;
-      if (!expectedVideoId || !revealedBlockedFeedVideoIds.has(expectedVideoId)) return;
-      if (
-        !targetSlide?.isConnected ||
-        feedSlideVideoId(targetSlide) !== expectedVideoId
-      ) {
-        targetSlide = findFeedSlideByVideoId(expectedVideoId);
-      }
-      const item = targetSlide?.querySelector(FEED_VIDEO_SELECTOR);
-      const videoId = normalizeId(item?.getAttribute('data-e2e-vid'));
-      if (
-        item?.isConnected &&
-        videoId === expectedVideoId &&
-        (isActiveFeedVideo(item) || isFeedSlideAtViewportCenter(targetSlide))
-      ) {
-        markRevealedFeedVideoActive(videoId);
-        resumeRevealedFeedSlide(targetSlide, audioState);
-        return;
-      }
-      if (Date.now() < deadline) {
-        window.setTimeout(check, 60);
-      } else if (pendingRevealedFeedVideoId === expectedVideoId) {
-        revokeRevealedBlockedFeedVideoId(expectedVideoId);
-      }
-    };
-    check();
-  }
-
-  function positionFeedBlockedCard(preferredAnchor = null) {
-    const layer = feedBlockedCardLayer;
-    const wait = feedBlockedWait;
-    if (!layer || !wait) return;
-    updateFeedBlockedCardAuthor();
-    const activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
-    const rail = (
-      activeSlide?.parentElement ||
-      wait.sourceSlide?.parentElement ||
-      wait.blockedSlide?.parentElement
-    );
-    const centeredSlide = getFeedSlides(rail).find((slide) => isFeedSlideAtViewportCenter(slide));
-    const anchor = (
-      preferredAnchor?.isConnected && isFeedSlideAtViewportCenter(preferredAnchor) ? preferredAnchor :
-        centeredSlide?.isConnected ? centeredSlide :
-          activeSlide?.isConnected && isFeedSlideAtViewportCenter(activeSlide) ? activeSlide :
-            null
-    );
-    if (!anchor) return;
-    const rect = anchor.getBoundingClientRect();
-    if (rect.width < 2 || rect.height < 2) return;
-    const viewportRect = getFeedTransitionViewportRect(anchor, rect);
-    const left = Math.max(0, viewportRect.left);
-    const top = Math.max(0, viewportRect.top);
-    const width = Math.max(1, Math.min(viewportRect.right, window.innerWidth) - left);
-    const height = Math.max(1, Math.min(viewportRect.bottom, window.innerHeight) - top);
-    layer.style.left = `${left}px`;
-    layer.style.top = `${top}px`;
-    layer.style.width = `${width}px`;
-    layer.style.height = `${height}px`;
-  }
-
-  function isFeedTargetMediaReady(targetSlide) {
-    if (!targetSlide?.isConnected) return false;
-    const item = targetSlide.querySelector(FEED_VIDEO_SELECTOR);
-    if (!item || item.getAttribute(MARK_ATTR) === '1') return false;
-    const filterState = resolveFeedItemFilterState(item);
-    if (filterState === 'blocked') {
-      guardBlockedFeedVideo(item);
-      return false;
-    }
-    if (filterState === 'pending') return false;
-    const videos = [...targetSlide.querySelectorAll('video')].filter((video) => {
-      const rect = video.getBoundingClientRect();
-      const style = getComputedStyle(video);
-      return rect.width > 1 && rect.height > 1 &&
-        style.display !== 'none' && style.visibility !== 'hidden';
-    });
-    if (videos.some((video) => video.readyState >= 2 || video.currentTime > 0)) return true;
-    const targetRect = targetSlide.getBoundingClientRect();
-    return [...targetSlide.querySelectorAll('img')].some((image) => {
-      const rect = image.getBoundingClientRect();
-      const style = getComputedStyle(image);
-      const className = String(image.className || '').toLowerCase();
-      const isBackdrop = (
-        /\bblur\(/i.test(style.filter || '') ||
-        className.includes('background') ||
-        className.includes('backdrop')
-      );
-      return !isBackdrop &&
-        image.complete && image.naturalWidth > 0 &&
-        rect.width >= Math.max(120, targetRect.width * .35) &&
-        rect.height >= Math.max(100, targetRect.height * .35) &&
-        style.display !== 'none' && style.visibility !== 'hidden';
-    });
-  }
-
-  function completeFeedBlockedCard(targetItem, audioState = null) {
-    if (!targetItem?.isConnected) return false;
-    const resolvedAudioState = copyFeedAudioState(audioState) ||
-      resolveFeedAudioState(targetItem.closest(FEED_SLIDE_SELECTOR) || targetItem);
-    if (feedBlockedWait) cancelBlockedFeedWait();
-    else {
-      cancelFeedNavigation();
-      removeFeedBlockedCard();
-    }
-    requestAnimationFrame(() => activateFeedAudio(targetItem, resolvedAudioState));
-    return true;
-  }
-
-  function releaseReadyFeedBlockedCard() {
-    const card = feedBlockedCardLayer;
-    if (!card) return false;
-    const wait = feedBlockedWait;
-    const activeSlide = getActiveFeedSlideWithFallback(
-      wait?.targetSlide,
-      wait?.sourceSlide,
-      wait?.blockedSlide,
-    );
-    const activeItem = activeSlide?.querySelector(FEED_VIDEO_SELECTOR);
-    if (
-      !activeItem?.isConnected ||
-      !activeSlide?.isConnected ||
-      activeSlide.getAttribute(FEED_BLOCKED_ATTR) === '1' ||
-      activeItem.getAttribute(MARK_ATTR) === '1'
-    ) {
-      return false;
-    }
-
-    if (wait && !wait.audioState) {
-      wait.audioState = resolveFeedAudioState(activeSlide);
-    }
-    const audioState = copyFeedAudioState(wait?.audioState) ||
-      resolveFeedAudioState(activeSlide);
-    // 信息卡仍在时，画面和声音必须属于同一个状态；不能先放出下一条的声音。
-    muteFeedMediaBehindCard(activeSlide);
-    if (!isFeedSlideSettledAtViewportCenter(activeSlide)) {
-      if (
-        wait &&
-        wait.targetSlide === activeSlide &&
-        Date.now() >= wait.minReadyAt &&
-        normalizeSettledFeedScrollerOffset(activeSlide)
-      ) {
-        armFeedBlockedCardReleaseCheck(80);
-        return false;
-      }
-      armFeedBlockedCardReleaseCheck(60);
-      return false;
-    }
-    // 从一条允许的视频预先跨越相邻屏蔽项时，原视频在三秒等待期内仍然是 active。
-    // 它不是跳转目标，不能仅因为自身已就绪就撤卡并取消尚未开始的同向跳转。
-    if (
-      wait &&
-      wait.stage === 'waiting' &&
-      wait.sourceSlide !== wait.blockedSlide &&
-      activeSlide === wait.sourceSlide
-    ) {
-      armFeedBlockedCardReleaseCheck(120);
-      return false;
-    }
-    const notBefore = Number(card.getAttribute('data-dy-not-before')) || 0;
-    if (Date.now() < notBefore) {
-      armFeedBlockedCardReleaseCheck(Math.min(3000, Math.max(40, notBefore - Date.now() + 20)));
-      return false;
-    }
-    if (!isFeedTargetMediaReady(activeSlide)) {
-      armFeedBlockedCardReleaseCheck(120);
-      return false;
-    }
-    return completeFeedBlockedCard(activeItem, audioState);
-  }
-
-  function armFeedBlockedCardReleaseCheck(delay = 120) {
-    if (feedBlockedCardReleaseTimer) clearTimeout(feedBlockedCardReleaseTimer);
-    feedBlockedCardReleaseTimer = window.setTimeout(() => {
-      feedBlockedCardReleaseTimer = 0;
-      releaseReadyFeedBlockedCard();
-    }, Math.max(40, delay));
-  }
-
-  function releaseFeedBlockedCardWhenReady(initialTargetSlide) {
-    const wait = feedBlockedWait;
-    if (!wait || wait.token !== feedBlockedWaitToken) return;
-    wait.stage = 'settling';
-    wait.targetSlide = initialTargetSlide;
-    if (!wait.audioState) wait.audioState = resolveFeedAudioState(initialTargetSlide);
-    restoreSuspendedFeedMedia(wait.sourceMediaStates, false);
-    wait.sourceMediaStates = [];
-    // 反向回到原来源项时，来源媒体与目标媒体是同一批节点。
-    // 必须先恢复保存值、再由卡片统一静音，否则恢复动作会在卡片仍显示时泄漏声音。
-    muteFeedMediaBehindCard(initialTargetSlide);
-
-    const check = () => {
-      const current = feedBlockedWait;
-      if (!current || current !== wait || current.token !== feedBlockedWaitToken) return;
-      if (
-        !current.blockedSlide?.isConnected &&
-        !current.sourceSlide?.isConnected &&
-        !current.targetSlide?.isConnected
-      ) {
-        cancelBlockedFeedWait();
-        return;
-      }
-      const activeSlide = getActiveFeedSlideWithFallback(
-        current.targetSlide,
-        current.sourceSlide,
-        current.blockedSlide,
-      );
-      if (activeSlide?.getAttribute(FEED_BLOCKED_ATTR) === '1') {
-        current.blockedSlide = activeSlide;
-        current.sourceSlide = activeSlide;
-        current.targetSlide = null;
-        current.stage = 'waiting';
-        neutralizeFeedMedia(activeSlide);
-        reconcileBlockedFeedWait();
-        return;
-      }
-      if (activeSlide?.isConnected && activeSlide.getAttribute(FEED_BLOCKED_ATTR) !== '1') {
-        current.targetSlide = activeSlide;
-      }
-      positionFeedBlockedCard();
-      if (
-        current.targetSlide?.isConnected &&
-        activeSlide === current.targetSlide &&
-        Date.now() >= current.minReadyAt &&
-        !isFeedSlideSettledAtViewportCenter(current.targetSlide) &&
-        normalizeSettledFeedScrollerOffset(current.targetSlide)
-      ) {
-        current.timer = window.setTimeout(check, 80);
-        return;
-      }
-      if (
-        current.targetSlide?.isConnected &&
-        activeSlide === current.targetSlide &&
-        isFeedSlideSettledAtViewportCenter(current.targetSlide) &&
-        isFeedTargetMediaReady(current.targetSlide)
-      ) {
-        if (!releaseReadyFeedBlockedCard()) {
-          current.timer = window.setTimeout(check, 80);
-        }
-        return;
-      }
-      current.timer = window.setTimeout(check, 80);
-    };
-    if (wait.timer) clearTimeout(wait.timer);
-    wait.timer = window.setTimeout(check, 40);
-  }
-
-  function cancelBlockedFeedWait(options = {}) {
-    const wait = feedBlockedWait;
-    feedBlockedWaitToken += 1;
-    if (wait?.timer) clearTimeout(wait.timer);
-    if (feedNavigation && options.cancelNavigation !== false) cancelFeedNavigation();
-    if (wait?.sourceMediaStates?.length) {
-      const activeSlide = getActiveFeedSlideWithFallback(
-        wait?.targetSlide,
-        wait?.sourceSlide,
-        wait?.blockedSlide,
-      );
-      restoreSuspendedFeedMedia(
-        wait.sourceMediaStates,
-        Boolean(options.resumeSource && activeSlide === wait.sourceSlide),
-      );
-    }
-    feedBlockedWait = null;
-    if (!options.preserveCard) removeFeedBlockedCard();
-  }
-
-  function removeFeedBlockedCard() {
-    if (feedBlockedCardReleaseTimer) {
-      clearTimeout(feedBlockedCardReleaseTimer);
-      feedBlockedCardReleaseTimer = 0;
-    }
-    feedBlockedCardLayer?.remove();
-    feedBlockedCardLayer = null;
-    document.documentElement.classList.remove(FEED_BLOCKED_CARD_MODE_CLASS);
-  }
-
-  function startFeedNavigation(sourceSlide, targetSlide, direction = 1, options = {}) {
-    if (!sourceSlide?.isConnected || !targetSlide?.isConnected || sourceSlide === targetSlide) return false;
-    const targetVideoId = normalizeId(options.targetVideoId);
-    if (
-      feedNavigation &&
-      feedNavigation.targetSlide === targetSlide &&
-      feedNavigation.direction === Math.sign(direction || 1) &&
-      feedNavigation.targetVideoId === targetVideoId &&
-      feedNavigation.sourceSlide?.isConnected &&
-      Date.now() <= feedNavigation.deadlineAt
-    ) {
-      return true;
-    }
-
-    cancelFeedNavigation();
-    const rail = sourceSlide.parentElement;
-    const slides = getFeedSlides(rail);
-    const sourceIndex = slides.indexOf(sourceSlide);
-    const targetIndex = slides.indexOf(targetSlide);
-    if (sourceIndex < 0 || targetIndex < 0) return false;
-    if (feedBlockedCardLayer) {
-      if (feedBlockedWait && !feedBlockedWait.audioState) {
-        feedBlockedWait.audioState = resolveFeedAudioState(targetSlide);
-      }
-      muteFeedMediaBehindCard(targetSlide);
-    }
-    const distance = Math.abs(targetIndex - sourceIndex);
-    const token = ++feedNavigationToken;
-    const normalizedDirection = Math.sign(targetIndex - sourceIndex) || Math.sign(direction || 1);
-    const startedAt = Date.now();
-    const deadlineAt = startedAt + Math.max(8000, distance * 2600 + 3000);
-    const audioState = Object.prototype.hasOwnProperty.call(options, 'audioState')
-      ? copyFeedAudioState(options.audioState)
-      : readFeedAudioState(sourceSlide);
-    feedPreemptDirection = normalizedDirection;
-    feedPreemptUntil = deadlineAt;
-    feedNavigation = {
-      token,
-      sourceSlide,
-      targetSlide,
-      direction: normalizedDirection,
-      waitingFrom: null,
-      timer: 0,
-      settleCleanup: null,
-      attemptSlide: null,
-      stepAttempts: 0,
-      totalAttempts: 0,
-      startedAt,
-      deadlineAt,
-      audioState,
-      targetVideoId,
-    };
-    reconcileFeedNavigation();
-    return true;
-  }
-
-  function reconcileFeedNavigation() {
-    const transaction = feedNavigation;
-    if (!transaction || transaction.token !== feedNavigationToken) return;
-    if (
-      !transaction.sourceSlide.isConnected ||
-      Date.now() > transaction.deadlineAt
-    ) {
-      cancelFeedNavigation();
-      return;
-    }
-    if (!refreshFeedNavigationTarget(transaction)) {
-      if (transaction.timer) clearTimeout(transaction.timer);
-      transaction.timer = window.setTimeout(() => {
-        if (!feedNavigation || feedNavigation.token !== transaction.token) return;
-        transaction.timer = 0;
-        reconcileFeedNavigation();
-      }, 120);
-      return;
-    }
-    if (!transaction.targetSlide?.isConnected) {
-      cancelFeedNavigation();
-      return;
-    }
-
-    const activeSlide = getFeedNavigationActiveSlide(transaction);
-    if (!activeSlide) {
-      if (!transaction.settleCleanup) {
-        if (transaction.timer) clearTimeout(transaction.timer);
-        transaction.timer = window.setTimeout(() => {
-          if (!feedNavigation || feedNavigation.token !== transaction.token) return;
-          transaction.timer = 0;
-          reconcileFeedNavigation();
-        }, 120);
-      }
-      return;
-    }
-    if (activeSlide === transaction.targetSlide) {
-      if (activeSlide.getAttribute(FEED_BLOCKED_ATTR) === '1') {
-        const replacement = findReadyAllowedFeedSlide(activeSlide, transaction.direction);
-        if (replacement) {
-          startFeedNavigation(
-            activeSlide,
-            replacement,
-            Math.sign(
-              getFeedSlides(activeSlide.parentElement).indexOf(replacement) -
-              getFeedSlides(activeSlide.parentElement).indexOf(activeSlide),
-            ),
-            {
-              audioState: transaction.audioState,
-              targetVideoId: feedSlideVideoId(replacement),
-            },
-          );
-        } else {
-          cancelFeedNavigation();
-        }
-        return;
-      }
-      finishFeedNavigation(transaction);
-      return;
-    }
-
-    if (transaction.waitingFrom && activeSlide === transaction.waitingFrom) return;
-    const previousActiveSlide = transaction.waitingFrom;
-    transaction.waitingFrom = activeSlide;
-    if (previousActiveSlide && previousActiveSlide !== activeSlide) {
-      if (transaction.timer) clearTimeout(transaction.timer);
-      scheduleFeedNavigationStepAfterSettlement(transaction, activeSlide);
-      return;
-    }
-    issueFeedNavigationStep(transaction);
-  }
-
-  function scheduleFeedNavigationStepAfterSettlement(transaction, activeSlide) {
-    transaction.settleCleanup?.();
-    const rail = activeSlide?.parentElement;
-    if (!rail) {
-      cancelFeedNavigation();
-      return;
-    }
-
-    let settled = false;
-    // active 标记会显著早于抖音内部的轮播锁释放；每次只在原生切换完整落稳后继续。
-    // 不再修改抖音自己的 transition 时长，避免活动索引与播放器实例发生错位。
-    const earliestStepAt = Date.now() + 900;
-    const cleanup = () => {
-      rail.removeEventListener('transitionend', onTransitionEnd, true);
-      if (transaction.settleCleanup === cleanup) transaction.settleCleanup = null;
-    };
-    const continueNavigation = () => {
-      if (settled) return;
-      settled = true;
-      cleanup();
-      if (transaction.timer) clearTimeout(transaction.timer);
-      const delay = Math.max(48, earliestStepAt - Date.now());
-      transaction.timer = window.setTimeout(() => {
-        if (!feedNavigation || feedNavigation.token !== transaction.token) return;
-        const currentActive = getFeedNavigationActiveSlide(transaction);
-        if (currentActive !== activeSlide) {
-          queueFeedNavigationSync();
-          return;
-        }
-        issueFeedNavigationStep(transaction);
-      }, delay);
-    };
-    const onTransitionEnd = (event) => {
-      if (event.target !== rail || (event.propertyName && event.propertyName !== 'transform')) return;
-      continueNavigation();
-    };
-
-    transaction.settleCleanup = cleanup;
-    rail.addEventListener('transitionend', onTransitionEnd, true);
-    // 抖音有时不派发 transitionend；超时路径仍服从上面的最短安全窗口。
-    transaction.timer = window.setTimeout(continueNavigation, 1000);
-  }
-
-  function issueFeedNavigationStep(transaction) {
-    if (!feedNavigation || feedNavigation.token !== transaction.token) return;
-    if (!refreshFeedNavigationTarget(transaction)) {
-      if (transaction.timer) clearTimeout(transaction.timer);
-      transaction.timer = window.setTimeout(() => reconcileFeedNavigation(), 120);
-      return;
-    }
-    const activeSlide = getFeedNavigationActiveSlide(transaction);
-    if (!activeSlide || activeSlide !== transaction.waitingFrom) {
-      queueFeedNavigationSync();
-      return;
-    }
-
-    if (activeSlide.getAttribute(FEED_BLOCKED_ATTR) === '1') {
-      neutralizeFeedMedia(activeSlide);
-    }
-    const rail = activeSlide.parentElement;
-    const slides = getFeedSlides(rail);
-    const currentIndex = slides.indexOf(activeSlide);
-    const targetIndex = slides.indexOf(transaction.targetSlide);
-    if (currentIndex < 0 || targetIndex < 0 || currentIndex === targetIndex) {
-      if (currentIndex === targetIndex) finishFeedNavigation(transaction);
-      else cancelFeedNavigation();
-      return;
-    }
-
-    transaction.direction = Math.sign(targetIndex - currentIndex);
-    const control = getVisibleFeedNavigationControl(transaction.direction, true);
-    if (!control) {
-      if (Date.now() >= transaction.deadlineAt) {
-        cancelFeedNavigation();
-        return;
-      }
-      if (transaction.timer) clearTimeout(transaction.timer);
-      transaction.timer = window.setTimeout(() => issueFeedNavigationStep(transaction), 160);
-      return;
-    }
-
-    if (transaction.attemptSlide === activeSlide) {
-      transaction.stepAttempts += 1;
-    } else {
-      transaction.attemptSlide = activeSlide;
-      transaction.stepAttempts = 1;
-    }
-    transaction.totalAttempts += 1;
-    try { control.click(); } catch {
-      cancelFeedNavigation();
-      return;
-    }
-    window.setTimeout(queueFeedNavigationSync, 0);
-    if (transaction.timer) clearTimeout(transaction.timer);
-    transaction.timer = window.setTimeout(() => {
-      if (!feedNavigation || feedNavigation.token !== transaction.token) return;
-      const currentActive = getFeedNavigationActiveSlide(transaction);
-      if (currentActive !== transaction.waitingFrom) {
-        queueFeedNavigationSync();
-        return;
-      }
-      if (transaction.stepAttempts < 4 && Date.now() < transaction.deadlineAt) {
-        transaction.timer = window.setTimeout(() => issueFeedNavigationStep(transaction), 220);
-        return;
-      }
-      if (Date.now() < transaction.deadlineAt) {
-        transaction.stepAttempts = 0;
-        transaction.timer = window.setTimeout(() => issueFeedNavigationStep(transaction), 600);
-        return;
-      }
-      cancelFeedNavigation();
-    }, 900);
-  }
-
-  function finishFeedNavigation(transaction) {
-    if (!feedNavigation || feedNavigation.token !== transaction.token) return;
-    if (!refreshFeedNavigationTarget(transaction)) {
-      cancelFeedNavigation();
-      return;
-    }
-    const targetItem = transaction.targetSlide.querySelector(FEED_VIDEO_SELECTOR);
-    const targetSlide = transaction.targetSlide;
-    cancelFeedNavigation();
-    if (targetItem && targetItem.getAttribute(MARK_ATTR) !== '1') {
-      clearBlockedFeedSlide(targetSlide);
-      if (feedBlockedCardLayer) {
-        if (feedBlockedWait && !feedBlockedWait.audioState) {
-          feedBlockedWait.audioState = copyFeedAudioState(transaction.audioState) ||
-            resolveFeedAudioState(targetSlide);
-        }
-        muteFeedMediaBehindCard(targetSlide);
-      } else if (
-        revealedBlockedFeedVideoIds.has(normalizeId(targetItem.getAttribute('data-e2e-vid')))
-      ) {
-        resumeRevealedFeedSlide(targetSlide, transaction.audioState);
-      } else {
-        activateFeedAudio(targetItem, transaction.audioState);
-      }
-    }
-    if (feedBlockedWait) releaseFeedBlockedCardWhenReady(targetSlide);
-    else releaseReadyFeedBlockedCard();
-    queueFullScan();
-    queueFeedNavigationSync();
-  }
-
-  function refreshFeedNavigationTarget(transaction) {
-    const expectedVideoId = normalizeId(transaction?.targetVideoId);
-    if (!expectedVideoId) return Boolean(transaction?.targetSlide?.isConnected);
-    if (
-      transaction.targetSlide?.isConnected &&
-      feedSlideVideoId(transaction.targetSlide) === expectedVideoId
-    ) {
-      return true;
-    }
-    const replacement = findFeedSlideByVideoId(expectedVideoId);
-    if (!replacement) return false;
-    transaction.targetSlide = replacement;
-    return true;
-  }
-
-  function cancelFeedNavigation() {
-    feedNavigationToken += 1;
-    if (feedNavigation?.timer) clearTimeout(feedNavigation.timer);
-    feedNavigation?.settleCleanup?.();
-    feedNavigation = null;
-    feedPreemptDirection = 0;
-    feedPreemptUntil = 0;
-    removeFeedTransitionCover();
-  }
-
-  function getFeedTransitionViewportRect(sourceSlide, sourceRect) {
-    let ancestor = sourceSlide?.parentElement;
-    for (let depth = 0; ancestor && depth < 8; depth += 1, ancestor = ancestor.parentElement) {
-      const rect = ancestor.getBoundingClientRect();
-      const style = getComputedStyle(ancestor);
-      const clips = ['hidden', 'clip'].includes(style.overflowX) ||
-        ['hidden', 'clip'].includes(style.overflowY);
-      if (
-        clips &&
-        rect.width >= sourceRect.width * .9 &&
-        rect.height >= sourceRect.height * .8 &&
-        rect.width <= window.innerWidth * 1.2 &&
-        rect.height <= window.innerHeight * 1.2
-      ) {
-        return rect;
-      }
-    }
-    return sourceRect;
-  }
-
-  function showFeedTransitionCover(sourceSlide, safetyDuration = 12000) {
-    removeFeedTransitionCover();
-    if (!sourceSlide?.isConnected) return;
-    const rect = sourceSlide.getBoundingClientRect();
-    if (rect.width < 2 || rect.height < 2) return;
-    const viewportRect = getFeedTransitionViewportRect(sourceSlide, rect);
-
-    const cover = document.createElement('div');
-    cover.className = FEED_TRANSITION_COVER_CLASS;
-    cover.setAttribute('aria-hidden', 'true');
-    const left = Math.max(0, viewportRect.left);
-    const top = Math.max(0, viewportRect.top);
-    const cssWidth = Math.max(1, Math.min(viewportRect.right, window.innerWidth) - left);
-    const cssHeight = Math.max(1, Math.min(viewportRect.bottom, window.innerHeight) - top);
-    cover.style.left = `${left}px`;
-    cover.style.top = `${top}px`;
-    cover.style.width = `${cssWidth}px`;
-    cover.style.height = `${cssHeight}px`;
-
-    const scene = sourceSlide.cloneNode(true);
-    scene.classList.add(FEED_TRANSITION_SCENE_CLASS);
-    const sceneLeft = rect.left - left;
-    const sceneTop = rect.top - top;
-    scene.style.setProperty('left', `${sceneLeft}px`, 'important');
-    scene.style.setProperty('top', `${sceneTop}px`, 'important');
-    scene.style.setProperty('width', `${rect.width}px`, 'important');
-    scene.style.setProperty('height', `${rect.height}px`, 'important');
-    scene.style.setProperty('display', getComputedStyle(sourceSlide).display || 'block', 'important');
-    sanitizeFeedTransitionScene(scene);
-    cover.appendChild(scene);
-    (document.body || document.documentElement).appendChild(cover);
-    freezeFeedTransitionScene(sourceSlide, scene, cover);
-    deactivateFeedTransitionScene(scene);
-    feedTransitionCover = cover;
-    armFeedTransitionCoverSafety(safetyDuration);
-  }
-
-  function armFeedTransitionCoverSafety(safetyDuration) {
-    if (feedTransitionCoverTimer) clearTimeout(feedTransitionCoverTimer);
-    feedTransitionCoverTimer = window.setTimeout(
-      removeFeedTransitionCover,
-      Math.max(6000, Math.min(30000, safetyDuration)),
-    );
-  }
-
-  function sanitizeFeedTransitionScene(scene) {
-    for (const node of [scene, ...scene.querySelectorAll('*')]) {
-      node.removeAttribute('id');
-      node.removeAttribute(MARK_ATTR);
-      node.removeAttribute(FEED_BLOCKED_ATTR);
-      node.removeAttribute(FEED_BLOCKED_VIDEO_ATTR);
-      node.classList.remove(HIDDEN_CLASS);
-      node.removeAttribute('autofocus');
-      // 抖音的虚化背景层依赖“活动视频”状态才能获得完整尺寸。
-      // 这里先保留状态完成布局与冻结；冻结后再移除重复活动标记，
-      // 避免抖音或其它脚本把过渡副本误认为第二个真实活动视频。
-      if (node.matches('a, button, input, select, textarea, [tabindex]')) {
-        node.setAttribute('tabindex', '-1');
-      }
-    }
-    for (const media of scene.querySelectorAll('audio')) media.remove();
-  }
-
-  function deactivateFeedTransitionScene(scene) {
-    for (const node of scene.querySelectorAll('[data-e2e="feed-active-video"]')) {
-      node.setAttribute('data-e2e', 'feed-video');
-    }
-  }
-
-  function freezeFeedMediaClipChain(source, clone, sourceSlide, scene) {
-    let sourceParent = source?.parentElement;
-    let cloneParent = clone?.parentElement;
-    for (let depth = 0; sourceParent && cloneParent && depth < 8; depth += 1) {
-      const style = getComputedStyle(sourceParent);
-      const clipsX = ['hidden', 'clip'].includes(style.overflowX);
-      const clipsY = ['hidden', 'clip'].includes(style.overflowY);
-      if (clipsX || clipsY) {
-        cloneParent.style.setProperty('overflow-x', style.overflowX, 'important');
-        cloneParent.style.setProperty('overflow-y', style.overflowY, 'important');
-        cloneParent.style.setProperty('border-radius', style.borderRadius || '0', 'important');
-        cloneParent.style.setProperty('clip-path', style.clipPath || 'none', 'important');
-      }
-      if (sourceParent === sourceSlide || cloneParent === scene) break;
-      sourceParent = sourceParent.parentElement;
-      cloneParent = cloneParent.parentElement;
-    }
-  }
-
-  function positionFrozenFeedElement(element, viewportRect, cover) {
-    const offsetParent = element.offsetParent;
-    const positioningRoot = offsetParent instanceof Element ? offsetParent : cover;
-    const rootRect = positioningRoot.getBoundingClientRect();
-    const clientLeft = Number(positioningRoot.clientLeft) || 0;
-    const clientTop = Number(positioningRoot.clientTop) || 0;
-    const scrollLeft = Number(positioningRoot.scrollLeft) || 0;
-    const scrollTop = Number(positioningRoot.scrollTop) || 0;
-    element.style.setProperty(
-      'left',
-      `${viewportRect.left - rootRect.left - clientLeft + scrollLeft}px`,
-      'important',
-    );
-    element.style.setProperty(
-      'top',
-      `${viewportRect.top - rootRect.top - clientTop + scrollTop}px`,
-      'important',
-    );
-    element.style.setProperty('width', `${viewportRect.width}px`, 'important');
-    element.style.setProperty('height', `${viewportRect.height}px`, 'important');
-  }
-
-  function freezeFeedTransitionScene(sourceSlide, scene, cover) {
-    const sourceImages = [...sourceSlide.querySelectorAll('img')];
-    const sceneImages = [...scene.querySelectorAll('img')];
-    sourceImages.forEach((image, index) => {
-      const clone = sceneImages[index];
-      if (!clone) return;
-      const currentSource = image.currentSrc || image.src;
-      if (currentSource) clone.src = currentSource;
-      clone.removeAttribute('srcset');
-      clone.loading = 'eager';
-
-      const imageRect = image.getBoundingClientRect();
-      const style = getComputedStyle(image);
-      const coverRect = cover.getBoundingClientRect();
-      const isBlurredBackdrop = (
-        /\bblur\(/i.test(style.filter || '') ||
-        String(image.className || '').toLowerCase().includes('backgroundcover')
-      ) && (
-        imageRect.width >= Math.max(160, coverRect.width * .55) &&
-        imageRect.height >= Math.max(120, coverRect.height * .55)
-      );
-      if (!isBlurredBackdrop || imageRect.width < 2 || imageRect.height < 2 || !currentSource) return;
-
-      // 将抖音原生的虚化图片冻结在它原本的父级与层叠顺序中。
-      // 保留 DOM 层级可以避免虚化层盖住前景视频，也不会被播放器容器的底色遮住。
-      clone.classList.add(FEED_TRANSITION_BACKDROP_CLASS);
-      clone.alt = '';
-      clone.setAttribute('aria-hidden', 'true');
-      clone.style.setProperty('transform', 'none', 'important');
-      clone.style.setProperty('visibility', 'visible', 'important');
-      clone.style.setProperty('object-fit', style.objectFit || 'fill', 'important');
-      clone.style.setProperty('object-position', style.objectPosition || '50% 50%', 'important');
-      clone.style.setProperty('filter', style.filter || 'none', 'important');
-      clone.style.setProperty('opacity', style.opacity || '1', 'important');
-      clone.style.setProperty('clip-path', style.clipPath || 'none', 'important');
-      clone.style.setProperty('border-radius', style.borderRadius || '0', 'important');
-      clone.style.setProperty('mix-blend-mode', style.mixBlendMode || 'normal', 'important');
-      clone.style.setProperty('mask-image', style.maskImage || 'none', 'important');
-      clone.style.setProperty('-webkit-mask-image', style.webkitMaskImage || 'none', 'important');
-      if (style.zIndex && style.zIndex !== 'auto') {
-        clone.style.setProperty('z-index', style.zIndex, 'important');
-      }
-      freezeFeedMediaClipChain(image, clone, sourceSlide, scene);
-      positionFrozenFeedElement(clone, imageRect, cover);
-      cover.setAttribute('data-dy-feed-cover-backdrop', '1');
-    });
-
-    const sourceCanvases = [...sourceSlide.querySelectorAll('canvas')];
-    const sceneCanvases = [...scene.querySelectorAll('canvas')];
-    sourceCanvases.forEach((canvas, index) => {
-      const clone = sceneCanvases[index];
-      if (!clone || !canvas.width || !canvas.height) return;
-      clone.width = canvas.width;
-      clone.height = canvas.height;
-      try { clone.getContext('2d')?.drawImage(canvas, 0, 0); } catch {}
-    });
-
-    const sourceVideos = [...sourceSlide.querySelectorAll('video')];
-    const sceneVideos = [...scene.querySelectorAll('video')];
-    sourceVideos.forEach((media, index) => {
-      const clone = sceneVideos[index];
-      if (!clone) return;
-      clone.removeAttribute('autoplay');
-      clone.removeAttribute('src');
-      for (const source of clone.querySelectorAll('source')) source.removeAttribute('src');
-      try {
-        clone.muted = true;
-        clone.pause();
-      } catch {}
-
-      const mediaRect = media.getBoundingClientRect();
-      if (media.readyState < 2 || mediaRect.width < 2 || mediaRect.height < 2) return;
-      const parent = clone.parentElement;
-      if (!parent) return;
-      const canvas = document.createElement('canvas');
-      canvas.className = FEED_TRANSITION_FRAME_CLASS;
-      const ratio = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      canvas.width = Math.max(1, Math.round(mediaRect.width * ratio));
-      canvas.height = Math.max(1, Math.round(mediaRect.height * ratio));
-      const context = canvas.getContext('2d');
-      if (!context) return;
-      context.scale(ratio, ratio);
-      const style = getComputedStyle(media);
-      if (!isTransparentCssColor(style.backgroundColor)) {
-        context.fillStyle = style.backgroundColor;
-        context.fillRect(0, 0, mediaRect.width, mediaRect.height);
-      }
-      try {
-        drawFeedVideoFrameAtRenderedSize(context, media, mediaRect, mediaRect.left, mediaRect.top);
-      } catch {
-        return;
-      }
-
-      parent.insertBefore(canvas, clone);
-      canvas.style.setProperty('border-radius', style.borderRadius || '0', 'important');
-      canvas.style.setProperty('clip-path', style.clipPath || 'none', 'important');
-      canvas.style.setProperty('filter', style.filter || 'none', 'important');
-      canvas.style.setProperty('backdrop-filter', style.backdropFilter || 'none', 'important');
-      canvas.style.setProperty('opacity', style.opacity || '1', 'important');
-      canvas.style.setProperty('mix-blend-mode', style.mixBlendMode || 'normal', 'important');
-      canvas.style.setProperty('box-shadow', style.boxShadow || 'none', 'important');
-      canvas.style.setProperty('mask-image', style.maskImage || 'none', 'important');
-      canvas.style.setProperty('-webkit-mask-image', style.webkitMaskImage || 'none', 'important');
-      if (style.zIndex && style.zIndex !== 'auto') {
-        canvas.style.setProperty('z-index', style.zIndex, 'important');
-      }
-      freezeFeedMediaClipChain(media, canvas, sourceSlide, scene);
-      positionFrozenFeedElement(canvas, mediaRect, cover);
-      clone.remove();
-      cover.setAttribute('data-dy-feed-cover-scene', '1');
-    });
-  }
-
-  function drawFeedVideoFrameAtRenderedSize(context, media, mediaRect, coverLeft, coverTop) {
-    const sourceWidth = media.videoWidth || mediaRect.width;
-    const sourceHeight = media.videoHeight || mediaRect.height;
-    if (!(sourceWidth > 0 && sourceHeight > 0)) return;
-
-    const style = getComputedStyle(media);
-    const objectFit = style.objectFit || 'fill';
-    let drawWidth = mediaRect.width;
-    let drawHeight = mediaRect.height;
-    if (objectFit !== 'fill') {
-      const containScale = Math.min(mediaRect.width / sourceWidth, mediaRect.height / sourceHeight);
-      const coverScale = Math.max(mediaRect.width / sourceWidth, mediaRect.height / sourceHeight);
-      const scale = objectFit === 'cover'
-        ? coverScale
-        : objectFit === 'none'
-          ? 1
-          : objectFit === 'scale-down'
-            ? Math.min(1, containScale)
-            : containScale;
-      drawWidth = sourceWidth * scale;
-      drawHeight = sourceHeight * scale;
-    }
-
-    const [positionX = '50%', positionY = '50%'] = String(style.objectPosition || '50% 50%')
-      .trim()
-      .split(/\s+/);
-    const offsetX = (mediaRect.width - drawWidth) * feedObjectPositionRatio(positionX, 'x');
-    const offsetY = (mediaRect.height - drawHeight) * feedObjectPositionRatio(positionY, 'y');
-    const mediaLeft = mediaRect.left - coverLeft;
-    const mediaTop = mediaRect.top - coverTop;
-
-    context.save();
-    context.beginPath();
-    context.rect(mediaLeft, mediaTop, mediaRect.width, mediaRect.height);
-    context.clip();
-    context.drawImage(media, mediaLeft + offsetX, mediaTop + offsetY, drawWidth, drawHeight);
-    context.restore();
-  }
-
-  function feedObjectPositionRatio(token, axis) {
-    const value = String(token || '').toLowerCase();
-    if (value.endsWith('%')) {
-      const percentage = Number.parseFloat(value);
-      if (Number.isFinite(percentage)) return percentage / 100;
-    }
-    if (value === 'left' || value === 'top') return 0;
-    if (value === 'right' || value === 'bottom') return 1;
-    if (value === 'center') return .5;
-    if (axis === 'x' && value === 'top') return .5;
-    if (axis === 'y' && value === 'left') return .5;
-    return .5;
-  }
-
-  function isTransparentCssColor(value) {
-    const color = String(value || '').trim().toLowerCase();
-    if (!color || color === 'transparent') return true;
-    const commaAlpha = /^rgba\([^,]+,[^,]+,[^,]+,\s*([0-9.]+)\s*\)$/.exec(color);
-    if (commaAlpha) return Number(commaAlpha[1]) <= .001;
-    const slashAlpha = /\/\s*([0-9.]+)(%)?\s*\)$/.exec(color);
-    if (!slashAlpha) return false;
-    const alpha = Number(slashAlpha[1]);
-    return slashAlpha[2] ? alpha <= .1 : alpha <= .001;
-  }
-
-  function releaseFeedTransitionCoverWhenReady(targetSlide) {
-    const cover = feedTransitionCover;
-    if (!cover) return;
-    const deadline = Date.now() + 2600;
-    const check = () => {
-      if (feedTransitionCover !== cover) return;
-      const activeSlide = getActiveFeedItem()?.closest(FEED_SLIDE_SELECTOR);
-      const targetItem = targetSlide?.querySelector?.(FEED_VIDEO_SELECTOR);
-      const media = [...(targetSlide?.querySelectorAll?.('video') || [])].find((video) => {
-        const rect = video.getBoundingClientRect();
-        const style = getComputedStyle(video);
-        return rect.width > 1 && rect.height > 1 && style.display !== 'none' && style.visibility !== 'hidden';
-      });
-      const targetRect = targetSlide?.getBoundingClientRect?.();
-      const imageReady = [...(targetSlide?.querySelectorAll?.('img') || [])].some((image) => {
-        const rect = image.getBoundingClientRect();
-        const style = getComputedStyle(image);
-        const isBackdrop = (
-          /\bblur\(/i.test(style.filter || '') ||
-          String(image.className || '').toLowerCase().includes('backgroundcover')
-        );
-        return !isBackdrop &&
-          image.complete && image.naturalWidth > 0 &&
-          rect.width > 1 && rect.height > 1 &&
-          rect.width >= Math.max(120, (targetRect?.width || window.innerWidth) * .35) &&
-          rect.height >= Math.max(100, (targetRect?.height || window.innerHeight) * .35) &&
-          style.display !== 'none' && style.visibility !== 'hidden';
-      });
-      const visibleBackdrops = [...(targetSlide?.querySelectorAll?.('img') || [])].filter((image) => {
-        const rect = image.getBoundingClientRect();
-        const style = getComputedStyle(image);
-        return (
-          (
-            /\bblur\(/i.test(style.filter || '') ||
-            String(image.className || '').toLowerCase().includes('backgroundcover')
-          ) &&
-          rect.width >= Math.max(160, window.innerWidth * .35) &&
-          rect.height >= Math.max(120, window.innerHeight * .35) &&
-          style.display !== 'none' &&
-          style.visibility !== 'hidden'
-        );
-      });
-      const backdropReady = visibleBackdrops.every((image) =>
-        image.complete && image.naturalWidth > 0
-      );
-      const mediaReady = Boolean(
-        media && (media.readyState >= 2 || media.currentTime > 0)
-      );
-      const targetReady = Boolean(
-        targetSlide?.isConnected &&
-        activeSlide === targetSlide &&
-        targetItem &&
-        targetItem.getAttribute(MARK_ATTR) !== '1' &&
-        (mediaReady || imageReady) &&
-        backdropReady
-      );
-      if (targetReady || Date.now() >= deadline) {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            if (feedTransitionCover === cover) removeFeedTransitionCover();
-          });
-        });
-        return;
-      }
-      feedTransitionCoverTimer = window.setTimeout(check, 40);
-    };
-    if (feedTransitionCoverTimer) clearTimeout(feedTransitionCoverTimer);
-    feedTransitionCoverTimer = window.setTimeout(check, 40);
-  }
-
-  function removeFeedTransitionCover() {
-    if (feedTransitionCoverTimer) {
-      clearTimeout(feedTransitionCoverTimer);
-      feedTransitionCoverTimer = 0;
-    }
-    feedTransitionCover?.remove();
-    feedTransitionCover = null;
-  }
-
-  function skipBlockedActiveFeed(item, direction = 1) {
-    if (!item?.isConnected) return;
-    const blockedSlide = item.closest(FEED_SLIDE_SELECTOR) || item;
-    if (!isConfirmedActiveFeedSlide(item, blockedSlide)) return;
-    neutralizeFeedMedia(blockedSlide);
-    beginBlockedFeedWait(blockedSlide, direction, blockedSlide);
   }
 
   function onFeedMediaPlayback(event) {
     const media = event.target;
     if (!(media instanceof Element) || !/^(VIDEO|AUDIO)$/i.test(media.tagName)) return;
-    if (media.closest(`.${FEED_TRANSITION_COVER_CLASS}`)) return;
     const item = media.closest(FEED_VIDEO_SELECTOR);
     if (!item) return;
-    const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
-    const info = extractFeedAuthorInfo(item);
-    const hasIdentity = hasAnyIdentity(info);
-    const revealed = Boolean(videoId && revealedBlockedFeedVideoIds.has(videoId));
-    const blocked = !revealed && enabled && settings.hideFeedVideos && (
-      (hasIdentity && isBlocked(info)) ||
-      (!hasIdentity && videoId && blockedFeedVideoIds.has(videoId))
-    );
-    if (!blocked) {
-      const allowedSlide = item.closest(FEED_SLIDE_SELECTOR) || item;
-      if (hasIdentity && videoId) blockedFeedVideoIds.delete(videoId);
-      if (hasIdentity) clearBlockedFeedSlide(allowedSlide);
-      if (
-        feedBlockedCardLayer &&
-        isConfirmedActiveFeedSlide(item, allowedSlide)
-      ) {
-        if (feedBlockedWait && !feedBlockedWait.audioState) {
-          feedBlockedWait.audioState = resolveFeedAudioState(allowedSlide);
-        }
-        const guardedAudioState = copyFeedAudioState(feedBlockedWait?.audioState) ||
-          resolveFeedAudioState(allowedSlide);
-        muteFeedMediaBehindCard(allowedSlide);
-        if (guardedAudioState) lastAllowedFeedAudioState = guardedAudioState;
-        releaseReadyFeedBlockedCard();
-        queueFeedNavigationSync();
-        return;
-      }
-      if (isConfirmedActiveFeedSlide(item, allowedSlide)) {
-        const activeAudioState = readFeedAudioState(allowedSlide);
-        if (activeAudioState) {
-          const userChangedAudio = Date.now() < feedAudioUserIntentUntil;
-          if (
-            !activeAudioState.muted ||
-            userChangedAudio ||
-            !lastAllowedFeedAudioState
-          ) {
-            lastAllowedFeedAudioState = activeAudioState;
-          } else if (lastAllowedFeedAudioState.muted === false) {
-            // 新播放器成为 active 的最初数百毫秒可能沿用预加载时的 muted=true。
-            // 没有用户静音意图时，继续恢复上一条已确认的非静音状态。
-            activateFeedAudio(item, lastAllowedFeedAudioState);
-          }
-        }
-      }
-      queueFeedNavigationSync();
-      return;
-    }
-
-    const blockedSlide = item.closest(FEED_SLIDE_SELECTOR) || item;
-    const wasActive = isConfirmedActiveFeedSlide(item, blockedSlide);
-    neutralizeFeedMedia(blockedSlide);
-    if (wasActive) skipBlockedActiveFeed(item, preferredFeedSkipDirection());
+    processFeedVideoItem(item);
   }
 
   function clearFeedSkip() {
-    feedAudioRestoreToken += 1;
-    feedRevealPlaybackToken += 1;
-    revealedBlockedFeedVideoIds.clear();
-    pendingRevealedFeedVideoId = '';
-    activeRevealedFeedVideoId = '';
-    clearFeedNativeNavigationLock();
-    cancelBlockedFeedWait({ resumeSource: true });
-    cancelFeedNavigation();
+    revealedFeedVideoId = '';
+    for (const slide of document.querySelectorAll(`[${FEED_BLOCKED_ATTR}="1"]`)) {
+      clearBlockedFeedSlide(slide);
+    }
   }
 
   function syncCommentButton(item) {
@@ -4369,6 +2146,126 @@
   function patchDouyinDataStreams() {
     patchFetch();
     patchXHR();
+    patchFeedResponses();
+  }
+
+  // 数据层过滤：在 React 读到响应之前把被屏蔽作者的条目从推荐流/关注流列表里删掉。
+  // 抖音的滑块与列表条目严格一一对应，被删掉的条目根本不会生成滑块，
+  // 因此不存在“跳过”这个动作，也就没有过渡、等待和状态机。
+  function patchFeedResponses() {
+    try {
+      const XHR = pageWindow.XMLHttpRequest;
+      if (!XHR?.prototype || XHR.prototype.__dyLocalBlockerFeedPatched) return;
+      const responseTextDescriptor = Object.getOwnPropertyDescriptor(XHR.prototype, 'responseText');
+      const responseDescriptor = Object.getOwnPropertyDescriptor(XHR.prototype, 'response');
+      if (typeof responseTextDescriptor?.get !== 'function') return;
+      const originalSend = XHR.prototype.send;
+
+      XHR.prototype.send = function (...args) {
+        let cache = null;
+        // 惰性求值 + 缓存：抖音安全 SDK 会在脚本之后再包一层 XHR，
+        // 实例属性始终遮蔽原型属性，因此无论包装顺序如何都能拿到过滤后的结果。
+        const readFiltered = () => {
+          const raw = responseTextDescriptor.get.call(this);
+          if (typeof raw !== 'string' || raw.length < MIN_FEED_PAYLOAD_LENGTH) return raw;
+          if (cache && cache.raw === raw) return cache.filtered;
+          const filtered = filterFeedPayloadText(raw);
+          cache = { raw, filtered };
+          return filtered;
+        };
+        try {
+          Object.defineProperty(this, 'responseText', {
+            configurable: true,
+            get: readFiltered,
+          });
+          if (typeof responseDescriptor?.get === 'function') {
+            Object.defineProperty(this, 'response', {
+              configurable: true,
+              get: () => {
+                const type = this.responseType;
+                if (type === '' || type === 'text') return readFiltered();
+                const value = responseDescriptor.get.call(this);
+                if (
+                  type === 'json' &&
+                  value &&
+                  typeof value === 'object' &&
+                  enabled &&
+                  settings.hideFeedVideos &&
+                  entries.length
+                ) {
+                  filterFeedPayload(value);
+                }
+                return value;
+              },
+            });
+          }
+        } catch {
+          // 属性被锁定时放弃过滤，DOM 层仍会兜底。
+        }
+        return Reflect.apply(originalSend, this, args);
+      };
+      Object.defineProperty(XHR.prototype, '__dyLocalBlockerFeedPatched', { value: true });
+    } catch {
+      // 拦截失败时脚本退化为纯 DOM 屏蔽，不影响页面本身。
+    }
+  }
+
+  function filterFeedPayloadText(raw) {
+    if (!enabled || !settings.hideFeedVideos || !entries.length) return raw;
+    if (!raw.includes('aweme_id')) return raw;
+    let payload;
+    try {
+      payload = JSON.parse(raw);
+    } catch {
+      return raw;
+    }
+    if (!filterFeedPayload(payload)) return raw;
+    try {
+      return JSON.stringify(payload);
+    } catch {
+      return raw;
+    }
+  }
+
+  /**
+   * 就地过滤响应对象，返回是否发生了删除。
+   * 推荐流/精选：{ aweme_list: [ {author, aweme_id} ] }
+   * 关注流：{ data: [ { aweme: {author, aweme_id} } ] }
+   * has_more、cursor、log_pb 等分页字段保持原样，抖音会照常继续补货。
+   */
+  function filterFeedPayload(payload) {
+    if (!payload || typeof payload !== 'object') return false;
+    let removed = false;
+    for (const key of ['aweme_list', 'data']) {
+      const list = payload[key];
+      if (!Array.isArray(list) || !list.length) continue;
+      const kept = list.filter((record) => !isBlockedFeedRecord(record));
+      if (kept.length === list.length) continue;
+      removed = true;
+      payload[key] = kept;
+    }
+    return removed;
+  }
+
+  function isBlockedFeedRecord(record) {
+    if (!record || typeof record !== 'object') return false;
+    const media = (record.aweme && typeof record.aweme === 'object' && record.aweme) ||
+      (record.aweme_info && typeof record.aweme_info === 'object' && record.aweme_info) ||
+      record;
+    const author = media.author;
+    if (!author || typeof author !== 'object') return false;
+    const info = cleanInfo({
+      secUid: author.sec_uid,
+      userId: author.uid || media.author_user_id,
+      nickname: author.nickname,
+    });
+    if (!hasAnyIdentity(info)) return false;
+    // 数据层只做只读匹配，绝不在这里回写本地名单：
+    // 响应读取可能发生在渲染的关键路径上，任何存储写入都会拖慢页面。
+    if (!findBlockingEntry(info)) return false;
+    const videoId = normalizeId(media.aweme_id || media.awemeId);
+    if (videoId) rememberBlockedFeedVideoId(videoId);
+    return true;
   }
 
   function patchFetch() {
@@ -4514,16 +2411,21 @@
     return keys.some((key) => key.includes('danmaku') || key.includes('danmu') || key.includes('bullet'));
   }
 
-  function isBlocked(info) {
-    const clean = cleanInfo(info);
-    if (!hasAnyIdentity(clean)) return false;
+  function findBlockingEntry(clean) {
+    if (!hasAnyIdentity(clean)) return undefined;
     const nicknameKey = normalizeNickname(clean.nickname);
-
-    const matched = entries.find((entry) => {
+    return entries.find((entry) => {
       if (clean.secUid && entry.secUid && clean.secUid === entry.secUid) return true;
       if (clean.userId && entry.userId && clean.userId === entry.userId) return true;
       return Boolean(entry.nicknameOnly && nicknameKey && normalizeNickname(entry.nickname) === nicknameKey);
     });
+  }
+
+  function isBlocked(info) {
+    const clean = cleanInfo(info);
+    if (!hasAnyIdentity(clean)) return false;
+
+    const matched = findBlockingEntry(clean);
 
     // 同一条页面数据同时暴露 secUid 与 userId 时，自动补全本地记录，提升跨评论/弹幕匹配率。
     // 仅凭同名命中的 nicknameOnly 记录保持“按昵称精确匹配”，不能被页面里
@@ -4654,15 +2556,6 @@
       return false;
     }
 
-    // 抖音切换时可能同时保留多个 feed-active-video，querySelector 会取到屏外的旧节点。
-    // 必须沿用状态机的“实际居中/正在播放项”判断，否则屏蔽当前视频时可能继承上一次向上滚动的方向。
-    const activeFeedItem = getActiveFeedItem();
-    const isBlockingActiveFeed = Boolean(
-      activeFeedItem &&
-      settings.hideFeedVideos &&
-      isSameUserInfo(clean, extractFeedAuthorInfo(activeFeedItem))
-    );
-
     /** @type {BlockEntry} */
     const entry = {
       id: makeId(),
@@ -4675,11 +2568,21 @@
       note: String(note || ''),
     };
     entries.unshift(entry);
-    if (isBlockingActiveFeed) {
-      lastFeedNavigationDirection = 1;
-    }
     saveEntries();
     queueFullScan();
+
+    // 只有“屏蔽正在观看的这一条”才自动前进；其余情况一律由用户自己浏览到卡片。
+    const activeItem = getActiveFeedItem();
+    if (
+      activeItem &&
+      enabled &&
+      settings.hideFeedVideos &&
+      isBlocked(extractFeedAuthorInfo(activeItem))
+    ) {
+      guardBlockedFeedVideo(activeItem);
+      advanceFromBlockedActiveSlide(activeItem.closest(FEED_SLIDE_SELECTOR) || activeItem);
+    }
+
     toast(`已屏蔽：${displayName(entry)}`);
     return true;
   }
