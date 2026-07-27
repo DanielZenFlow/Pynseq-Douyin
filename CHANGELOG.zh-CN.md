@@ -5,6 +5,32 @@ All notable changes to Pynseq for Douyin are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-07-27
+
+### Fixed
+
+- **Blocking one video muted every other video in the session.** Silencing a blocked
+  video by setting `media.muted = true` was picked up by Douyin's player as a change
+  to the user's global mute preference, which it then applied to every subsequent
+  video. Blocking B in a sequence A–B–C left both A and C muted, and Douyin's own
+  mute button switched to the muted state. Blocked videos are now silenced by pausing
+  alone — the script never writes `muted` or `volume` anywhere. If Douyin resumes a
+  blocked video, the `play`/`playing` handler pauses it again immediately; the worst
+  case is a momentary sound rather than a session that has lost its audio.
+  - Revealing a blocked video no longer forces unmute either. Volume is left entirely
+    to Douyin's player, so the user's own sound setting is preserved.
+  - Note for users upgrading: if Douyin is currently muted because of the previous
+    behaviour, click Douyin's own volume button once to restore sound. The setting is
+    stored by Douyin, not by this script.
+
+- **The player control bar under the blocked card appeared inconsistently.** The bar
+  is nested inside the slide subtree that the card hides, and Douyin's own styles
+  re-showed it in some player states, so it flickered in and out. It is now forced
+  visible, opaque, and interactive whenever a slide is blocked. The card was also
+  lowered to `z-index: 1`, because Douyin's `.playerContainer` is a `z-index: 2`
+  stacking context that confined the bar beneath the card; the hidden player still
+  does not paint, so only the explicitly-visible control bar rises above the card.
+
 ## [1.2.0] - 2026-07-27
 
 This release replaces the feed-blocking architecture. Blocked videos are now removed
