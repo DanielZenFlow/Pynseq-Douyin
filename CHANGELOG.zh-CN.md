@@ -5,6 +5,56 @@ All notable changes to Pynseq for Douyin are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-07-27
+
+### Added
+
+- **"屏蔽 @用户名+不感兴趣" context-menu action.** Right-clicking an author in the
+  recommendation or following feed now offers a second blocking action that adds the
+  user to the local list and, in the same step, submits Douyin's own "不感兴趣"
+  feedback for the video that was right-clicked.
+  - The signal is submitted by driving Douyin's own video context menu rather than by
+    calling its API directly, so no request signing is reproduced and no endpoint is
+    hardcoded. Verified end to end: the resulting request is
+    `POST /aweme/v1/web/commit/dislike/item/` carrying the `aweme_id` of the targeted
+    video, answered with `status_code: 0`.
+  - Douyin's menu items carry no stable `data-e2e` attribute or class name — the class
+    names are build-time hashes — so the item is located by its text. Both `不感兴趣`
+    and `不感兴趣（R）` are matched, and the outer row is preferred over its inner
+    label.
+  - The menu is rendered inside the `[data-e2e-vid]` container of the video it belongs
+    to, so the action targets exactly the video that was right-clicked, including
+    videos that are not the currently playing one.
+  - The `contextmenu` event must be dispatched to a descendant of the player
+    (`xg-video-container`) rather than to `.basePlayerContainer` itself; dispatching to
+    the container does not reach Douyin's listener.
+  - The action runs after the local block is applied. Hiding the video first does not
+    prevent the menu from opening, so the ordering is safe.
+  - The item is offered only for feed videos. Comments, danmaku, and live chat have no
+    per-video "not interested" equivalent, and the item stays hidden until a nickname
+    has been read.
+  - Cancelling the confirmation dialog cancels the whole action; no feedback is sent to
+    Douyin. If the menu item cannot be found — for example after Douyin changes its
+    wording — the local block still completes and the script reports
+    "已加入本地名单，但没能触发抖音的「不感兴趣」".
+
+### Changed
+
+- **Nicknames in blocking actions are now prefixed with `@`**, matching how Douyin
+  itself renders author names in the feed. This applies to both context-menu items and
+  the confirmation dialog's accept button: `屏蔽 @用户名`, `屏蔽 @用户名+不感兴趣`.
+
+### Notes
+
+- The new action is the first and only place where this script writes to Douyin's
+  servers. The plain `屏蔽 @用户名` action remains entirely local, and no action in the
+  script calls Douyin's official blocking API or touches the account's platform
+  blocklist. The "不感兴趣" feedback is recorded by Douyin against the account and
+  affects recommendations; it applies to a single video, not to the author.
+- Because the video is already hidden by the local block, Douyin's usual "video
+  disappears" reaction to "不感兴趣" is not visible. This is expected and does not
+  indicate that the signal failed.
+
 ## [1.2.1] - 2026-07-27
 
 ### Fixed

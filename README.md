@@ -12,6 +12,7 @@
 - 在名单用户主页隐藏作品区域，同时提供快捷解除屏蔽入口。
 - 隐藏名单用户发布的视频评论、回复、弹幕和直播聊天内容。
 - 在视频作者、评论用户和直播用户的右键菜单中提供屏蔽操作。
+- 在推荐页和关注页视频作者的右键菜单中提供“屏蔽并标记不感兴趣”，在加入本地名单的同时向抖音提交一次“不感兴趣”反馈。
 - 可选择在评论区显示“本地屏蔽”快捷按钮，并可开启屏蔽前确认。
 - 提供首次设置向导、快捷设置按钮和独立设置页面。
 - 支持搜索、分页、手动添加、移除、清空、导入和导出屏蔽名单。
@@ -39,6 +40,7 @@
 ### 添加用户
 
 - 在推荐视频作者、评论用户或直播用户上点击鼠标右键，然后选择屏蔽。
+- 在推荐页或关注页视频作者上点击鼠标右键，选择“屏蔽 @用户名+不感兴趣”，在加入名单后同时对当前视频提交抖音的“不感兴趣”。
 - 在评论区点击“本地屏蔽”快捷按钮。
 - 在“设置 → 本地屏蔽名单”中粘贴用户主页链接或输入可识别的用户信息。
 
@@ -60,6 +62,7 @@
 
 - 屏蔽名单、设置和提醒状态保存在当前浏览器的用户脚本存储空间中。
 - 脚本不会调用抖音官方拉黑接口，也不会修改抖音账户中的平台黑名单。
+- 例外：右键菜单中的“屏蔽 @用户名+不感兴趣”会触发抖音自带的“不感兴趣”，该反馈由抖音记录在账户中并影响推荐结果。只使用“屏蔽 @用户名”时不会发生这一行为。
 - 本地名单不会自动同步到其他浏览器、浏览器配置文件或设备。
 - 清除浏览器数据、删除用户脚本或重置用户脚本存储前，建议先导出名单。
 
@@ -68,7 +71,8 @@
 - 过滤依赖抖音网页当前提供的用户标识和页面结构；抖音更新页面后，部分功能可能需要适配。
 - 用户信息尚未加载或页面未提供可识别身份时，相关内容可能需要等待数据加载后才能被过滤。
 - 推荐内容由抖音动态加载，脚本只能处理浏览器当前接收到并能够识别的内容。
-- 本地屏蔽不等同于抖音官方拉黑，被屏蔽用户不会收到通知，平台推荐模型也不会因此直接改变。
+- 本地屏蔽不等同于抖音官方拉黑，被屏蔽用户不会收到通知，平台推荐模型也不会因此直接改变。使用“屏蔽 @用户名+不感兴趣”时，只有其中的“不感兴趣”会影响推荐。
+- “不感兴趣”通过抖音自带的视频右键菜单提交，只对右键的那条视频生效，并且依赖该菜单的现有文字。抖音改动菜单后该操作可能失效，此时脚本仍会完成本地屏蔽并给出提示。
 
 ## 支持项目
 
@@ -97,6 +101,7 @@
 - Hides the works section on a blocked user's profile and provides a quick unblock action.
 - Hides video comments, replies, danmaku, and live-chat messages posted by blocked users.
 - Adds blocking actions to context menus for video authors, commenters, and live users.
+- Adds a “block and mark as not interested” action to the context menu for authors in the recommendation and following feeds, which submits one “not interested” signal to Douyin alongside the local block.
 - Optionally displays a “Local Block” shortcut in comments and supports confirmation before blocking.
 - Includes an onboarding flow, a quick-settings button, and a dedicated settings interface.
 - Supports searching, pagination, manual entry, removal, clearing, importing, and exporting of the blocklist.
@@ -124,6 +129,7 @@ The project does not support the Douyin mobile application.
 ### Add a user
 
 - Right-click a video author, commenter, or live user and select the blocking action.
+- Right-click an author in the recommendation or following feed and select “屏蔽 @username+不感兴趣” to block the user and submit Douyin's “not interested” signal for the current video.
 - Select the “Local Block” shortcut displayed beside a comment.
 - Paste a profile link or enter identifiable user information under “Settings → Local Blocklist”.
 
@@ -145,6 +151,7 @@ Export the blocklist under “Settings → Local Blocklist”. The exported file
 
 - The blocklist, settings, and reminder state are stored in the userscript storage of the current browser.
 - The script does not call Douyin's official blocking API or modify the platform blocklist associated with the Douyin account.
+- One exception: the “屏蔽 @username+不感兴趣” context-menu action triggers Douyin's own “not interested” feedback, which Douyin records against the account and uses to adjust recommendations. The plain blocking action never does this.
 - Local data is not automatically synchronized across browsers, browser profiles, or devices.
 - Export the blocklist before clearing browser data, removing the userscript, or resetting userscript storage.
 
@@ -153,7 +160,8 @@ Export the blocklist under “Settings → Local Blocklist”. The exported file
 - Filtering depends on user identifiers and page structures exposed by the current Douyin website. Some features may require updates after Douyin changes its interface.
 - Content may remain visible until identity data becomes available when a page has not finished loading or does not expose identifiable user information.
 - Douyin loads recommendations dynamically. The script can only process content received and identified by the current browser.
-- Local blocking is not the same as Douyin's official blocking feature. Blocked users are not notified, and the platform recommendation model is not directly changed.
+- Local blocking is not the same as Douyin's official blocking feature. Blocked users are not notified, and the platform recommendation model is not directly changed. With “屏蔽 @username+不感兴趣”, only the “not interested” part affects recommendations.
+- The “not interested” signal is submitted through Douyin's own video context menu, applies only to the video that was right-clicked, and depends on that menu's current wording. If Douyin changes the menu, the action may stop working; the script still completes the local block and reports that the signal was not sent.
 
 ## Support
 
