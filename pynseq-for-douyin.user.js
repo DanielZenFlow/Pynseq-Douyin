@@ -3,10 +3,10 @@
 // @name:zh-CN   Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @name:en      Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @namespace    https://github.com/DanielZenFlow
-// @version      1.3.0
-// @description  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
-// @description:zh-CN  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
-// @description:en  Locally hide selected users' feed videos, profile posts, comments, danmaku, and live chat on Douyin, with blocklist management and import/export.
+// @version      1.4.0
+// @description  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频与直播、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
+// @description:zh-CN  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户的推荐视频与直播、主页作品、评论、弹幕和直播聊天；支持名单管理、导入导出。
+// @description:en  Locally hide selected users' feed videos and live streams, profile posts, comments, danmaku, and live chat on Douyin, with blocklist management and import/export.
 // @author       DanielZenFlow
 // @homepage     https://github.com/DanielZenFlow/Pynseq-Douyin
 // @supportURL   https://github.com/DanielZenFlow/Pynseq-Douyin/issues
@@ -29,7 +29,7 @@
   'use strict';
 
   const SCRIPT_NAME = 'Pynseq for Douyin｜屏序·抖音';
-  const SCRIPT_VERSION = '1.3.0';
+  const SCRIPT_VERSION = '1.4.0';
   const GITHUB_URL = 'https://github.com/DanielZenFlow/Douyin-User-Blocker';
   const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/danielzenflow';
   const BUY_ME_A_COFFEE_ICON_URL = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODg0IiBoZWlnaHQ9IjEyNzkiIHZpZXdCb3g9IjAgMCA4ODQgMTI3OSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTc5MS4xMDkgMjk3LjUxOEw3OTAuMjMxIDI5Ny4wMDJMNzg4LjIwMSAyOTYuMzgzQzc4OS4wMTggMjk3LjA3MiA3OTAuMDQgMjk3LjQ3MiA3OTEuMTA5IDI5Ny41MThWMjk3LjUxOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTgwMy44OTYgMzg4Ljg5MUw4MDIuOTE2IDM4OS4xNjZMODAzLjg5NiAzODguODkxWiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNNzkxLjQ4NCAyOTcuMzc3Qzc5MS4zNTkgMjk3LjM2MSA3OTEuMjM3IDI5Ny4zMzIgNzkxLjExOCAyOTcuMjlDNzkxLjExMSAyOTcuMzcxIDc5MS4xMTEgMjk3LjQ1MyA3OTEuMTE4IDI5Ny41MzRDNzkxLjI1MiAyOTcuNTE2IDc5MS4zNzkgMjk3LjQ2MiA3OTEuNDg0IDI5Ny4zNzdWMjk3LjM3N1oiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5MS4xMTMgMjk3LjUyOUg3OTEuMjQ0VjI5Ny40NDdMNzkxLjExMyAyOTcuNTI5WiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNODAzLjExMSAzODguNzI2TDgwNC41OTEgMzg3Ljg4M0w4MDUuMTQyIDM4Ny41NzNMODA1LjY0MSAzODcuMDRDODA0LjcwMiAzODcuNDQ0IDgwMy44NDYgMzg4LjAxNiA4MDMuMTExIDM4OC43MjZWMzg4LjcyNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5My42NjkgMjk5LjUxNUw3OTIuMjIzIDI5OC4xMzhMNzkxLjI0MyAyOTcuNjA1Qzc5MS43NyAyOTguNTM1IDc5Mi42NDEgMjk5LjIyMSA3OTMuNjY5IDI5OS41MTVWMjk5LjUxNVoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTQzMC4wMTkgMTE4Ni4xOEM0MjguODY0IDExODYuNjggNDI3Ljg1MiAxMTg3LjQ2IDQyNy4wNzYgMTE4OC40NUw0MjcuOTg4IDExODcuODdDNDI4LjYwOCAxMTg3LjMgNDI5LjQ4NSAxMTg2LjYzIDQzMC4wMTkgMTE4Ni4xOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTY0MS4xODcgMTE0NC42M0M2NDEuMTg3IDExNDMuMzMgNjQwLjU1MSAxMTQzLjU3IDY0MC43MDUgMTE0OC4yMUM2NDAuNzA1IDExNDcuODQgNjQwLjg2IDExNDcuNDYgNjQwLjkyOSAxMTQ3LjFDNjQxLjAxNSAxMTQ2LjI3IDY0MS4wODQgMTE0NS40NiA2NDEuMTg3IDExNDQuNjNaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik02MTkuMjg0IDExODYuMThDNjE4LjEyOSAxMTg2LjY4IDYxNy4xMTggMTE4Ny40NiA2MTYuMzQyIDExODguNDVMNjE3LjI1NCAxMTg3Ljg3QzYxNy44NzMgMTE4Ny4zIDYxOC43NTEgMTE4Ni42MyA2MTkuMjg0IDExODYuMThaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik0yODEuMzA0IDExOTYuMDZDMjgwLjQyNyAxMTk1LjMgMjc5LjM1NCAxMTk0LjggMjc4LjIwNyAxMTk0LjYxQzI3OS4xMzYgMTE5NS4wNiAyODAuMDY1IDExOTUuNTEgMjgwLjY4NCAxMTk1Ljg1TDI4MS4zMDQgMTE5Ni4wNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTI0Ny44NDEgMTE2NC4wMUMyNDcuNzA0IDExNjIuNjYgMjQ3LjI4OCAxMTYxLjM1IDI0Ni42MTkgMTE2MC4xNkMyNDcuMDkzIDExNjEuMzkgMjQ3LjQ4OSAxMTYyLjY2IDI0Ny44MDYgMTE2My45NEwyNDcuODQxIDExNjQuMDFaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik00NzIuNjIzIDU5MC44MzZDNDI2LjY4MiA2MTAuNTAzIDM3NC41NDYgNjMyLjgwMiAzMDYuOTc2IDYzMi44MDJDMjc4LjcxIDYzMi43NDYgMjUwLjU4IDYyOC44NjggMjIzLjM1MyA2MjEuMjc0TDI3MC4wODYgMTEwMS4wOEMyNzEuNzQgMTEyMS4xMyAyODAuODc2IDExMzkuODMgMjk1LjY3OSAxMTUzLjQ2QzMxMC40ODIgMTE2Ny4wOSAzMjkuODcgMTE3NC42NSAzNDkuOTkyIDExNzQuNjVDMzQ5Ljk5MiAxMTc0LjY1IDQxNi4yNTQgMTE3OC4wOSA0MzguMzY1IDExNzguMDlDNDYyLjE2MSAxMTc4LjA5IDUzMy41MTYgMTE3NC42NSA1MzMuNTE2IDExNzQuNjVDNTUzLjYzNiAxMTc0LjY1IDU3My4wMTkgMTE2Ny4wOCA1ODcuODE5IDExNTMuNDVDNjAyLjYxOSAxMTM5LjgyIDYxMS43NTIgMTEyMS4xMyA2MTMuNDA2IDExMDEuMDhMNjYzLjQ1OSA1NzAuODc2QzY0MS4wOTEgNTYzLjIzNyA2MTguNTE2IDU1OC4xNjEgNTkzLjA2OCA1NTguMTYxQzU0OS4wNTQgNTU4LjE0NCA1MTMuNTkxIDU3My4zMDMgNDcyLjYyMyA1OTAuODM2WiIgZmlsbD0iI0ZGREQwMCIvPgo8cGF0aCBkPSJNNzguNjg4NSAzODYuMTMyTDc5LjQ3OTkgMzg2Ljg3Mkw3OS45OTYyIDM4Ny4xODJDNzkuNTk4NyAzODYuNzg3IDc5LjE2MDMgMzg2LjQzNSA3OC42ODg1IDM4Ni4xMzJWMzg2LjEzMloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTg3OS41NjcgMzQxLjg0OUw4NzIuNTMgMzA2LjM1MkM4NjYuMjE1IDI3NC41MDMgODUxLjg4MiAyNDQuNDA5IDgxOS4xOSAyMzIuODk4QzgwOC43MTEgMjI5LjIxNSA3OTYuODIxIDIyNy42MzMgNzg4Ljc4NiAyMjAuMDFDNzgwLjc1MSAyMTIuMzg4IDc3OC4zNzYgMjAwLjU1IDc3Ni41MTggMTg5LjU3MkM3NzMuMDc2IDE2OS40MjMgNzY5Ljg0MiAxNDkuMjU3IDc2Ni4zMTQgMTI5LjE0M0M3NjMuMjY5IDExMS44NSA3NjAuODYgOTIuNDI0MyA3NTIuOTI4IDc2LjU2Qzc0Mi42MDQgNTUuMjU4NCA3MjEuMTgyIDQyLjgwMDkgNjk5Ljg4IDM0LjU1OUM2ODguOTY1IDMwLjQ4NDQgNjc3LjgyNiAyNy4wMzc1IDY2Ni41MTcgMjQuMjM1MkM2MTMuMjk3IDEwLjE5NDcgNTU3LjM0MiA1LjAzMjc3IDUwMi41OTEgMi4wOTA0N0M0MzYuODc1IC0xLjUzNTc3IDM3MC45ODMgLTAuNDQzMjM0IDMwNS40MjIgNS4zNTk2OEMyNTYuNjI1IDkuNzk4OTQgMjA1LjIyOSAxNS4xNjc0IDE1OC44NTggMzIuMDQ2OUMxNDEuOTEgMzguMjI0IDEyNC40NDUgNDUuNjM5OSAxMTEuNTU4IDU4LjczNDFDOTUuNzQ0OCA3NC44MjIxIDkwLjU4MjkgOTkuNzAyNiAxMDIuMTI4IDExOS43NjVDMTEwLjMzNiAxMzQuMDEyIDEyNC4yMzkgMTQ0LjA3OCAxMzguOTg1IDE1MC43MzdDMTU4LjE5MiAxNTkuMzE3IDE3OC4yNTEgMTY1Ljg0NiAxOTguODI5IDE3MC4yMTVDMjU2LjEyNiAxODIuODc5IDMxNS40NzEgMTg3Ljg1MSAzNzQuMDA3IDE4OS45NjhDNDM4Ljg4NyAxOTIuNTg2IDUwMy44NyAxOTAuNDY0IDU2OC40NCAxODMuNjE4QzU4NC40MDggMTgxLjg2MyA2MDAuMzQ3IDE3OS43NTggNjE2LjI1NyAxNzcuMzA0QzYzNC45OTUgMTc0LjQzIDY0Ny4wMjIgMTQ5LjkyOCA2NDEuNDk5IDEzMi44NTlDNjM0Ljg5MSAxMTIuNDUzIDYxNy4xMzQgMTA0LjUzOCA1OTcuMDU1IDEwNy42MThDNTk0LjA5NSAxMDguMDgyIDU5MS4xNTMgMTA4LjUxMiA1ODguMTkzIDEwOC45NDJMNTg2LjA2IDEwOS4yNTJDNTc5LjI1NyAxMTAuMTEzIDU3Mi40NTUgMTEwLjkxNSA1NjUuNjUzIDExMS42NjFDNTUxLjYwMSAxMTMuMTc1IDUzNy41MTUgMTE0LjQxNCA1MjMuMzk0IDExNS4zNzhDNDkxLjc2OCAxMTcuNTggNDYwLjA1NyAxMTguNTk1IDQyOC4zNjMgMTE4LjY0N0MzOTcuMjE5IDExOC42NDcgMzY2LjA1OCAxMTcuNzY5IDMzNC45ODMgMTE1LjcyMkMzMjAuODA1IDExNC43OTMgMzA2LjY2MSAxMTMuNjExIDI5Mi41NTIgMTEyLjE3N0MyODYuMTM0IDExMS41MDYgMjc5LjczMyAxMTAuODAxIDI3My4zMzMgMTEwLjAwOUwyNjcuMjQxIDEwOS4yMzVMMjY1LjkxNyAxMDkuMDQ2TDI1OS42MDIgMTA4LjEzNEMyNDYuNjk3IDEwNi4xODkgMjMzLjc5MiAxMDMuOTUzIDIyMS4wMjUgMTAxLjI1MUMyMTkuNzM3IDEwMC45NjUgMjE4LjU4NCAxMDAuMjQ5IDIxNy43NTggOTkuMjE5M0MyMTYuOTMyIDk4LjE5MDEgMjE2LjQ4MiA5Ni45MDk5IDIxNi40ODIgOTUuNTkwM0MyMTYuNDgyIDk0LjI3MDYgMjE2LjkzMiA5Mi45OTA0IDIxNy43NTggOTEuOTYxMkMyMTguNTg0IDkwLjkzMTkgMjE5LjczNyA5MC4yMTUyIDIyMS4wMjUgODkuOTI5M0gyMjEuMjY2QzIzMi4zMyA4Ny41NzIxIDI0My40NzkgODUuNTU4OSAyNTQuNjYzIDgzLjgwMzhDMjU4LjM5MiA4My4yMTg4IDI2Mi4xMzEgODIuNjQ1MyAyNjUuODgyIDgyLjA4MzJIMjY1Ljk4NUMyNzIuOTg4IDgxLjYxODYgMjgwLjAyNiA4MC4zNjI1IDI4Ni45OTQgNzkuNTM2NkMzNDcuNjI0IDczLjIzMDIgNDA4LjYxNCA3MS4wODAxIDQ2OS41MzggNzMuMTAxNEM0OTkuMTE1IDczLjk2MTggNTI4LjY3NiA3NS42OTk2IDU1OC4xMTYgNzguNjkzNUM1NjQuNDQ4IDc5LjM0NzQgNTcwLjc0NiA4MC4wMzU3IDU3Ny4wNDMgODAuODA5OUM1NzkuNDUyIDgxLjEwMjUgNTgxLjg3OCA4MS40NDY1IDU4NC4zMDUgODEuNzM5MUw1ODkuMTkxIDgyLjQ0NDVDNjAzLjQzOCA4NC41NjY3IDYxNy42MSA4Ny4xNDE5IDYzMS43MDggOTAuMTcwM0M2NTIuNTk3IDk0LjcxMjggNjc5LjQyMiA5Ni4xOTI1IDY4OC43MTMgMTE5LjA3N0M2OTEuNjczIDEyNi42MzggNjkzLjAxNSAxMzQuNDA4IDY5NC42NDkgMTQyLjAzTDY5Ni43MzEgMTUxLjc1MkM2OTYuNzg2IDE1MS45MjYgNjk2LjgyNiAxNTIuMTA1IDY5Ni44NTIgMTUyLjI4NUM3MDEuNzczIDE3NS4yMjcgNzA2LjcgMTk4LjE2OSA3MTEuNjMyIDIyMS4xMTFDNzExLjk5NCAyMjIuODA2IDcxMi4wMDIgMjI0LjU1NyA3MTEuNjU3IDIyNi4yNTVDNzExLjMxMiAyMjcuOTU0IDcxMC42MjEgMjI5LjU2MiA3MDkuNjI2IDIzMC45ODJDNzA4LjYzMiAyMzIuNDAxIDcwNy4zNTUgMjMzLjYgNzA1Ljg3NyAyMzQuNTA0QzcwNC4zOTggMjM1LjQwOCA3MDIuNzUgMjM1Ljk5NyA3MDEuMDMzIDIzNi4yMzZINzAwLjg5NUw2OTcuODg0IDIzNi42NDlMNjk0LjkwOCAyMzcuMDQ0QzY4NS40NzggMjM4LjI3MiA2NzYuMDM4IDIzOS40MTkgNjY2LjU4NiAyNDAuNDg2QzY0Ny45NjggMjQyLjYwOCA2MjkuMzIyIDI0NC40NDMgNjEwLjY0OCAyNDUuOTkyQzU3My41MzkgMjQ5LjA3NyA1MzYuMzU2IDI1MS4xMDIgNDk5LjA5OCAyNTIuMDY2QzQ4MC4xMTQgMjUyLjU3IDQ2MS4xMzUgMjUyLjgwNiA0NDIuMTYyIDI1Mi43NzFDMzY2LjY0MyAyNTIuNzEyIDI5MS4xODkgMjQ4LjMyMiAyMTYuMTczIDIzOS42MjVDMjA4LjA1MSAyMzguNjYyIDE5OS45MyAyMzcuNjI5IDE5MS44MDggMjM2LjU4QzE5OC4xMDYgMjM3LjM4OSAxODcuMjMxIDIzNS45NiAxODUuMDI5IDIzNS42NTFDMTc5Ljg2NyAyMzQuOTI4IDE3NC43MDUgMjM0LjE3NyAxNjkuNTQzIDIzMy4zOTdDMTUyLjIxNiAyMzAuNzk4IDEzNC45OTMgMjI3LjU5OCAxMTcuNyAyMjQuNzkzQzk2Ljc5NDQgMjIxLjM1MiA3Ni44MDA1IDIyMy4wNzMgNTcuODkwNiAyMzMuMzk3QzQyLjM2ODUgMjQxLjg5MSAyOS44MDU1IDI1NC45MTYgMjEuODc3NiAyNzAuNzM1QzEzLjcyMTcgMjg3LjU5NyAxMS4yOTU2IDMwNS45NTYgNy42NDc4NiAzMjQuMDc1QzQuMDAwMDkgMzQyLjE5MyAtMS42NzgwNSAzNjEuNjg4IDAuNDcyNzUxIDM4MC4yODhDNS4xMDEyOCA0MjAuNDMxIDMzLjE2NSA0NTMuMDU0IDczLjUzMTMgNDYwLjM1QzExMS41MDYgNDY3LjIzMiAxNDkuNjg3IDQ3Mi44MDcgMTg3Ljk3MSA0NzcuNTU2QzMzOC4zNjEgNDk1Ljk3NSA0OTAuMjk0IDQ5OC4xNzggNjQxLjE1NSA0ODQuMTI5QzY1My40NCA0ODIuOTgyIDY2NS43MDggNDgxLjczMiA2NzcuOTU5IDQ4MC4zNzhDNjgxLjc4NiA0NzkuOTU4IDY4NS42NTggNDgwLjM5OCA2ODkuMjkyIDQ4MS42NjhDNjkyLjkyNiA0ODIuOTM4IDY5Ni4yMyA0ODUuMDA1IDY5OC45NjIgNDg3LjcxN0M3MDEuNjk0IDQ5MC40MjkgNzAzLjc4NCA0OTMuNzE4IDcwNS4wOCA0OTcuMzQyQzcwNi4zNzcgNTAwLjk2NyA3MDYuODQ2IDUwNC44MzYgNzA2LjQ1MyA1MDguNjY1TDcwMi42MzMgNTQ1Ljc5N0M2OTQuOTM2IDYyMC44MjggNjg3LjIzOSA2OTUuODU0IDY3OS41NDIgNzcwLjg3NEM2NzEuNTEzIDg0OS42NTcgNjYzLjQzMSA5MjguNDM0IDY1NS4yOTggMTAwNy4yQzY1My4wMDQgMTAyOS4zOSA2NTAuNzEgMTA1MS41NyA2NDguNDE2IDEwNzMuNzRDNjQ2LjIxMyAxMDk1LjU4IDY0NS45MDQgMTExOC4xIDY0MS43NTcgMTEzOS42OEM2MzUuMjE4IDExNzMuNjEgNjEyLjI0OCAxMTk0LjQ1IDU3OC43MyAxMjAyLjA3QzU0OC4wMjIgMTIwOS4wNiA1MTYuNjUyIDEyMTIuNzMgNDg1LjE2MSAxMjEzLjAxQzQ1MC4yNDkgMTIxMy4yIDQxNS4zNTUgMTIxMS42NSAzODAuNDQzIDEyMTEuODRDMzQzLjE3MyAxMjEyLjA1IDI5Ny41MjUgMTIwOC42MSAyNjguNzU2IDExODAuODdDMjQzLjQ3OSAxMTU2LjUxIDIzOS45ODYgMTExOC4zNiAyMzYuNTQ1IDEwODUuMzdDMjMxLjk1NyAxMDQxLjcgMjI3LjQwOSA5OTguMDM5IDIyMi45IDk1NC4zODFMMTk3LjYwNyA3MTEuNjE1TDE4MS4yNDQgNTU0LjUzOEMxODAuOTY4IDU1MS45NCAxODAuNjkzIDU0OS4zNzYgMTgwLjQzNSA1NDYuNzZDMTc4LjQ3MyA1MjguMDIzIDE2NS4yMDcgNTA5LjY4MSAxNDQuMzAxIDUxMC42MjdDMTI2LjQwNyA1MTEuNDE4IDEwNi4wNjkgNTI2LjYyOSAxMDguMTY4IDU0Ni43NkwxMjAuMjk4IDY2My4yMTRMMTQ1LjM4NSA5MDQuMTA0QzE1Mi41MzIgOTcyLjUyOCAxNTkuNjYxIDEwNDAuOTYgMTY2Ljc3MyAxMTA5LjQxQzE2OC4xNSAxMTIyLjUyIDE2OS40NCAxMTM1LjY3IDE3MC44ODUgMTE0OC43OEMxNzguNzQ5IDEyMjAuNDMgMjMzLjQ2NSAxMjU5LjA0IDMwMS4yMjQgMTI2OS45MUMzNDAuNzk5IDEyNzYuMjggMzgxLjMzNyAxMjc3LjU5IDQyMS40OTcgMTI3OC4yNEM0NzIuOTc5IDEyNzkuMDcgNTI0Ljk3NyAxMjgxLjA1IDU3NS42MTUgMTI3MS43MkM2NTAuNjUzIDEyNTcuOTUgNzA2Ljk1MiAxMjA3Ljg1IDcxNC45ODcgMTEzMC4xM0M3MTcuMjgyIDExMDcuNjkgNzE5LjU3NiAxMDg1LjI1IDcyMS44NyAxMDYyLjhDNzI5LjQ5OCA5ODguNTU5IDczNy4xMTUgOTE0LjMxMyA3NDQuNzIgODQwLjA2MUw3NjkuNjAxIDU5Ny40NTFMNzgxLjAwOSA0ODYuMjYzQzc4MS41NzcgNDgwLjc0OSA3ODMuOTA1IDQ3NS41NjUgNzg3LjY0OSA0NzEuNDc4Qzc5MS4zOTIgNDY3LjM5MSA3OTYuMzUyIDQ2NC42MTcgODAxLjc5NCA0NjMuNTY3QzgyMy4yNSA0NTkuMzg2IDg0My43NjEgNDUyLjI0NSA4NTkuMDIzIDQzNS45MTZDODgzLjMxOCA0MDkuOTE4IDg4OC4xNTMgMzc2LjAyMSA4NzkuNTY3IDM0MS44NDlaTTcyLjQzMDEgMzY1LjgzNUM3Mi43NTcgMzY1LjY4IDcyLjE1NDggMzY4LjQ4NCA3MS44OTY3IDM2OS43OTJDNzEuODQ1MSAzNjcuODEzIDcxLjk0ODMgMzY2LjA1OCA3Mi40MzAxIDM2NS44MzVaTTc0LjUxMjEgMzgxLjk0Qzc0LjY4NDIgMzgxLjgxOSA3NS4yMDAzIDM4Mi41MDggNzUuNzMzNyAzODMuMzM0Qzc0LjkyNSAzODIuNTc2IDc0LjQwODkgMzgyLjAwOSA3NC40OTQ5IDM4MS45NEg3NC41MTIxWk03Ni41NTk3IDM4NC42NDFDNzcuMjk5NiAzODUuODk3IDc3LjY5NTMgMzg2LjY4OSA3Ni41NTk3IDM4NC42NDFWMzg0LjY0MVpNODAuNjcyIDM4Ny45NzlIODAuNzc1MkM4MC43NzUyIDM4OC4xIDgwLjk2NDUgMzg4LjIyIDgxLjAzMzMgMzg4LjM0MUM4MC45MTkyIDM4OC4yMDggODAuNzkyNSAzODguMDg3IDgwLjY1NDggMzg3Ljk3OUg4MC42NzJaTTgwMC43OTYgMzgyLjk4OUM3OTMuMDg4IDM5MC4zMTkgNzgxLjQ3MyAzOTMuNzI2IDc2OS45OTYgMzk1LjQzQzY0MS4yOTIgNDE0LjUyOSA1MTAuNzEzIDQyNC4xOTkgMzgwLjU5NyA0MTkuOTMyQzI4Ny40NzYgNDE2Ljc0OSAxOTUuMzM2IDQwNi40MDcgMTAzLjE0NCAzOTMuMzgyQzk0LjExMDIgMzkyLjEwOSA4NC4zMTk3IDM5MC40NTcgNzguMTA4MiAzODMuNzk4QzY2LjQwNzggMzcxLjIzNyA3Mi4xNTQ4IDM0NS45NDQgNzUuMjAwMyAzMzAuNzY4Qzc3Ljk4NzggMzE2Ljg2NSA4My4zMjE4IDI5OC4zMzQgOTkuODU3MiAyOTYuMzU1QzEyNS42NjcgMjkzLjMyNyAxNTUuNjQgMzA0LjIxOCAxODEuMTc1IDMwOC4wOUMyMTEuOTE3IDMxMi43ODEgMjQyLjc3NCAzMTYuNTM4IDI3My43NDUgMzE5LjM2QzQwNS45MjUgMzMxLjQwNSA1NDAuMzI1IDMyOS41MjkgNjcxLjkyIDMxMS45MUM2OTUuOTA1IDMwOC42ODYgNzE5LjgwNSAzMDQuOTQxIDc0My42MTkgMzAwLjY3NEM3NjQuODM1IDI5Ni44NzEgNzg4LjM1NiAyODkuNzMxIDgwMS4xNzUgMzExLjcwM0M4MDkuOTY3IDMyNi42NzMgODExLjEzNyAzNDYuNzAxIDgwOS43NzggMzYzLjYxNUM4MDkuMzU5IDM3MC45ODQgODA2LjEzOSAzNzcuOTE1IDgwMC43NzkgMzgyLjk4OUg4MDAuNzk2WiIgZmlsbD0iIzBEMEMyMiIvPgo8L3N2Zz4K';
@@ -62,8 +62,16 @@
   const DANMAKU_ITEM_SELECTOR = '[data-danmu-id], [data-danmaku-id], [data-danmaku-user-id], [data-danmu-user-id]';
   const LIVE_ITEM_SELECTOR = '.webcast-chatroom___item, [data-e2e="chat-message"], [data-e2e="live-chat-item"]';
   const FEED_VIDEO_SELECTOR = '[data-e2e-vid][data-e2e^="feed-"]';
+  const FEED_LIVE_SELECTOR = '[data-e2e="feed-live"]';
+  const FEED_CONTENT_SELECTOR = `${FEED_VIDEO_SELECTOR}, ${FEED_LIVE_SELECTOR}`;
   const FEED_SLIDE_SELECTOR = '[data-e2e="feed-item"]';
-  const FEED_AUTHOR_SELECTOR = '[data-e2e="feed-video-nickname"], [data-e2e="video-avatar"]';
+  const FEED_AUTHOR_SELECTOR = [
+    '[data-e2e="feed-video-nickname"]',
+    '[data-e2e="feed-author-name"]',
+    '[data-e2e="video-avatar"]',
+    '[data-e2e="feed-live"] a[href*="live.douyin.com"]',
+    '[data-e2e="feed-live"] a[href*="/live/"]',
+  ].join(', ');
   const FEED_PREV_SELECTOR = '[data-e2e="video-switch-prev-arrow"]';
   const FEED_NEXT_SELECTOR = '[data-e2e="video-switch-next-arrow"]';
   const FEED_BLOCKED_ATTR = 'data-dy-local-blocker-feed-blocked';
@@ -76,6 +84,7 @@
   const DOUYIN_DISLIKE_ITEM_PATTERN = /^不感兴趣(?:\s*[（(]\s*[A-Za-z]\s*[)）])?$/;
   const DOUYIN_MENU_WAIT_MS = 1000;
   const DOUYIN_MENU_POLL_MS = 50;
+  const LIVE_IDENTITY_SETTLE_MS = 80;
   // 推荐流单批响应实测在 100KB 以上；低于此长度的响应不可能是视频列表，直接跳过解析。
   const MIN_FEED_PAYLOAD_LENGTH = 20000;
   const MANAGER_PAGE_SIZE = 20;
@@ -87,7 +96,7 @@
   const MAX_DANMAKU_ID_CACHE = 2000;
   const MAX_DANMAKU_USER_CACHE = 1000;
   const MAX_BLOCKED_FEED_VIDEO_CACHE = 500;
-  const CONTENT_ITEM_SELECTOR = `${COMMENT_ITEM_SELECTOR}, ${DANMAKU_ITEM_SELECTOR}, ${LIVE_ITEM_SELECTOR}, ${FEED_VIDEO_SELECTOR}`;
+  const CONTENT_ITEM_SELECTOR = `${COMMENT_ITEM_SELECTOR}, ${DANMAKU_ITEM_SELECTOR}, ${LIVE_ITEM_SELECTOR}, ${FEED_CONTENT_SELECTOR}`;
   const DEFAULT_SETTINGS = Object.freeze({
     showCommentButton: true,
     showSettingsButton: true,
@@ -117,9 +126,13 @@
   const danmakuBySecUid = new Map();
   /** @type {Set<string>} */
   const blockedFeedVideoIds = new Set();
+  /** @type {WeakMap<Element, number>} */
+  const pendingLiveIdentityClears = new WeakMap();
   // 卡片上的“解除屏蔽”是一次临时查看：只对当前这一条、且只在它仍停留在当前位置时有效。
   // 一旦切走，屏蔽立即恢复，符合“屏蔽是持久状态”的常规预期。
   let revealedFeedVideoId = '';
+  let revealedFeedLiveItem = null;
+  let revealedFeedLiveKey = '';
 
   let observer = null;
   let domLayerInitialized = false;
@@ -142,7 +155,10 @@
   const pageWindow = typeof unsafeWindow === 'object' ? unsafeWindow : window;
 
   GM_addStyle(`
-    .${HIDDEN_CLASS} { display: none !important; }
+    .${HIDDEN_CLASS},
+    .webcast-chatroom___item[${MARK_ATTR}="1"],
+    [data-e2e="chat-message"][${MARK_ATTR}="1"],
+    [data-e2e="live-chat-item"][${MARK_ATTR}="1"] { display: none !important; }
     .${PROFILE_LIST_HIDDEN_CLASS} { display: none !important; }
     .${PROFILE_WORKS_HIDDEN_CLASS} > :not(.${PROFILE_PLACEHOLDER_CLASS}) {
       display: none !important;
@@ -222,6 +238,73 @@
     }
     .${PROFILE_UNBLOCK_CLASS}:hover {
       color: rgba(210,210,210,.8) !important;
+    }
+    @keyframes dy-lb-loading-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    html:not(.${PROFILE_MODE_CLASS}) .douyin-player-loading,
+    html:not(.${PROFILE_MODE_CLASS}) .xgplayer-loading,
+    html:not(.${PROFILE_MODE_CLASS}) [data-e2e="loading"],
+    html:not(.${PROFILE_MODE_CLASS}) [data-e2e="feed-loading"] {
+      background-image: none !important;
+    }
+    html:not(.${PROFILE_MODE_CLASS}) .douyin-player-loading > *,
+    html:not(.${PROFILE_MODE_CLASS}) .xgplayer-loading > *,
+    html:not(.${PROFILE_MODE_CLASS}) [data-e2e="loading"] > *,
+    html:not(.${PROFILE_MODE_CLASS}) [data-e2e="feed-loading"] > * {
+      visibility: hidden !important;
+      animation: none !important;
+    }
+    html:not(.${PROFILE_MODE_CLASS}) .douyin-player-loading::before,
+    html:not(.${PROFILE_MODE_CLASS}) .xgplayer-loading::before,
+    html:not(.${PROFILE_MODE_CLASS}) [data-e2e="loading"]::before,
+    html:not(.${PROFILE_MODE_CLASS}) [data-e2e="feed-loading"]::before {
+      content: none !important;
+      display: none !important;
+    }
+    html:not(.${PROFILE_MODE_CLASS}) .douyin-player-loading::after,
+    html:not(.${PROFILE_MODE_CLASS}) .xgplayer-loading::after,
+    html:not(.${PROFILE_MODE_CLASS}) [data-e2e="loading"]::after,
+    html:not(.${PROFILE_MODE_CLASS}) [data-e2e="feed-loading"]::after {
+      content: "" !important;
+      position: static !important;
+      display: block !important;
+      width: 22px !important;
+      height: 22px !important;
+      box-sizing: border-box !important;
+      margin: auto !important;
+      border: 2px solid rgba(127,127,127,.36) !important;
+      border-top-color: #bdbdbd !important;
+      border-radius: 50% !important;
+      animation: dy-lb-loading-spin .72s linear infinite !important;
+      pointer-events: none !important;
+    }
+    /* 抖音播放器启动、切换、缓冲和列表续载分别使用不同的双点精灵图；
+       保留稳定的结构选择器，并为当前 CSS Modules 类名提供兜底。 */
+    html:not(.${PROFILE_MODE_CLASS}) .xg-douyin-loading,
+    html:not(.${PROFILE_MODE_CLASS}) .xg-douyin-loading-v2,
+    html:not(.${PROFILE_MODE_CLASS}) .dwhiqow7,
+    html:not(.${PROFILE_MODE_CLASS}) .DYLM7cqM,
+    html:not(.${PROFILE_MODE_CLASS}) .commonLoadingloading,
+    html:not(.${PROFILE_MODE_CLASS}) [data-e2e="scroll-list"] + div > div > div:only-child {
+      width: 22px !important;
+      min-width: 22px !important;
+      max-width: 22px !important;
+      height: 22px !important;
+      min-height: 22px !important;
+      max-height: 22px !important;
+      flex: 0 0 22px !important;
+      box-sizing: border-box !important;
+      background: transparent !important;
+      border: 2px solid rgba(127,127,127,.36) !important;
+      border-top-color: #bdbdbd !important;
+      border-radius: 50% !important;
+      box-shadow: none !important;
+      filter: none !important;
+      animation: dy-lb-loading-spin .72s linear infinite !important;
+      transform-origin: center !important;
+      pointer-events: none !important;
     }
     html.${PROFILE_MODE_CLASS} .__pre_create_player__,
     html.${PROFILE_MODE_CLASS} .douyin-player-loading,
@@ -1258,13 +1341,13 @@
       comments: COMMENT_ITEM_SELECTOR,
       danmaku: DANMAKU_ITEM_SELECTOR,
       live: LIVE_ITEM_SELECTOR,
-      feed: FEED_VIDEO_SELECTOR,
+      feed: FEED_CONTENT_SELECTOR,
     };
 
     processMatching(root, selectors.comments, processCommentItem);
     processMatching(root, selectors.danmaku, processDanmakuItem);
     processMatching(root, selectors.live, processLiveChatItem);
-    processMatching(root, selectors.feed, processFeedVideoItem);
+    processMatching(root, selectors.feed, processFeedItem);
   }
 
   function processMatching(root, selector, callback) {
@@ -1301,19 +1384,50 @@
     applyVisibility(item, info, settings.hideDanmaku);
   }
 
-  function processLiveChatItem(item) {
+  function processLiveChatItem(item, allowIdentitylessClear = false) {
     const info = extractLiveInfo(item);
     if (!hasAnyIdentity(info)) {
+      if (!allowIdentitylessClear && preserveHiddenLiveItemWhileIdentitySettles(item)) return;
+      clearPendingLiveIdentityClear(item);
       item.classList.remove(HIDDEN_CLASS);
       item.removeAttribute(MARK_ATTR);
       return;
     }
+    clearPendingLiveIdentityClear(item);
     applyVisibility(item, info, settings.hideLiveChat);
   }
 
-  function processFeedVideoItem(item) {
+  function preserveHiddenLiveItemWhileIdentitySettles(item) {
+    if (!item.classList.contains(HIDDEN_CLASS) && item.getAttribute(MARK_ATTR) !== '1') {
+      return false;
+    }
+
+    // 直播聊天使用虚拟列表复用节点。React 可能先清空旧消息，再在下一次提交中写入
+    // 新昵称和正文；此时立刻解除隐藏会让被屏蔽用户的新消息在两次提交之间闪现。
+    item.classList.add(HIDDEN_CLASS);
+    item.setAttribute(MARK_ATTR, '1');
+    clearPendingLiveIdentityClear(item);
+    const timer = window.setTimeout(() => {
+      if (pendingLiveIdentityClears.get(item) !== timer) return;
+      pendingLiveIdentityClears.delete(item);
+      if (item.isConnected) processLiveChatItem(item, true);
+    }, LIVE_IDENTITY_SETTLE_MS);
+    pendingLiveIdentityClears.set(item, timer);
+    return true;
+  }
+
+  function clearPendingLiveIdentityClear(item) {
+    const timer = pendingLiveIdentityClears.get(item);
+    if (timer === undefined) return;
+    window.clearTimeout(timer);
+    pendingLiveIdentityClears.delete(item);
+  }
+
+  function processFeedItem(item) {
     const slide = item.closest(FEED_SLIDE_SELECTOR) || item;
     const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
+    const info = extractFeedAuthorInfo(item);
+    const liveKey = item.matches(FEED_LIVE_SELECTOR) ? feedLiveIdentityKey(info) : '';
     const markedVideoId = normalizeId(slide.getAttribute(FEED_BLOCKED_VIDEO_ATTR));
     if (markedVideoId && videoId && markedVideoId !== videoId) {
       // 虚拟列表复用同一个滑块节点时，旧的屏蔽标记必须随视频 ID 一起失效。
@@ -1326,21 +1440,21 @@
       clearBlockedFeedSlide(slide);
       return;
     }
-    if (videoId && videoId === revealedFeedVideoId) {
+    if (
+      (videoId && videoId === revealedFeedVideoId) ||
+      (liveKey && item === revealedFeedLiveItem && liveKey === revealedFeedLiveKey)
+    ) {
       clearBlockedFeedSlide(slide);
       return;
     }
     if (
-      revealedFeedVideoId &&
-      videoId &&
-      videoId !== revealedFeedVideoId &&
+      (revealedFeedVideoId || revealedFeedLiveItem) &&
       isConfirmedActiveFeedSlide(item, slide)
     ) {
-      // 另一条视频成为当前项，说明用户已经离开临时查看的那一条，立即恢复它的屏蔽。
-      revokeRevealedFeedVideo();
+      // 另一条内容成为当前项，说明用户已经离开临时查看的那一条，立即恢复它的屏蔽。
+      revokeRevealedFeedContent();
     }
 
-    const info = extractFeedAuthorInfo(item);
     const hasIdentity = hasAnyIdentity(info);
     if (
       !hasIdentity &&
@@ -1367,7 +1481,7 @@
       }
       return;
     }
-    guardBlockedFeedVideo(item);
+    guardBlockedFeedItem(item);
   }
 
   function applyVisibility(element, info, scopeEnabled = true) {
@@ -1380,7 +1494,7 @@
   // 数据层过滤会在 React 拿到响应之前移除被屏蔽的推荐条目，因此正常浏览时
   // feed 里根本不会出现屏蔽项。这里只负责唯一的残留场景：用户刚刚屏蔽了
   // 缓冲区内已经渲染出来的作者，这些条目无法再退回数据层处理。
-  function guardBlockedFeedVideo(item) {
+  function guardBlockedFeedItem(item) {
     if (!item?.isConnected) return;
     const slide = item.closest(FEED_SLIDE_SELECTOR) || item;
     const videoId = normalizeId(item.getAttribute('data-e2e-vid'));
@@ -1405,9 +1519,9 @@
     removeFeedBlockedCard(slide);
     slide.removeAttribute(FEED_BLOCKED_ATTR);
     slide.removeAttribute(FEED_BLOCKED_VIDEO_ATTR);
-    for (const item of slide.matches?.(FEED_VIDEO_SELECTOR)
+    for (const item of slide.matches?.(FEED_CONTENT_SELECTOR)
       ? [slide]
-      : slide.querySelectorAll?.(FEED_VIDEO_SELECTOR) || []) {
+      : slide.querySelectorAll?.(FEED_CONTENT_SELECTOR) || []) {
       item.classList.remove(HIDDEN_CLASS);
       item.removeAttribute(MARK_ATTR);
     }
@@ -1426,7 +1540,10 @@
 
   function getActiveFeedItem() {
     const visibleMarked = pickNearestFeedItem(
-      [...document.querySelectorAll('[data-e2e="feed-active-video"]')]
+      [
+        ...document.querySelectorAll('[data-e2e="feed-active-video"]'),
+        ...document.querySelectorAll(FEED_LIVE_SELECTOR),
+      ]
     );
     if (visibleMarked) return visibleMarked;
 
@@ -1435,7 +1552,7 @@
     const playingItems = new Set();
     for (const media of document.querySelectorAll(`${FEED_SLIDE_SELECTOR} video, ${FEED_SLIDE_SELECTOR} audio`)) {
       if (!media.paused) {
-        const item = media.closest(FEED_VIDEO_SELECTOR);
+        const item = media.closest(FEED_CONTENT_SELECTOR);
         if (item) playingItems.add(item);
       }
     }
@@ -1497,6 +1614,14 @@
     );
   }
 
+  function feedLiveIdentityKey(info) {
+    const clean = cleanInfo(info);
+    if (clean.secUid) return `s:${clean.secUid}`;
+    if (clean.userId) return `u:${clean.userId}`;
+    const nickname = normalizeNickname(clean.nickname);
+    return nickname ? `n:${nickname}` : '';
+  }
+
   function getVisibleFeedNavigationControl(direction = 1) {
     const selector = direction < 0 ? FEED_PREV_SELECTOR : FEED_NEXT_SELECTOR;
     return [...document.querySelectorAll(selector)].find((button) => {
@@ -1550,20 +1675,38 @@
     event.preventDefault();
     event.stopImmediatePropagation();
     const slide = event.currentTarget.closest(FEED_SLIDE_SELECTOR);
+    const item = slide?.querySelector?.(FEED_CONTENT_SELECTOR);
     const videoId = feedSlideVideoId(slide);
-    revealedFeedVideoId = videoId;
+    if (videoId) {
+      revealedFeedVideoId = videoId;
+      revealedFeedLiveItem = null;
+      revealedFeedLiveKey = '';
+    } else if (item?.matches?.(FEED_LIVE_SELECTOR)) {
+      const liveKey = feedLiveIdentityKey(extractFeedAuthorInfo(item));
+      if (!liveKey) return;
+      revealedFeedVideoId = '';
+      revealedFeedLiveItem = item;
+      revealedFeedLiveKey = liveKey;
+    } else {
+      return;
+    }
     clearBlockedFeedSlide(slide);
     resumeRevealedFeedVideo(slide);
   }
 
-  function revokeRevealedFeedVideo() {
+  function revokeRevealedFeedContent() {
     const videoId = revealedFeedVideoId;
+    const liveItem = revealedFeedLiveItem;
     // 先清空再重扫，避免重入。
     revealedFeedVideoId = '';
-    if (!videoId) return;
-    for (const item of document.querySelectorAll(FEED_VIDEO_SELECTOR)) {
-      if (normalizeId(item.getAttribute('data-e2e-vid')) === videoId) processFeedVideoItem(item);
+    revealedFeedLiveItem = null;
+    revealedFeedLiveKey = '';
+    if (videoId) {
+      for (const item of document.querySelectorAll(FEED_VIDEO_SELECTOR)) {
+        if (normalizeId(item.getAttribute('data-e2e-vid')) === videoId) processFeedItem(item);
+      }
     }
+    if (liveItem?.isConnected) processFeedItem(liveItem);
   }
 
   // 解除屏蔽后只需恢复播放。音量与静音一律交给抖音自己的播放器，
@@ -1622,13 +1765,15 @@
   function onFeedMediaPlayback(event) {
     const media = event.target;
     if (!(media instanceof Element) || !/^(VIDEO|AUDIO)$/i.test(media.tagName)) return;
-    const item = media.closest(FEED_VIDEO_SELECTOR);
+    const item = media.closest(FEED_CONTENT_SELECTOR);
     if (!item) return;
-    processFeedVideoItem(item);
+    processFeedItem(item);
   }
 
   function clearFeedSkip() {
     revealedFeedVideoId = '';
+    revealedFeedLiveItem = null;
+    revealedFeedLiveKey = '';
     for (const slide of document.querySelectorAll(`[${FEED_BLOCKED_ATTR}="1"]`)) {
       clearBlockedFeedSlide(slide);
     }
@@ -1682,7 +1827,7 @@
     const danmaku = target.closest(DANMAKU_ITEM_SELECTOR);
     const live = target.closest(LIVE_ITEM_SELECTOR);
     const feedAuthor = target.closest(FEED_AUTHOR_SELECTOR);
-    const feed = feedAuthor?.closest(FEED_VIDEO_SELECTOR);
+    const feed = feedAuthor?.closest(FEED_CONTENT_SELECTOR);
 
     let info = null;
     let source = '';
@@ -1701,7 +1846,9 @@
       item = comment;
     } else if (feed) {
       info = extractFeedAuthorInfo(feed);
-      source = '推荐/关注视频作者右键菜单';
+      source = feed.matches(FEED_LIVE_SELECTOR)
+        ? '推荐/关注直播主播右键菜单'
+        : '推荐/关注视频作者右键菜单';
       item = feed;
     }
 
@@ -1921,8 +2068,8 @@
     let link = null;
     if (item.matches?.(LIVE_ITEM_SELECTOR)) {
       link = findAuthorProfileLink(item, findLiveNicknameElement(item));
-    } else if (item.matches?.(FEED_VIDEO_SELECTOR)) {
-      link = item.querySelector('[data-e2e="video-avatar"][href*="/user/"]');
+    } else if (item.matches?.(FEED_CONTENT_SELECTOR)) {
+      link = item.querySelector('[data-e2e="video-avatar"][href*="/user/"], a[href*="/user/"]');
     } else if (item.matches?.(COMMENT_ITEM_SELECTOR)) {
       link = findAuthorProfileLink(item, findCommentNicknameElement(item));
     }
@@ -1931,13 +2078,24 @@
   }
 
   function extractFeedAuthorInfo(item) {
-    const nickname = normalizeUserNickname(
-      textOf(item.querySelector('[data-e2e="feed-video-nickname"]')),
+    const isLiveFeed = item.matches(FEED_LIVE_SELECTOR);
+    const nicknameElement = item.querySelector(
+      '[data-e2e="feed-video-nickname"], [data-e2e="feed-author-name"]',
     );
-    const link = item.querySelector('[data-e2e="video-avatar"][href*="/user/"]');
+    const nickname = normalizeUserNickname(
+      firstNonEmpty(
+        textOf(nicknameElement),
+        nicknameElement?.getAttribute?.('aria-label'),
+        nicknameElement?.getAttribute?.('title'),
+      ),
+    );
+    const link = item.querySelector('[data-e2e="video-avatar"][href*="/user/"], a[href*="/user/"]');
     const href = link?.getAttribute('href') || '';
     const fromHref = parseUserReference(href);
-    const reactInfo = (!hasStableIdentity(fromHref) && nickname)
+    const shouldReadReact = isLiveFeed
+      ? (!hasStableIdentity(fromHref) || !nickname)
+      : (!hasStableIdentity(fromHref) && Boolean(nickname));
+    const reactInfo = shouldReadReact
       ? extractUserFromReact(item, nickname)
       : {};
 
@@ -2312,7 +2470,7 @@
 
   function filterFeedPayloadText(raw) {
     if (!enabled || !settings.hideFeedVideos || !entries.length) return raw;
-    if (!raw.includes('aweme_id')) return raw;
+    if (!raw.includes('aweme_id') && !raw.includes('cell_room') && !raw.includes('cellRoom')) return raw;
     let payload;
     try {
       payload = JSON.parse(raw);
@@ -2329,8 +2487,8 @@
 
   /**
    * 就地过滤响应对象，返回是否发生了删除。
-   * 推荐流/精选：{ aweme_list: [ {author, aweme_id} ] }
-   * 关注流：{ data: [ { aweme: {author, aweme_id} } ] }
+   * 推荐流/精选：{ aweme_list: [ {author, aweme_id} | {cell_room} ] }
+   * 关注流：{ data: [ { aweme: {author, aweme_id}, cell_room? } ] }
    * has_more、cursor、log_pb 等分页字段保持原样，抖音会照常继续补货。
    */
   function filterFeedPayload(payload) {
@@ -2352,13 +2510,7 @@
     const media = (record.aweme && typeof record.aweme === 'object' && record.aweme) ||
       (record.aweme_info && typeof record.aweme_info === 'object' && record.aweme_info) ||
       record;
-    const author = media.author;
-    if (!author || typeof author !== 'object') return false;
-    const info = cleanInfo({
-      secUid: author.sec_uid,
-      userId: author.uid || media.author_user_id,
-      nickname: author.nickname,
-    });
+    const info = extractFeedRecordAuthorInfo(record, media);
     if (!hasAnyIdentity(info)) return false;
     // 数据层只做只读匹配，绝不在这里回写本地名单：
     // 响应读取可能发生在渲染的关键路径上，任何存储写入都会拖慢页面。
@@ -2366,6 +2518,48 @@
     const videoId = normalizeId(media.aweme_id || media.awemeId);
     if (videoId) rememberBlockedFeedVideoId(videoId);
     return true;
+  }
+
+  function extractFeedRecordAuthorInfo(record, media = record) {
+    const liveCell = [
+      record?.cell_room,
+      record?.cellRoom,
+      media?.cell_room,
+      media?.cellRoom,
+    ].find((value) => value && typeof value === 'object');
+    if (liveCell) {
+      const rawRoom = parseFeedLiveRawData(liveCell);
+      const liveOwner = [
+        rawRoom.owner,
+        rawRoom.user,
+        liveCell.owner,
+        liveCell.user,
+      ].find((value) => value && typeof value === 'object');
+      if (liveOwner) {
+        const liveInfo = userCandidateFromObject(liveOwner);
+        if (hasAnyIdentity(liveInfo)) return liveInfo;
+      }
+    }
+
+    const author = media?.author;
+    if (!author || typeof author !== 'object') return {};
+    return cleanInfo({
+      secUid: author.sec_uid,
+      userId: author.uid || media.author_user_id,
+      nickname: author.nickname,
+    });
+  }
+
+  function parseFeedLiveRawData(cellRoom) {
+    const raw = cellRoom?.rawdata ?? cellRoom?.raw_data ?? cellRoom?.rawData;
+    if (raw && typeof raw === 'object') return raw;
+    if (typeof raw !== 'string' || !raw.trim()) return {};
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch {
+      return {};
+    }
   }
 
   function patchFetch() {
@@ -2603,7 +2797,7 @@
       overlay.innerHTML = `
         <section class="dy-confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="dy-confirm-title">
           <h2 id="dy-confirm-title">确认本地屏蔽</h2>
-          <p>屏蔽后，该用户的推荐视频、主页作品、评论、弹幕和直播发言会按当前设置隐藏。</p>
+          <p>屏蔽后，该用户的推荐视频、推荐直播、主页作品、评论、弹幕和直播发言会按当前设置隐藏。</p>
           <div class="dy-confirm-actions">
             <button class="dy-lb-btn" type="button" data-confirm="cancel">取消</button>
             <button class="dy-lb-btn dy-primary" type="button" data-confirm="accept"></button>
@@ -2679,7 +2873,7 @@
       settings.hideFeedVideos &&
       isBlocked(extractFeedAuthorInfo(activeItem))
     ) {
-      guardBlockedFeedVideo(activeItem);
+      guardBlockedFeedItem(activeItem);
       advanceFromBlockedActiveSlide(activeItem.closest(FEED_SLIDE_SELECTOR) || activeItem);
     }
 
@@ -2946,7 +3140,7 @@
       let scopeAuthor = {};
       if (scope.matches(LIVE_ITEM_SELECTOR)) scopeAuthor = extractLiveInfo(scope);
       else if (scope.matches(DANMAKU_ITEM_SELECTOR)) scopeAuthor = extractDanmakuInfo(scope);
-      else if (scope.matches(FEED_VIDEO_SELECTOR)) scopeAuthor = extractFeedAuthorInfo(scope);
+      else if (scope.matches(FEED_CONTENT_SELECTOR)) scopeAuthor = extractFeedAuthorInfo(scope);
       else if (scope.matches(COMMENT_ITEM_SELECTOR)) scopeAuthor = extractCommentInfo(scope);
       if (isSameUserInfo(info, scopeAuthor)) {
         const authorNickname = normalizeUserNickname(scopeAuthor.nickname);
@@ -3110,7 +3304,7 @@
           <div class="dy-onboard-step">
             <div class="dy-onboard-kicker">屏蔽范围</div>
             <h1 id="dy-onboard-title">选择名单生效范围</h1>
-            <p>评论、弹幕、直播、推荐视频和用户主页作品可以分别启用或关闭。</p>
+            <p>评论、弹幕、直播聊天、推荐内容和用户主页作品可以分别启用或关闭。</p>
             <div class="dy-onboard-options is-grid">
               <label class="dy-onboard-option">
                 <span class="dy-onboard-option-copy"><strong>评论和回复</strong><span>视频评论区与回复。</span></span>
@@ -3125,7 +3319,7 @@
                 <input type="checkbox" data-setting="hideLiveChat">
               </label>
               <label class="dy-onboard-option">
-                <span class="dy-onboard-option-copy"><strong>推荐与关注视频</strong><span>不再显示名单用户发布的流内视频。</span></span>
+                <span class="dy-onboard-option-copy"><strong>推荐与关注内容</strong><span>不再显示名单用户发布的视频和直播。</span></span>
                 <input type="checkbox" data-setting="hideFeedVideos">
               </label>
               <label class="dy-onboard-option">
@@ -3288,7 +3482,7 @@
                   <input type="checkbox" id="dy-set-hide-live">
                 </label>
                 <label class="dy-set-setting">
-                  <span class="dy-set-setting-copy"><strong>推荐与关注视频</strong><span>从推荐页和关注页中移除名单用户发布的视频。</span></span>
+                  <span class="dy-set-setting-copy"><strong>推荐与关注内容</strong><span>从推荐页和关注页中移除名单用户发布的视频和直播。</span></span>
                   <input type="checkbox" id="dy-set-hide-feed-videos">
                 </label>
                 <label class="dy-set-setting">

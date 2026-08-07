@@ -8,15 +8,15 @@
 
 ## 功能
 
-- 在推荐页和关注页隐藏名单用户发布的视频，被屏蔽的内容不会进入信息流，浏览时不会出现停顿或占位。
+- 在推荐页和关注页隐藏名单用户发布的视频与直播，被屏蔽的内容不会进入信息流，浏览时不会出现停顿或占位。
 - 在名单用户主页隐藏作品区域，同时提供快捷解除屏蔽入口。
 - 隐藏名单用户发布的视频评论、回复、弹幕和直播聊天内容。
-- 在视频作者、评论用户和直播用户的右键菜单中提供屏蔽操作。
+- 在推荐/关注视频作者、推荐直播主播、评论用户和直播用户的右键菜单中提供屏蔽操作。
 - 在推荐页和关注页视频作者的右键菜单中提供“屏蔽并标记不感兴趣”，在加入本地名单的同时向抖音提交一次“不感兴趣”反馈。
 - 可选择在评论区显示“本地屏蔽”快捷按钮，并可开启屏蔽前确认。
 - 提供首次设置向导、快捷设置按钮和独立设置页面。
 - 支持搜索、分页、手动添加、移除、清空、导入和导出屏蔽名单。
-- 可分别控制评论、弹幕、直播、推荐/关注视频和用户主页作品的过滤范围。
+- 可分别控制评论、弹幕、直播聊天、推荐/关注内容和用户主页作品的过滤范围。
 - 可选启用 GitHub Star 提醒。
 
 ## 运行环境
@@ -39,7 +39,7 @@
 
 ### 添加用户
 
-- 在推荐视频作者、评论用户或直播用户上点击鼠标右键，然后选择屏蔽。
+- 在推荐/关注视频作者或直播主播、评论用户、直播聊天用户上点击鼠标右键，然后选择屏蔽。
 - 在推荐页或关注页视频作者上点击鼠标右键，选择“屏蔽 @用户名+不感兴趣”，在加入名单后同时对当前视频提交抖音的“不感兴趣”。
 - 在评论区点击“本地屏蔽”快捷按钮。
 - 在“设置 → 本地屏蔽名单”中粘贴用户主页链接或输入可识别的用户信息。
@@ -51,7 +51,7 @@
 - 评论和回复
 - 视频弹幕
 - 直播聊天
-- 推荐与关注视频
+- 推荐与关注内容（视频和直播）
 - 已屏蔽用户的主页作品
 
 ### 备份与恢复
@@ -97,15 +97,15 @@
 
 ## Features
 
-- Hides videos posted by blocked users in the recommendation and following feeds; blocked items never enter the feed, so browsing continues without pauses or placeholders.
+- Hides videos and live-stream cards from blocked users in the recommendation and following feeds; blocked items never enter the feed, so browsing continues without pauses or placeholders.
 - Hides the works section on a blocked user's profile and provides a quick unblock action.
 - Hides video comments, replies, danmaku, and live-chat messages posted by blocked users.
-- Adds blocking actions to context menus for video authors, commenters, and live users.
+- Adds blocking actions to context menus for feed video authors, recommended live-stream hosts, commenters, and live-chat users.
 - Adds a “block and mark as not interested” action to the context menu for authors in the recommendation and following feeds, which submits one “not interested” signal to Douyin alongside the local block.
 - Optionally displays a “Local Block” shortcut in comments and supports confirmation before blocking.
 - Includes an onboarding flow, a quick-settings button, and a dedicated settings interface.
 - Supports searching, pagination, manual entry, removal, clearing, importing, and exporting of the blocklist.
-- Provides separate filtering controls for comments, danmaku, live chat, feed videos, and profile works.
+- Provides separate filtering controls for comments, danmaku, live chat, feed content, and profile works.
 - Optionally provides GitHub Star reminders.
 
 ## Requirements
@@ -128,7 +128,7 @@ The project does not support the Douyin mobile application.
 
 ### Add a user
 
-- Right-click a video author, commenter, or live user and select the blocking action.
+- Right-click a feed video author or live-stream host, commenter, or live-chat user and select the blocking action.
 - Right-click an author in the recommendation or following feed and select “屏蔽 @username+不感兴趣” to block the user and submit Douyin's “not interested” signal for the current video.
 - Select the “Local Block” shortcut displayed beside a comment.
 - Paste a profile link or enter identifiable user information under “Settings → Local Blocklist”.
@@ -140,7 +140,7 @@ Open “Settings → Blocking” to control filtering for:
 - Comments and replies
 - Video danmaku
 - Live chat
-- Recommendation and following videos
+- Recommendation and following content (videos and live streams)
 - Works on blocked user profiles
 
 ### Back up and restore

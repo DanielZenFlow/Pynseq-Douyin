@@ -5,6 +5,22 @@ All notable changes to Pynseq for Douyin are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [1.4.0] - 2026-08-07
+
+### Added
+
+- 推荐页和关注页中的直播卡片现在会识别主播身份：名单主播的直播在进入信息流前被移除，已经预加载的直播卡片由页面兜底隐藏，并支持从主播名右键加入本地名单。
+
+### Changed
+
+- 将播放器启动、视频缓冲、直播播放器和列表续载等位置的红绿双点加载提示统一替换为中性灰色旋转圆环。
+
+### Fixed
+
+- 直播聊天虚拟列表复用已隐藏的消息节点时，会先短暂丢失用户身份；现在会在身份稳定前保留隐藏状态，避免名单用户的新消息快速频闪。
+
 ## [1.3.0] - 2026-07-27
 
 ### Added
