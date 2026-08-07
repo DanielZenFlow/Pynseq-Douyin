@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- 修复推荐页直播卡片的主播链接使用用户主页地址时，右键菜单无法识别主播、因而不能加入本地屏蔽名单的问题。
+
 ## [1.4.0] - 2026-08-07
 
 ### Added

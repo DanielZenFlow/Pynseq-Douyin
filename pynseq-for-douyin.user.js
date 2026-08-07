@@ -71,6 +71,7 @@
     '[data-e2e="video-avatar"]',
     '[data-e2e="feed-live"] a[href*="live.douyin.com"]',
     '[data-e2e="feed-live"] a[href*="/live/"]',
+    '[data-e2e="feed-live"] a[href*="/user/"]',
   ].join(', ');
   const FEED_PREV_SELECTOR = '[data-e2e="video-switch-prev-arrow"]';
   const FEED_NEXT_SELECTOR = '[data-e2e="video-switch-next-arrow"]';
@@ -2082,14 +2083,17 @@
     const nicknameElement = item.querySelector(
       '[data-e2e="feed-video-nickname"], [data-e2e="feed-author-name"]',
     );
+    const link = item.querySelector('[data-e2e="video-avatar"][href*="/user/"], a[href*="/user/"]');
     const nickname = normalizeUserNickname(
       firstNonEmpty(
         textOf(nicknameElement),
         nicknameElement?.getAttribute?.('aria-label'),
         nicknameElement?.getAttribute?.('title'),
+        link?.getAttribute?.('aria-label'),
+        link?.getAttribute?.('title'),
+        textOf(link),
       ),
     );
-    const link = item.querySelector('[data-e2e="video-avatar"][href*="/user/"], a[href*="/user/"]');
     const href = link?.getAttribute('href') || '';
     const fromHref = parseUserReference(href);
     const shouldReadReact = isLiveFeed
