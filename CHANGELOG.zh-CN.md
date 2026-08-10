@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.3] - 2026-08-10
+
+### Fixed
+
+- “屏蔽 @用户名+不感兴趣”不再为合成鼠标事件传入 Tampermonkey 隔离环境无法转换的 `window`，抖音原生菜单可以正常打开并提交“不感兴趣”。
+- 原生反馈流程抛出异常时会关闭抖音上下文菜单，并明确提示本地屏蔽已完成而“不感兴趣”未提交，避免未处理的异步异常。
+
 ## [1.5.2] - 2026-08-10
 
 ### Fixed
