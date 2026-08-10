@@ -8,15 +8,15 @@
 
 ## 功能
 
-- 在推荐页和关注页隐藏名单用户发布的视频与直播，被屏蔽的内容不会进入信息流，浏览时不会出现停顿或占位。
+- 在推荐、关注、搜索、精选和直播页面隐藏名单用户发布的视频与直播；能够在数据层识别的条目不会进入内容列表，已渲染条目由页面层即时隐藏。
 - 在名单用户主页隐藏作品区域，同时提供快捷解除屏蔽入口。
 - 隐藏名单用户发布的视频评论、回复、弹幕和直播聊天内容。
-- 在推荐/关注视频作者、推荐直播主播、评论用户和直播用户的右键菜单中提供屏蔽操作。
+- 在推荐/关注视频作者、搜索/精选视频作者、直播主播、评论用户和直播用户的右键菜单中提供屏蔽操作。
 - 在推荐页和关注页视频作者的右键菜单中提供“屏蔽并标记不感兴趣”，在加入本地名单的同时向抖音提交一次“不感兴趣”反馈。
 - 可选择在评论区显示“本地屏蔽”快捷按钮，并可开启屏蔽前确认。
 - 提供首次设置向导、快捷设置按钮和独立设置页面。
 - 支持搜索、分页、手动添加、移除、清空、导入和导出屏蔽名单。
-- 可分别控制评论、弹幕、直播聊天、推荐/关注内容和用户主页作品的过滤范围。
+- 可分别控制评论、弹幕、直播聊天、站内视频与直播和用户主页作品的过滤范围。
 - 可选启用 GitHub Star 提醒。
 
 ## 运行环境
@@ -39,7 +39,7 @@
 
 ### 添加用户
 
-- 在推荐/关注视频作者或直播主播、评论用户、直播聊天用户上点击鼠标右键，然后选择屏蔽。
+- 在推荐/关注、搜索、精选页面的视频作者或直播主播，以及评论用户、直播聊天用户上点击鼠标右键，然后选择屏蔽。
 - 在推荐页或关注页视频作者上点击鼠标右键，选择“屏蔽 @用户名+不感兴趣”，在加入名单后同时对当前视频提交抖音的“不感兴趣”。
 - 在评论区点击“本地屏蔽”快捷按钮。
 - 在“设置 → 本地屏蔽名单”中粘贴用户主页链接或输入可识别的用户信息。
@@ -51,7 +51,7 @@
 - 评论和回复
 - 视频弹幕
 - 直播聊天
-- 推荐与关注内容（视频和直播）
+- 站内视频与直播（推荐、关注、搜索、精选和直播页面）
 - 已屏蔽用户的主页作品
 
 ### 备份与恢复
@@ -70,7 +70,7 @@
 
 - 过滤依赖抖音网页当前提供的用户标识和页面结构；抖音更新页面后，部分功能可能需要适配。
 - 用户信息尚未加载或页面未提供可识别身份时，相关内容可能需要等待数据加载后才能被过滤。
-- 推荐内容由抖音动态加载，脚本只能处理浏览器当前接收到并能够识别的内容。
+- 站内内容由抖音动态加载，脚本只能处理浏览器当前接收到并能够识别作者的内容；未公开稳定用户标识的卡片使用本地名单中的唯一、完全一致昵称匹配。
 - 本地屏蔽不等同于抖音官方拉黑，被屏蔽用户不会收到通知，平台推荐模型也不会因此直接改变。使用“屏蔽 @用户名+不感兴趣”时，只有其中的“不感兴趣”会影响推荐。
 - “不感兴趣”通过抖音自带的视频右键菜单提交，只对右键的那条视频生效，并且依赖该菜单的现有文字。抖音改动菜单后该操作可能失效，此时脚本仍会完成本地屏蔽并给出提示。
 
@@ -97,15 +97,15 @@
 
 ## Features
 
-- Hides videos and live-stream cards from blocked users in the recommendation and following feeds; blocked items never enter the feed, so browsing continues without pauses or placeholders.
+- Hides videos and live streams from blocked users across recommendations, following, search, featured-video, and live pages. Recognizable response records are removed before rendering, while already rendered records are hidden immediately in the page.
 - Hides the works section on a blocked user's profile and provides a quick unblock action.
 - Hides video comments, replies, danmaku, and live-chat messages posted by blocked users.
-- Adds blocking actions to context menus for feed video authors, recommended live-stream hosts, commenters, and live-chat users.
+- Adds blocking actions to context menus for recommendation/following, search, and featured-video authors, live-stream hosts, commenters, and live-chat users.
 - Adds a “block and mark as not interested” action to the context menu for authors in the recommendation and following feeds, which submits one “not interested” signal to Douyin alongside the local block.
 - Optionally displays a “Local Block” shortcut in comments and supports confirmation before blocking.
 - Includes an onboarding flow, a quick-settings button, and a dedicated settings interface.
 - Supports searching, pagination, manual entry, removal, clearing, importing, and exporting of the blocklist.
-- Provides separate filtering controls for comments, danmaku, live chat, feed content, and profile works.
+- Provides separate filtering controls for comments, danmaku, live chat, site-wide videos and live streams, and profile works.
 - Optionally provides GitHub Star reminders.
 
 ## Requirements
@@ -128,7 +128,7 @@ The project does not support the Douyin mobile application.
 
 ### Add a user
 
-- Right-click a feed video author or live-stream host, commenter, or live-chat user and select the blocking action.
+- Right-click an author or host on recommendation/following, search, featured-video, or live pages, or right-click a commenter or live-chat user, and select the blocking action.
 - Right-click an author in the recommendation or following feed and select “屏蔽 @username+不感兴趣” to block the user and submit Douyin's “not interested” signal for the current video.
 - Select the “Local Block” shortcut displayed beside a comment.
 - Paste a profile link or enter identifiable user information under “Settings → Local Blocklist”.
@@ -140,7 +140,7 @@ Open “Settings → Blocking” to control filtering for:
 - Comments and replies
 - Video danmaku
 - Live chat
-- Recommendation and following content (videos and live streams)
+- Site-wide videos and live streams (recommendations, following, search, featured videos, and live pages)
 - Works on blocked user profiles
 
 ### Back up and restore
@@ -159,7 +159,7 @@ Export the blocklist under “Settings → Local Blocklist”. The exported file
 
 - Filtering depends on user identifiers and page structures exposed by the current Douyin website. Some features may require updates after Douyin changes its interface.
 - Content may remain visible until identity data becomes available when a page has not finished loading or does not expose identifiable user information.
-- Douyin loads recommendations dynamically. The script can only process content received and identified by the current browser.
+- Douyin loads site content dynamically. The script can only process content received by the current browser whose author can be identified. Cards without a stable public user identifier are matched only when their nickname exactly and uniquely matches an entry in the local blocklist.
 - Local blocking is not the same as Douyin's official blocking feature. Blocked users are not notified, and the platform recommendation model is not directly changed. With “屏蔽 @username+不感兴趣”, only the “not interested” part affects recommendations.
 - The “not interested” signal is submitted through Douyin's own video context menu, applies only to the video that was right-clicked, and depends on that menu's current wording. If Douyin changes the menu, the action may stop working; the script still completes the local block and reports that the signal was not sent.
 
