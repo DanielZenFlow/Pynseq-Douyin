@@ -8,7 +8,7 @@
 
 ## 功能
 
-- 在推荐、关注、搜索、精选和直播页面隐藏名单用户发布的视频与直播；能够在数据层识别的条目不会进入内容列表，已渲染条目由页面层即时隐藏。推荐与关注信息流不会为被屏蔽视频显示本地占位页，残留屏蔽项成为当前项时只请求一次下一条。
+- 在推荐、关注、搜索、精选和直播页面隐藏名单用户发布的视频与直播；能够在数据层识别的条目不会进入内容列表，已渲染条目由页面层即时隐藏。推荐与关注信息流不会为被屏蔽视频显示本地占位页，残留屏蔽项成为当前项时会沿当前浏览方向自动跳过。
 - 在名单用户主页隐藏作品区域，同时提供快捷解除屏蔽入口。
 - 隐藏名单用户发布的视频评论、回复、弹幕和直播聊天内容。
 - 进入 `live.douyin.com` 直播间或站内 `/root/live/` 直播页时，默认关闭播放器弹幕并自动选择可用的最高画质；进入后仍可手动调整。
@@ -98,7 +98,7 @@
 
 ## Features
 
-- Hides videos and live streams from blocked users across recommendations, following, search, featured-video, and live pages. Recognizable response records are removed before rendering, while already rendered records are hidden immediately in the page. Blocked videos in recommendation and following feeds do not produce a local placeholder; if a residual blocked item becomes active, the script requests the next item only once.
+- Hides videos and live streams from blocked users across recommendations, following, search, featured-video, and live pages. Recognizable response records are removed before rendering, while already rendered records are hidden immediately in the page. Blocked videos in recommendation and following feeds do not produce a local placeholder; if a residual blocked item becomes active, the script skips it in the current browsing direction.
 - Hides the works section on a blocked user's profile and provides a quick unblock action.
 - Hides video comments, replies, danmaku, and live-chat messages posted by blocked users.
 - Turns off player danmaku and selects the highest available quality when entering a `live.douyin.com` room or an in-site `/root/live/` page; both can still be adjusted manually afterward.
