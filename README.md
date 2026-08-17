@@ -11,6 +11,7 @@
 - 在推荐、关注、搜索、精选和直播页面隐藏名单用户发布的视频与直播；能够在数据层识别的条目不会进入内容列表，已渲染条目由页面层即时隐藏。推荐与关注信息流不会为被屏蔽视频显示本地占位页，残留屏蔽项成为当前项时只请求一次下一条。
 - 在名单用户主页隐藏作品区域，同时提供快捷解除屏蔽入口。
 - 隐藏名单用户发布的视频评论、回复、弹幕和直播聊天内容。
+- 进入 `live.douyin.com` 直播间或站内 `/root/live/` 直播页时，默认关闭播放器弹幕并自动选择可用的最高画质；进入后仍可手动调整。
 - 在推荐/关注视频作者、搜索/精选视频作者、直播主播、评论用户和直播用户的右键菜单中提供屏蔽操作。
 - 在推荐页和关注页视频作者的右键菜单中提供“屏蔽并标记不感兴趣”：先对当前视频提交一次抖音原生“不感兴趣”反馈，再写入本地屏蔽名单。本地成功提示会水平居中显示在抖音原生反馈正上方，并跟随原生反馈消失。
 - 可选择在评论区显示“本地屏蔽”快捷按钮，并可开启屏蔽前确认。
@@ -100,6 +101,7 @@
 - Hides videos and live streams from blocked users across recommendations, following, search, featured-video, and live pages. Recognizable response records are removed before rendering, while already rendered records are hidden immediately in the page. Blocked videos in recommendation and following feeds do not produce a local placeholder; if a residual blocked item becomes active, the script requests the next item only once.
 - Hides the works section on a blocked user's profile and provides a quick unblock action.
 - Hides video comments, replies, danmaku, and live-chat messages posted by blocked users.
+- Turns off player danmaku and selects the highest available quality when entering a `live.douyin.com` room or an in-site `/root/live/` page; both can still be adjusted manually afterward.
 - Adds blocking actions to context menus for recommendation/following, search, and featured-video authors, live-stream hosts, commenters, and live-chat users.
 - Adds a “block and mark as not interested” action to the context menu for authors in the recommendation and following feeds. It submits Douyin's native “not interested” signal for the current video before adding the author to the local blocklist. The local success notice is centered directly above Douyin's native feedback and disappears with it.
 - Optionally displays a “Local Block” shortcut in comments and supports confirmation before blocking.

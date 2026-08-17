@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.7] - 2026-08-17
+
+### Added
+
+- 进入 `live.douyin.com` 直播间或站内 `/root/live/` 直播页时，播放器弹幕默认关闭，并自动选择可用的最高画质；初始化完成后仍可手动调整。
+
+### Fixed
+
+- 自动关闭弹幕作用于播放器“弹幕设置”面板中的显示开关，并兼容开关内部滑块的实际交互区域；聊天输入区的发送模式不受影响。
+
 ## [1.5.5] - 2026-08-11
 
 ### Changed
