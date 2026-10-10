@@ -13,7 +13,7 @@
 - 隐藏名单用户发布的视频评论、回复、弹幕和直播聊天内容；直播间里名单用户的聊天、表情和礼物消息在进入聊天列表前即被移除，也不会绘制到播放器的直播弹幕上。
 - 进入 `live.douyin.com` 直播间或站内直播页时，自动选择可用的最高画质，并默认关闭播放器弹幕；弹幕自动关闭可在「设置 → 常规 → 直播播放」中关闭，进入后两者仍可手动调整。
 - 在推荐/关注视频作者、搜索/精选视频作者、直播主播、评论用户和直播用户的右键菜单中提供屏蔽操作。
-- 在推荐页和关注页的视频作者及直播主播右键菜单中提供“屏蔽并标记不感兴趣”：视频提交抖音原生“不感兴趣”，直播在二级菜单中选择“不想看该主播”，随后写入本地屏蔽名单。本地成功提示会水平居中显示在抖音原生反馈正上方，并跟随原生反馈消失。
+- 在推荐页和关注页的视频作者及直播主播右键菜单中提供“屏蔽并标记不感兴趣”：视频提交抖音原生“不感兴趣”，直播在二级菜单中选择“不想看该主播”，随后写入本地屏蔽名单。操作期间抖音原生右键菜单和直播二级菜单不会显示在屏幕上；本地成功提示会水平居中显示在抖音原生反馈正上方，并跟随原生反馈消失。
 - 可选择在评论区显示“本地屏蔽”快捷按钮，并可开启屏蔽前确认。
 - 提供首次设置向导、快捷设置按钮和独立设置页面。
 - 支持搜索、分页、手动添加、移除、清空、导入和导出屏蔽名单。
@@ -104,7 +104,7 @@
 - Hides video comments, replies, danmaku, and live-chat messages posted by blocked users. In live rooms, chat, emoji, and gift messages from blocked users are removed before they reach the chat list, so they are not drawn as live danmaku on the player either.
 - Selects the highest available quality and, by default, turns off player danmaku when entering a `live.douyin.com` room or an in-site live page. Automatic danmaku shutoff can be disabled under “Settings → General → Live playback”; both can still be adjusted manually afterward.
 - Adds blocking actions to context menus for recommendation/following, search, and featured-video authors, live-stream hosts, commenters, and live-chat users.
-- Adds a “block and mark as not interested” action to the context menu for video authors and live-stream hosts in the recommendation and following feeds. Videos submit Douyin's native “not interested” signal; live streams select “不想看该主播” from its second-level menu before the author or host is added to the local blocklist. The local success notice is centered directly above Douyin's native feedback and disappears with it.
+- Adds a “block and mark as not interested” action to the context menu for video authors and live-stream hosts in the recommendation and following feeds. Videos submit Douyin's native “not interested” signal; live streams select “不想看该主播” from its second-level menu before the author or host is added to the local blocklist. Douyin's native context menu and the live second-level menu are not shown on screen during the action. The local success notice is centered directly above Douyin's native feedback and disappears with it.
 - Optionally displays a “Local Block” shortcut in comments and supports confirmation before blocking.
 - Includes an onboarding flow, a quick-settings button, and a dedicated settings interface.
 - Supports searching, pagination, manual entry, removal, clearing, importing, and exporting of the blocklist.

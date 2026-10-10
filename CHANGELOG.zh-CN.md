@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-10-10
+
+### Changed
+
+- “屏蔽 @用户名+不感兴趣”执行期间不再显示抖音原生右键菜单和直播二级菜单，菜单在插入页面时即被隐藏，操作完成后恢复原状。
+
 ## [2.0.0] - 2026-10-10
 
 ### Added
