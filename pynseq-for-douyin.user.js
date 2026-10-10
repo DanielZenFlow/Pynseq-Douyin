@@ -3,7 +3,7 @@
 // @name:zh-CN   Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @name:en      Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @namespace    https://github.com/DanielZenFlow
-// @version      1.6.0
+// @version      2.0.0
 // @description  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户在推荐、关注、搜索、精选、直播和主页中的内容，以及评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:zh-CN  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户在推荐、关注、搜索、精选、直播和主页中的内容，以及评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:en  Locally hide selected users across Douyin recommendations, following, search, featured videos, live streams, profiles, comments, danmaku, and live chat, with blocklist management and import/export.
@@ -29,7 +29,7 @@
   'use strict';
 
   const SCRIPT_NAME = 'Pynseq for Douyin｜屏序·抖音';
-  const SCRIPT_VERSION = '1.6.0';
+  const SCRIPT_VERSION = '2.0.0';
   const GITHUB_URL = 'https://github.com/DanielZenFlow/Douyin-User-Blocker';
   const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/danielzenflow';
   const BUY_ME_A_COFFEE_ICON_URL = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODg0IiBoZWlnaHQ9IjEyNzkiIHZpZXdCb3g9IjAgMCA4ODQgMTI3OSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTc5MS4xMDkgMjk3LjUxOEw3OTAuMjMxIDI5Ny4wMDJMNzg4LjIwMSAyOTYuMzgzQzc4OS4wMTggMjk3LjA3MiA3OTAuMDQgMjk3LjQ3MiA3OTEuMTA5IDI5Ny41MThWMjk3LjUxOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTgwMy44OTYgMzg4Ljg5MUw4MDIuOTE2IDM4OS4xNjZMODAzLjg5NiAzODguODkxWiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNNzkxLjQ4NCAyOTcuMzc3Qzc5MS4zNTkgMjk3LjM2MSA3OTEuMjM3IDI5Ny4zMzIgNzkxLjExOCAyOTcuMjlDNzkxLjExMSAyOTcuMzcxIDc5MS4xMTEgMjk3LjQ1MyA3OTEuMTE4IDI5Ny41MzRDNzkxLjI1MiAyOTcuNTE2IDc5MS4zNzkgMjk3LjQ2MiA3OTEuNDg0IDI5Ny4zNzdWMjk3LjM3N1oiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5MS4xMTMgMjk3LjUyOUg3OTEuMjQ0VjI5Ny40NDdMNzkxLjExMyAyOTcuNTI5WiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNODAzLjExMSAzODguNzI2TDgwNC41OTEgMzg3Ljg4M0w4MDUuMTQyIDM4Ny41NzNMODA1LjY0MSAzODcuMDRDODA0LjcwMiAzODcuNDQ0IDgwMy44NDYgMzg4LjAxNiA4MDMuMTExIDM4OC43MjZWMzg4LjcyNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5My42NjkgMjk5LjUxNUw3OTIuMjIzIDI5OC4xMzhMNzkxLjI0MyAyOTcuNjA1Qzc5MS43NyAyOTguNTM1IDc5Mi42NDEgMjk5LjIyMSA3OTMuNjY5IDI5OS41MTVWMjk5LjUxNVoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTQzMC4wMTkgMTE4Ni4xOEM0MjguODY0IDExODYuNjggNDI3Ljg1MiAxMTg3LjQ2IDQyNy4wNzYgMTE4OC40NUw0MjcuOTg4IDExODcuODdDNDI4LjYwOCAxMTg3LjMgNDI5LjQ4NSAxMTg2LjYzIDQzMC4wMTkgMTE4Ni4xOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTY0MS4xODcgMTE0NC42M0M2NDEuMTg3IDExNDMuMzMgNjQwLjU1MSAxMTQzLjU3IDY0MC43MDUgMTE0OC4yMUM2NDAuNzA1IDExNDcuODQgNjQwLjg2IDExNDcuNDYgNjQwLjkyOSAxMTQ3LjFDNjQxLjAxNSAxMTQ2LjI3IDY0MS4wODQgMTE0NS40NiA2NDEuMTg3IDExNDQuNjNaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik02MTkuMjg0IDExODYuMThDNjE4LjEyOSAxMTg2LjY4IDYxNy4xMTggMTE4Ny40NiA2MTYuMzQyIDExODguNDVMNjE3LjI1NCAxMTg3Ljg3QzYxNy44NzMgMTE4Ny4zIDYxOC43NTEgMTE4Ni42MyA2MTkuMjg0IDExODYuMThaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik0yODEuMzA0IDExOTYuMDZDMjgwLjQyNyAxMTk1LjMgMjc5LjM1NCAxMTk0LjggMjc4LjIwNyAxMTk0LjYxQzI3OS4xMzYgMTE5NS4wNiAyODAuMDY1IDExOTUuNTEgMjgwLjY4NCAxMTk1Ljg1TDI4MS4zMDQgMTE5Ni4wNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTI0Ny44NDEgMTE2NC4wMUMyNDcuNzA0IDExNjIuNjYgMjQ3LjI4OCAxMTYxLjM1IDI0Ni42MTkgMTE2MC4xNkMyNDcuMDkzIDExNjEuMzkgMjQ3LjQ4OSAxMTYyLjY2IDI0Ny44MDYgMTE2My45NEwyNDcuODQxIDExNjQuMDFaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik00NzIuNjIzIDU5MC44MzZDNDI2LjY4MiA2MTAuNTAzIDM3NC41NDYgNjMyLjgwMiAzMDYuOTc2IDYzMi44MDJDMjc4LjcxIDYzMi43NDYgMjUwLjU4IDYyOC44NjggMjIzLjM1MyA2MjEuMjc0TDI3MC4wODYgMTEwMS4wOEMyNzEuNzQgMTEyMS4xMyAyODAuODc2IDExMzkuODMgMjk1LjY3OSAxMTUzLjQ2QzMxMC40ODIgMTE2Ny4wOSAzMjkuODcgMTE3NC42NSAzNDkuOTkyIDExNzQuNjVDMzQ5Ljk5MiAxMTc0LjY1IDQxNi4yNTQgMTE3OC4wOSA0MzguMzY1IDExNzguMDlDNDYyLjE2MSAxMTc4LjA5IDUzMy41MTYgMTE3NC42NSA1MzMuNTE2IDExNzQuNjVDNTUzLjYzNiAxMTc0LjY1IDU3My4wMTkgMTE2Ny4wOCA1ODcuODE5IDExNTMuNDVDNjAyLjYxOSAxMTM5LjgyIDYxMS43NTIgMTEyMS4xMyA2MTMuNDA2IDExMDEuMDhMNjYzLjQ1OSA1NzAuODc2QzY0MS4wOTEgNTYzLjIzNyA2MTguNTE2IDU1OC4xNjEgNTkzLjA2OCA1NTguMTYxQzU0OS4wNTQgNTU4LjE0NCA1MTMuNTkxIDU3My4zMDMgNDcyLjYyMyA1OTAuODM2WiIgZmlsbD0iI0ZGREQwMCIvPgo8cGF0aCBkPSJNNzguNjg4NSAzODYuMTMyTDc5LjQ3OTkgMzg2Ljg3Mkw3OS45OTYyIDM4Ny4xODJDNzkuNTk4NyAzODYuNzg3IDc5LjE2MDMgMzg2LjQzNSA3OC42ODg1IDM4Ni4xMzJWMzg2LjEzMloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTg3OS41NjcgMzQxLjg0OUw4NzIuNTMgMzA2LjM1MkM4NjYuMjE1IDI3NC41MDMgODUxLjg4MiAyNDQuNDA5IDgxOS4xOSAyMzIuODk4QzgwOC43MTEgMjI5LjIxNSA3OTYuODIxIDIyNy42MzMgNzg4Ljc4NiAyMjAuMDFDNzgwLjc1MSAyMTIuMzg4IDc3OC4zNzYgMjAwLjU1IDc3Ni41MTggMTg5LjU3MkM3NzMuMDc2IDE2OS40MjMgNzY5Ljg0MiAxNDkuMjU3IDc2Ni4zMTQgMTI5LjE0M0M3NjMuMjY5IDExMS44NSA3NjAuODYgOTIuNDI0MyA3NTIuOTI4IDc2LjU2Qzc0Mi42MDQgNTUuMjU4NCA3MjEuMTgyIDQyLjgwMDkgNjk5Ljg4IDM0LjU1OUM2ODguOTY1IDMwLjQ4NDQgNjc3LjgyNiAyNy4wMzc1IDY2Ni41MTcgMjQuMjM1MkM2MTMuMjk3IDEwLjE5NDcgNTU3LjM0MiA1LjAzMjc3IDUwMi41OTEgMi4wOTA0N0M0MzYuODc1IC0xLjUzNTc3IDM3MC45ODMgLTAuNDQzMjM0IDMwNS40MjIgNS4zNTk2OEMyNTYuNjI1IDkuNzk4OTQgMjA1LjIyOSAxNS4xNjc0IDE1OC44NTggMzIuMDQ2OUMxNDEuOTEgMzguMjI0IDEyNC40NDUgNDUuNjM5OSAxMTEuNTU4IDU4LjczNDFDOTUuNzQ0OCA3NC44MjIxIDkwLjU4MjkgOTkuNzAyNiAxMDIuMTI4IDExOS43NjVDMTEwLjMzNiAxMzQuMDEyIDEyNC4yMzkgMTQ0LjA3OCAxMzguOTg1IDE1MC43MzdDMTU4LjE5MiAxNTkuMzE3IDE3OC4yNTEgMTY1Ljg0NiAxOTguODI5IDE3MC4yMTVDMjU2LjEyNiAxODIuODc5IDMxNS40NzEgMTg3Ljg1MSAzNzQuMDA3IDE4OS45NjhDNDM4Ljg4NyAxOTIuNTg2IDUwMy44NyAxOTAuNDY0IDU2OC40NCAxODMuNjE4QzU4NC40MDggMTgxLjg2MyA2MDAuMzQ3IDE3OS43NTggNjE2LjI1NyAxNzcuMzA0QzYzNC45OTUgMTc0LjQzIDY0Ny4wMjIgMTQ5LjkyOCA2NDEuNDk5IDEzMi44NTlDNjM0Ljg5MSAxMTIuNDUzIDYxNy4xMzQgMTA0LjUzOCA1OTcuMDU1IDEwNy42MThDNTk0LjA5NSAxMDguMDgyIDU5MS4xNTMgMTA4LjUxMiA1ODguMTkzIDEwOC45NDJMNTg2LjA2IDEwOS4yNTJDNTc5LjI1NyAxMTAuMTEzIDU3Mi40NTUgMTEwLjkxNSA1NjUuNjUzIDExMS42NjFDNTUxLjYwMSAxMTMuMTc1IDUzNy41MTUgMTE0LjQxNCA1MjMuMzk0IDExNS4zNzhDNDkxLjc2OCAxMTcuNTggNDYwLjA1NyAxMTguNTk1IDQyOC4zNjMgMTE4LjY0N0MzOTcuMjE5IDExOC42NDcgMzY2LjA1OCAxMTcuNzY5IDMzNC45ODMgMTE1LjcyMkMzMjAuODA1IDExNC43OTMgMzA2LjY2MSAxMTMuNjExIDI5Mi41NTIgMTEyLjE3N0MyODYuMTM0IDExMS41MDYgMjc5LjczMyAxMTAuODAxIDI3My4zMzMgMTEwLjAwOUwyNjcuMjQxIDEwOS4yMzVMMjY1LjkxNyAxMDkuMDQ2TDI1OS42MDIgMTA4LjEzNEMyNDYuNjk3IDEwNi4xODkgMjMzLjc5MiAxMDMuOTUzIDIyMS4wMjUgMTAxLjI1MUMyMTkuNzM3IDEwMC45NjUgMjE4LjU4NCAxMDAuMjQ5IDIxNy43NTggOTkuMjE5M0MyMTYuOTMyIDk4LjE5MDEgMjE2LjQ4MiA5Ni45MDk5IDIxNi40ODIgOTUuNTkwM0MyMTYuNDgyIDk0LjI3MDYgMjE2LjkzMiA5Mi45OTA0IDIxNy43NTggOTEuOTYxMkMyMTguNTg0IDkwLjkzMTkgMjE5LjczNyA5MC4yMTUyIDIyMS4wMjUgODkuOTI5M0gyMjEuMjY2QzIzMi4zMyA4Ny41NzIxIDI0My40NzkgODUuNTU4OSAyNTQuNjYzIDgzLjgwMzhDMjU4LjM5MiA4My4yMTg4IDI2Mi4xMzEgODIuNjQ1MyAyNjUuODgyIDgyLjA4MzJIMjY1Ljk4NUMyNzIuOTg4IDgxLjYxODYgMjgwLjAyNiA4MC4zNjI1IDI4Ni45OTQgNzkuNTM2NkMzNDcuNjI0IDczLjIzMDIgNDA4LjYxNCA3MS4wODAxIDQ2OS41MzggNzMuMTAxNEM0OTkuMTE1IDczLjk2MTggNTI4LjY3NiA3NS42OTk2IDU1OC4xMTYgNzguNjkzNUM1NjQuNDQ4IDc5LjM0NzQgNTcwLjc0NiA4MC4wMzU3IDU3Ny4wNDMgODAuODA5OUM1NzkuNDUyIDgxLjEwMjUgNTgxLjg3OCA4MS40NDY1IDU4NC4zMDUgODEuNzM5MUw1ODkuMTkxIDgyLjQ0NDVDNjAzLjQzOCA4NC41NjY3IDYxNy42MSA4Ny4xNDE5IDYzMS43MDggOTAuMTcwM0M2NTIuNTk3IDk0LjcxMjggNjc5LjQyMiA5Ni4xOTI1IDY4OC43MTMgMTE5LjA3N0M2OTEuNjczIDEyNi42MzggNjkzLjAxNSAxMzQuNDA4IDY5NC42NDkgMTQyLjAzTDY5Ni43MzEgMTUxLjc1MkM2OTYuNzg2IDE1MS45MjYgNjk2LjgyNiAxNTIuMTA1IDY5Ni44NTIgMTUyLjI4NUM3MDEuNzczIDE3NS4yMjcgNzA2LjcgMTk4LjE2OSA3MTEuNjMyIDIyMS4xMTFDNzExLjk5NCAyMjIuODA2IDcxMi4wMDIgMjI0LjU1NyA3MTEuNjU3IDIyNi4yNTVDNzExLjMxMiAyMjcuOTU0IDcxMC42MjEgMjI5LjU2MiA3MDkuNjI2IDIzMC45ODJDNzA4LjYzMiAyMzIuNDAxIDcwNy4zNTUgMjMzLjYgNzA1Ljg3NyAyMzQuNTA0QzcwNC4zOTggMjM1LjQwOCA3MDIuNzUgMjM1Ljk5NyA3MDEuMDMzIDIzNi4yMzZINzAwLjg5NUw2OTcuODg0IDIzNi42NDlMNjk0LjkwOCAyMzcuMDQ0QzY4NS40NzggMjM4LjI3MiA2NzYuMDM4IDIzOS40MTkgNjY2LjU4NiAyNDAuNDg2QzY0Ny45NjggMjQyLjYwOCA2MjkuMzIyIDI0NC40NDMgNjEwLjY0OCAyNDUuOTkyQzU3My41MzkgMjQ5LjA3NyA1MzYuMzU2IDI1MS4xMDIgNDk5LjA5OCAyNTIuMDY2QzQ4MC4xMTQgMjUyLjU3IDQ2MS4xMzUgMjUyLjgwNiA0NDIuMTYyIDI1Mi43NzFDMzY2LjY0MyAyNTIuNzEyIDI5MS4xODkgMjQ4LjMyMiAyMTYuMTczIDIzOS42MjVDMjA4LjA1MSAyMzguNjYyIDE5OS45MyAyMzcuNjI5IDE5MS44MDggMjM2LjU4QzE5OC4xMDYgMjM3LjM4OSAxODcuMjMxIDIzNS45NiAxODUuMDI5IDIzNS42NTFDMTc5Ljg2NyAyMzQuOTI4IDE3NC43MDUgMjM0LjE3NyAxNjkuNTQzIDIzMy4zOTdDMTUyLjIxNiAyMzAuNzk4IDEzNC45OTMgMjI3LjU5OCAxMTcuNyAyMjQuNzkzQzk2Ljc5NDQgMjIxLjM1MiA3Ni44MDA1IDIyMy4wNzMgNTcuODkwNiAyMzMuMzk3QzQyLjM2ODUgMjQxLjg5MSAyOS44MDU1IDI1NC45MTYgMjEuODc3NiAyNzAuNzM1QzEzLjcyMTcgMjg3LjU5NyAxMS4yOTU2IDMwNS45NTYgNy42NDc4NiAzMjQuMDc1QzQuMDAwMDkgMzQyLjE5MyAtMS42NzgwNSAzNjEuNjg4IDAuNDcyNzUxIDM4MC4yODhDNS4xMDEyOCA0MjAuNDMxIDMzLjE2NSA0NTMuMDU0IDczLjUzMTMgNDYwLjM1QzExMS41MDYgNDY3LjIzMiAxNDkuNjg3IDQ3Mi44MDcgMTg3Ljk3MSA0NzcuNTU2QzMzOC4zNjEgNDk1Ljk3NSA0OTAuMjk0IDQ5OC4xNzggNjQxLjE1NSA0ODQuMTI5QzY1My40NCA0ODIuOTgyIDY2NS43MDggNDgxLjczMiA2NzcuOTU5IDQ4MC4zNzhDNjgxLjc4NiA0NzkuOTU4IDY4NS42NTggNDgwLjM5OCA2ODkuMjkyIDQ4MS42NjhDNjkyLjkyNiA0ODIuOTM4IDY5Ni4yMyA0ODUuMDA1IDY5OC45NjIgNDg3LjcxN0M3MDEuNjk0IDQ5MC40MjkgNzAzLjc4NCA0OTMuNzE4IDcwNS4wOCA0OTcuMzQyQzcwNi4zNzcgNTAwLjk2NyA3MDYuODQ2IDUwNC44MzYgNzA2LjQ1MyA1MDguNjY1TDcwMi42MzMgNTQ1Ljc5N0M2OTQuOTM2IDYyMC44MjggNjg3LjIzOSA2OTUuODU0IDY3OS41NDIgNzcwLjg3NEM2NzEuNTEzIDg0OS42NTcgNjYzLjQzMSA5MjguNDM0IDY1NS4yOTggMTAwNy4yQzY1My4wMDQgMTAyOS4zOSA2NTAuNzEgMTA1MS41NyA2NDguNDE2IDEwNzMuNzRDNjQ2LjIxMyAxMDk1LjU4IDY0NS45MDQgMTExOC4xIDY0MS43NTcgMTEzOS42OEM2MzUuMjE4IDExNzMuNjEgNjEyLjI0OCAxMTk0LjQ1IDU3OC43MyAxMjAyLjA3QzU0OC4wMjIgMTIwOS4wNiA1MTYuNjUyIDEyMTIuNzMgNDg1LjE2MSAxMjEzLjAxQzQ1MC4yNDkgMTIxMy4yIDQxNS4zNTUgMTIxMS42NSAzODAuNDQzIDEyMTEuODRDMzQzLjE3MyAxMjEyLjA1IDI5Ny41MjUgMTIwOC42MSAyNjguNzU2IDExODAuODdDMjQzLjQ3OSAxMTU2LjUxIDIzOS45ODYgMTExOC4zNiAyMzYuNTQ1IDEwODUuMzdDMjMxLjk1NyAxMDQxLjcgMjI3LjQwOSA5OTguMDM5IDIyMi45IDk1NC4zODFMMTk3LjYwNyA3MTEuNjE1TDE4MS4yNDQgNTU0LjUzOEMxODAuOTY4IDU1MS45NCAxODAuNjkzIDU0OS4zNzYgMTgwLjQzNSA1NDYuNzZDMTc4LjQ3MyA1MjguMDIzIDE2NS4yMDcgNTA5LjY4MSAxNDQuMzAxIDUxMC42MjdDMTI2LjQwNyA1MTEuNDE4IDEwNi4wNjkgNTI2LjYyOSAxMDguMTY4IDU0Ni43NkwxMjAuMjk4IDY2My4yMTRMMTQ1LjM4NSA5MDQuMTA0QzE1Mi41MzIgOTcyLjUyOCAxNTkuNjYxIDEwNDAuOTYgMTY2Ljc3MyAxMTA5LjQxQzE2OC4xNSAxMTIyLjUyIDE2OS40NCAxMTM1LjY3IDE3MC44ODUgMTE0OC43OEMxNzguNzQ5IDEyMjAuNDMgMjMzLjQ2NSAxMjU5LjA0IDMwMS4yMjQgMTI2OS45MUMzNDAuNzk5IDEyNzYuMjggMzgxLjMzNyAxMjc3LjU5IDQyMS40OTcgMTI3OC4yNEM0NzIuOTc5IDEyNzkuMDcgNTI0Ljk3NyAxMjgxLjA1IDU3NS42MTUgMTI3MS43MkM2NTAuNjUzIDEyNTcuOTUgNzA2Ljk1MiAxMjA3Ljg1IDcxNC45ODcgMTEzMC4xM0M3MTcuMjgyIDExMDcuNjkgNzE5LjU3NiAxMDg1LjI1IDcyMS44NyAxMDYyLjhDNzI5LjQ5OCA5ODguNTU5IDczNy4xMTUgOTE0LjMxMyA3NDQuNzIgODQwLjA2MUw3NjkuNjAxIDU5Ny40NTFMNzgxLjAwOSA0ODYuMjYzQzc4MS41NzcgNDgwLjc0OSA3ODMuOTA1IDQ3NS41NjUgNzg3LjY0OSA0NzEuNDc4Qzc5MS4zOTIgNDY3LjM5MSA3OTYuMzUyIDQ2NC42MTcgODAxLjc5NCA0NjMuNTY3QzgyMy4yNSA0NTkuMzg2IDg0My43NjEgNDUyLjI0NSA4NTkuMDIzIDQzNS45MTZDODgzLjMxOCA0MDkuOTE4IDg4OC4xNTMgMzc2LjAyMSA4NzkuNTY3IDM0MS44NDlaTTcyLjQzMDEgMzY1LjgzNUM3Mi43NTcgMzY1LjY4IDcyLjE1NDggMzY4LjQ4NCA3MS44OTY3IDM2OS43OTJDNzEuODQ1MSAzNjcuODEzIDcxLjk0ODMgMzY2LjA1OCA3Mi40MzAxIDM2NS44MzVaTTc0LjUxMjEgMzgxLjk0Qzc0LjY4NDIgMzgxLjgxOSA3NS4yMDAzIDM4Mi41MDggNzUuNzMzNyAzODMuMzM0Qzc0LjkyNSAzODIuNTc2IDc0LjQwODkgMzgyLjAwOSA3NC40OTQ5IDM4MS45NEg3NC41MTIxWk03Ni41NTk3IDM4NC42NDFDNzcuMjk5NiAzODUuODk3IDc3LjY5NTMgMzg2LjY4OSA3Ni41NTk3IDM4NC42NDFWMzg0LjY0MVpNODAuNjcyIDM4Ny45NzlIODAuNzc1MkM4MC43NzUyIDM4OC4xIDgwLjk2NDUgMzg4LjIyIDgxLjAzMzMgMzg4LjM0MUM4MC45MTkyIDM4OC4yMDggODAuNzkyNSAzODguMDg3IDgwLjY1NDggMzg3Ljk3OUg4MC42NzJaTTgwMC43OTYgMzgyLjk4OUM3OTMuMDg4IDM5MC4zMTkgNzgxLjQ3MyAzOTMuNzI2IDc2OS45OTYgMzk1LjQzQzY0MS4yOTIgNDE0LjUyOSA1MTAuNzEzIDQyNC4xOTkgMzgwLjU5NyA0MTkuOTMyQzI4Ny40NzYgNDE2Ljc0OSAxOTUuMzM2IDQwNi40MDcgMTAzLjE0NCAzOTMuMzgyQzk0LjExMDIgMzkyLjEwOSA4NC4zMTk3IDM5MC40NTcgNzguMTA4MiAzODMuNzk4QzY2LjQwNzggMzcxLjIzNyA3Mi4xNTQ4IDM0NS45NDQgNzUuMjAwMyAzMzAuNzY4Qzc3Ljk4NzggMzE2Ljg2NSA4My4zMjE4IDI5OC4zMzQgOTkuODU3MiAyOTYuMzU1QzEyNS42NjcgMjkzLjMyNyAxNTUuNjQgMzA0LjIxOCAxODEuMTc1IDMwOC4wOUMyMTEuOTE3IDMxMi43ODEgMjQyLjc3NCAzMTYuNTM4IDI3My43NDUgMzE5LjM2QzQwNS45MjUgMzMxLjQwNSA1NDAuMzI1IDMyOS41MjkgNjcxLjkyIDMxMS45MUM2OTUuOTA1IDMwOC42ODYgNzE5LjgwNSAzMDQuOTQxIDc0My42MTkgMzAwLjY3NEM3NjQuODM1IDI5Ni44NzEgNzg4LjM1NiAyODkuNzMxIDgwMS4xNzUgMzExLjcwM0M4MDkuOTY3IDMyNi42NzMgODExLjEzNyAzNDYuNzAxIDgwOS43NzggMzYzLjYxNUM4MDkuMzU5IDM3MC45ODQgODA2LjEzOSAzNzcuOTE1IDgwMC43NzkgMzgyLjk4OUg4MDAuNzk2WiIgZmlsbD0iIzBEMEMyMiIvPgo8L3N2Zz4K';
@@ -65,10 +65,28 @@
   const LIVE_DANMAKU_SWITCH_SELECTOR = '[data-e2e="danmaku-switch"]';
   const LIVE_QUALITY_CURRENT_SELECTOR = '[data-e2e="quality"]';
   const LIVE_QUALITY_OPTIONS_SELECTOR = '[data-e2e="quality-selector"]';
+  const LIVE_DANMAKU_PLUGIN_SELECTOR = '.CanvasDanmakuPlugin';
+  // 直播弹幕画在 canvas 上，没有可隐藏的 DOM；这些消息类型会进入弹幕层，同时也会出现在聊天列表中。
+  const LIVE_IM_FILTERED_METHODS = new Set([
+    'WebcastChatMessage',
+    'WebcastEmojiChatMessage',
+    'WebcastScreenChatMessage',
+    'WebcastPrivilegeScreenChatMessage',
+    'WebcastGiftMessage',
+  ]);
+  const LIVE_IM_SCAN_INTERVAL_MS = 1000;
   const FEED_VIDEO_SELECTOR = '[data-e2e-vid][data-e2e^="feed-"]';
   const FEED_LIVE_SELECTOR = '[data-e2e="feed-live"]';
   const FEED_CONTENT_SELECTOR = `${FEED_VIDEO_SELECTOR}, ${FEED_LIVE_SELECTOR}`;
   const FEED_SLIDE_SELECTOR = '[data-e2e="feed-item"]';
+  // 播放器内嵌的评论、相关推荐等侧栏和弹幕层同样含有用户主页链接与昵称，读取内容作者时必须跳过。
+  const FEED_AUXILIARY_SELECTOR = [
+    '#videoSideCard',
+    '[data-e2e="comment-list"]',
+    '[data-e2e="danmaku-container"]',
+    COMMENT_ITEM_SELECTOR,
+    DANMAKU_ITEM_SELECTOR,
+  ].join(', ');
   const SEARCH_RESULT_CARD_SELECTOR = '.search-result-card';
   const SEARCH_LAYOUT_MARK_ATTR = 'data-dy-local-search-layout';
   const DISCOVER_VIDEO_CARD_SELECTOR = '.discover-video-card-item';
@@ -110,8 +128,19 @@
   const LIVE_PLAYER_ENTRY_SETTLE_MS = 1800;
   const LIVE_PLAYER_ENTRY_MAX_MS = 6000;
   const LIVE_PLAYER_ENTRY_RETRY_MS = 200;
+  const FEED_SLIDE_ACTIVATION_WATCH_MS = 1500;
+  const FEED_ADVANCE_MAX_BUSY_FRAMES = 90;
+  const FEED_ADVANCE_VERIFY_MS = 700;
+  const FEED_ADVANCE_MAX_RETRIES = 3;
+  const FEED_LOAD_MORE_WAIT_MS = 8000;
+  const FEED_LOAD_MORE_POLL_MS = 200;
   // 大型内容列表响应通常远超此长度；较小响应交给 DOM 层处理，避免在 XHR 热路径中频繁解析。
   const MIN_FEED_PAYLOAD_LENGTH = 20000;
+  const ENTRIES_SAVE_DELAY_MS = 1000;
+  const FEED_PAYLOAD_KEYWORD_PATTERN = /aweme_id|cell_room|cellRoom|user_info|room_list|web_rid/;
+  const RAW_SEC_UID_PATTERN = /MS4wLjABAAAA[\w-]+/g;
+  const RAW_USER_ID_PATTERN = /(?:uid|user_id|userId|id_str|"id)\\*"\s*:\s*\\*"?(\d{5,20})/g;
+  const RAW_NICKNAME_PATTERN = /(?:nickname|nick_name|display_name|user_nickname)\\*"\s*:\s*\\*"((?:[^"\\]|\\.)*?)\\*"/g;
   const MANAGER_PAGE_SIZE = 20;
   const MAX_BLOCK_ENTRIES = 20000;
   const MAX_IMPORT_FILE_BYTES = 8 * 1024 * 1024;
@@ -131,6 +160,7 @@
     hideLiveChat: true,
     hideFeedVideos: true,
     hideBlockedProfileVideos: true,
+    closeLiveDanmaku: true,
   });
 
   const SETTINGS_ICON_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFIklEQVR4nO0ZyW4cVbBjJA5sAolFEcl0VXdXtee9GRvIKQuQBDDbBSJxQxGnHAARGZKwSWyHROaQoMg5sggFfoADCpDkQIhYBHHAgYC4gEHCSCDFbLHAAVXP2HTXm3Z3jyN7QCnpSaN+9Wp5r/bxvHPwP4Moii6xBNsN41HDMNlaeNQSbIvj+GKvl8FwsM4Sfm8Z/+60DON3loO1Xi9Csz9cZQh/zRN+bhH80h/WrvN6DPoMwaeFws++BMFxOeP1Chj2b3MFhZ2DtOJqWZZgl7MfwZDXK2AYn8/eML6qcSzBfoUz4vUKGMLDWTsPNmkc+aYUOLxY8vX19wcNG8OtNvY3MPPl6c06BzdZxpm0cGI2jgJhuFKZ0YzhYGMaR2jLNzHJZhw0F+Qn93jeeTaGrYZhQoXCvwzDW4bhKcv4iiWYVlHm3TyahuCIwp0WGi1a8LbQzvKCCZFBZKkk/Krlyy8wjAfKRpW0cnWCG/LoNiK4UQtpy9E9IDKVVkA7XMl1xhA+WES7QfCQ4FanD6+VE56DtR0OnzIMb1jGT3KS01d19m8ve0GCK2dsZ2E/bvGCU+5LBOtKKAAvqecbuyaKrpjdj2MfDMEWsVvDOCxm0aWz9bVNajihRbClXgd/dlN4WsZjKgG+WEaB8Yzmsb/BWyIwHGxUL/1ZiUNScKUOheHKKkwl5BrCFyzjCamNWvURjMs32aukQBDUlCl/U3yI4EOl9eZSzIw53xDs0znBCcEE+wS3FE3y71M03i9xCEdUxvzZxuGaIuEtwcHSEYXgYJESNg7XJLyzL7CzUAFxUp2cDONvjQhvyVc6uflqYZFgNFf4CIYM4+9K+NNiUoUKJAIxDrvPD5PpaJSxeZ1BCb+os3+XdGCy5LchPOkkvTC0mt5AEFxpGH50FI5haynh526BYYeTcAifcZRtOWxG+EHfv1TjNZu1yxwlCPc4fAmf0wlSWtRKws8Jx/CoesZxV1E8kcaR286j1yD/7iJ6hvFzhbOjK+ETYsZcpF7hD8/zlmUUIJhKM5yvcU8a/qwfTCmUZWLr6dsfGLjqwq4VEGH+0woYwsfPpgnppsaWMCEx4+6E5+Ax7cSG4ekOSu5RjnlSHFbjyTdL8KV6gd2ukvisduLKSsgQqkMY/aFsGBVBxWHFZFqDrmCTFr4gjE66/HG4lPBNqgWdElmd8OZ5FB6tnMgY9+bRk6QpPNWlTKer1dITBkv4UyP0V5/lUuKdolKiEfqrnVKCYFexAgQfpQ81GO8tPPSvEqPztYztvb1lizlLsFk5/QeVy+lmFK3wKoDYtTin1O4yRmwv+b27k83PB2IylctpHRaXsqGpt0Y21Roay/iyevYxiQxpJzeMDyThjmBbe7bTVUtppOMi2N4OnfcPcA2z0QjHKreUyYjcdbqp1iwoSzAVYr9uUHBnWcnrFNwhZ2xnPxkTXonpOfslR/MywugiLJ4pU/IKTldjFYL9izLYsrG/Pl94f303gy1L+GalwZaAjPNkCGUYvlV2+GeiHOETYpOq+JL99/Joyp6KKqeTMQ7hk0JTaOuo0x6WLei/hD4T1Yxk4jrh9brOkSilG/lOoVe+qZud0RFOaAsP4SU8F+1PEEN4qIvx+iGvV8AtP1yHswyv9+wfHDaCIcehCUfEbGQ5CkqJMs+UYymgLy9H5KxjPfUnn0A98q/tnHzcpGgJBr1eBCvTND1bzWbsiaLSfMlBJhmG8BGJ+dLFJYvgiGF8eEEN+jnwehP+AUhQNeKS/IZlAAAAAElFTkSuQmCC';
@@ -142,6 +172,8 @@
   let entries = normalizeEntries(GM_getValue(STORAGE_KEY, []));
   let enabled = Boolean(GM_getValue(ENABLED_KEY, true));
   let settings = loadSettings();
+  let entryIndex = null;
+  let entriesSaveTimer = 0;
 
   /** @type {Map<string, UserInfo>} */
   const danmakuById = new Map();
@@ -178,9 +210,16 @@
   let liveQualityHandledForRoom = false;
   let liveQualityReadyAt = 0;
   let liveQualityLastClickAt = 0;
+  let liveImScannedAt = 0;
+  const patchedLiveImClients = new WeakSet();
   /** @type {Element|null} */
   let lastAllowedActiveFeedSlide = null;
   const pendingMatchingEntryScans = new Set();
+  const feedSlideActivationWatches = new WeakSet();
+  const feedAdvanceRetries = new WeakMap();
+  const feedLoadMoreWaits = new WeakSet();
+  const siteCardAuthorCache = new WeakMap();
+  const awemeListIndexCache = new WeakMap();
   let panel = null;
   let contextMenu = null;
   let activeContext = null;
@@ -1084,6 +1123,7 @@
       hideLiveChat: value.hideLiveChat !== false,
       hideFeedVideos: value.hideFeedVideos !== false,
       hideBlockedProfileVideos: value.hideBlockedProfileVideos !== false,
+      closeLiveDanmaku: value.closeLiveDanmaku !== false,
     };
   }
 
@@ -1285,19 +1325,18 @@
     observer = new MutationObserver((mutations) => {
       const relatedItems = new Set();
       for (const mutation of mutations) {
-        collectRelatedContentItems(
+        // 变化目标只需检查自身及其所属内容项；目标下未变化的后代不必重扫。
+        // 否则任何挂到 body 上的浮层、提示都会让整页内容项全部重新匹配一遍。
+        collectOwningContentItem(
           mutation.target.nodeType === Node.ELEMENT_NODE
             ? /** @type {Element} */ (mutation.target)
             : mutation.target.parentElement,
           relatedItems,
         );
         for (const node of mutation.addedNodes) {
-          collectRelatedContentItems(
-            node.nodeType === Node.ELEMENT_NODE
-              ? /** @type {Element} */ (node)
-              : node.parentElement,
-            relatedItems,
-          );
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            collectRelatedContentItems(/** @type {Element} */ (node), relatedItems);
+          }
         }
       }
       for (const item of relatedItems) processContentItem(item);
@@ -1328,11 +1367,15 @@
     }
   }
 
+  function collectOwningContentItem(element, output) {
+    if (!(element instanceof Element)) return;
+    const item = element.closest(CONTENT_ITEM_SELECTOR);
+    if (item) output.add(item);
+  }
+
   function collectRelatedContentItems(root, output) {
     if (!(root instanceof Element)) return;
-    if (root.matches(CONTENT_ITEM_SELECTOR)) output.add(root);
-    const item = root.closest(CONTENT_ITEM_SELECTOR);
-    if (item) output.add(item);
+    collectOwningContentItem(root, output);
     for (const descendant of root.querySelectorAll(CONTENT_ITEM_SELECTOR)) {
       output.add(descendant);
     }
@@ -1746,10 +1789,36 @@
         clearBlockedFeedSlide(slide);
       }
       if (isFeedSlideAtViewportCenter(slide)) rememberAllowedActiveFeedSlide(slide);
+      else watchFeedSlideActivation(item);
       return;
     }
     guardBlockedFeedItem(item);
     if (isConfirmedActiveFeedSlide(item, slide)) advanceFromBlockedActiveSlide(slide);
+    else watchFeedSlideActivation(item);
+  }
+
+  // 抖音先把 active 标记切到新条目，再执行滑动动画；标记变化时条目往往尚未居中，
+  // 动画结束后也通常没有新的 DOM 变化再触发处理。逐帧等到条目居中后重新处理一次，
+  // 屏蔽项因此能被跳过，放行项也能被记为最近一次停留的条目，用来判断浏览方向。
+  function watchFeedSlideActivation(item) {
+    if (!item?.isConnected || feedSlideActivationWatches.has(item)) return;
+    if (!item.matches('[data-e2e="feed-active-video"]') && !item.matches(FEED_LIVE_SELECTOR)) return;
+    feedSlideActivationWatches.add(item);
+    const deadline = Date.now() + FEED_SLIDE_ACTIVATION_WATCH_MS;
+    const check = () => {
+      const slide = item.closest(FEED_SLIDE_SELECTOR) || item;
+      if (!item.isConnected || Date.now() >= deadline) {
+        feedSlideActivationWatches.delete(item);
+        return;
+      }
+      if (isConfirmedActiveFeedSlide(item, slide)) {
+        feedSlideActivationWatches.delete(item);
+        processFeedItem(item);
+        return;
+      }
+      requestAnimationFrame(check);
+    };
+    requestAnimationFrame(check);
   }
 
   function applyVisibility(element, info, scopeEnabled = true) {
@@ -1796,6 +1865,7 @@
     }
     const markedVideoId = normalizeId(slide.getAttribute(FEED_BLOCKED_VIDEO_ATTR));
     if (markedVideoId) blockedFeedVideoIds.delete(markedVideoId);
+    feedAdvanceRetries.delete(slide);
     slide.removeAttribute(FEED_BLOCKED_ATTR);
     slide.removeAttribute(FEED_BLOCKED_VIDEO_ATTR);
     slide.removeAttribute(FEED_ADVANCE_REQUESTED_ATTR);
@@ -1923,6 +1993,38 @@
     return controls.length === 1 ? controls[0] : null;
   }
 
+  // 推荐/关注信息流的条目组件同时持有轮播实例和抖音自身的上一条/下一条方法；
+  // 后者与键盘切换同一路径，在列表末尾还会触发补货。
+  function findFeedNavigator(slide) {
+    const item = slide?.matches?.(FEED_CONTENT_SELECTOR)
+      ? slide
+      : slide?.querySelector?.(FEED_CONTENT_SELECTOR);
+    if (!item) return null;
+    const fiberKey = Object.keys(item).find((key) => key.startsWith('__reactFiber$'));
+    let fiber = fiberKey ? item[fiberKey] : null;
+    for (let level = 0; fiber && level < 12; level += 1, fiber = fiber.return) {
+      try {
+        const props = fiber.memoizedProps;
+        const swiper = props?.swiper;
+        if (
+          typeof swiper?.slideNext === 'function' &&
+          typeof swiper.slidePrev === 'function' &&
+          swiper.el instanceof Element &&
+          swiper.el.contains(slide)
+        ) {
+          return {
+            swiper,
+            playNext: typeof props.playNextFunc === 'function' ? props.playNextFunc : null,
+            playPrev: typeof props.playPrevFunc === 'function' ? props.playPrevFunc : null,
+          };
+        }
+      } catch {
+        // 轮播实例属于抖音私有结构，读取失败时退回导航按钮。
+      }
+    }
+    return null;
+  }
+
   function getLoadedAdjacentFeedSlide(slide, direction = 1) {
     const parent = slide?.parentElement;
     if (!parent) return null;
@@ -1965,28 +2067,114 @@
   function advanceFromBlockedActiveSlide(
     slide,
     direction = feedNavigationDirectionFromLastAllowedSlide(slide),
+    attempt = 0,
   ) {
     if (!enabled || !settings.hideFeedVideos || !slide?.isConnected) return;
     const normalizedDirection = direction < 0 ? -1 : 1;
-    if (!getLoadedAdjacentFeedSlide(slide, normalizedDirection)) return;
-    const control = getVisibleFeedNavigationControl(normalizedDirection);
-    if (!control) return;
+    // 抖音已移除推荐页的上下切换箭头；优先调用信息流自身的上一条/下一条方法
+    // （与键盘切换同一路径），箭头按钮仅作为旧版页面的后备。
+    const navigator = findFeedNavigator(slide);
+    const swiper = navigator?.swiper || null;
+    if (!getLoadedAdjacentFeedSlide(slide, normalizedDirection)) {
+      if (normalizedDirection > 0 && navigator?.playNext) loadMoreFeedThenAdvance(slide, navigator);
+      return;
+    }
+    const control = navigator ? null : getVisibleFeedNavigationControl(normalizedDirection);
+    if (!navigator && !control) return;
     const advanceKey = `${feedSlideVideoId(slide) || 'unknown'}:${normalizedDirection}`;
     if (slide.getAttribute(FEED_ADVANCE_REQUESTED_ATTR) === advanceKey) return;
+    // 轮播在滑动动画或按住期间会静默忽略切换请求，等它空闲后再切。
+    if (swiper && isFeedSwiperBusy(swiper)) {
+      if (attempt < FEED_ADVANCE_MAX_BUSY_FRAMES) {
+        requestAnimationFrame(() => {
+          if (slide.getAttribute(FEED_BLOCKED_ATTR) === '1') {
+            advanceFromBlockedActiveSlide(slide, normalizedDirection, attempt + 1);
+          }
+        });
+      }
+      return;
+    }
     slide.setAttribute(FEED_ADVANCE_REQUESTED_ATTR, advanceKey);
+    const indexBefore = swiper?.activeIndex;
     try {
-      control.click();
+      if (navigator) navigateFeed(navigator, normalizedDirection);
+      else control.click();
       window.setTimeout(() => {
         if (
-          slide.isConnected &&
-          slide.getAttribute(FEED_ADVANCE_REQUESTED_ATTR) === advanceKey &&
-          !isFeedSlideAtViewportCenter(slide)
+          !slide.isConnected ||
+          slide.getAttribute(FEED_ADVANCE_REQUESTED_ATTR) !== advanceKey
         ) {
-          slide.removeAttribute(FEED_ADVANCE_REQUESTED_ATTR);
+          return;
         }
-      }, 700);
+        if (!isFeedSlideAtViewportCenter(slide)) {
+          slide.removeAttribute(FEED_ADVANCE_REQUESTED_ATTR);
+          feedAdvanceRetries.delete(slide);
+          return;
+        }
+        // 请求被轮播忽略时仍停在屏蔽项上；有限次重试，避免无法切换时反复空转。
+        if (
+          swiper &&
+          swiper.activeIndex === indexBefore &&
+          slide.getAttribute(FEED_BLOCKED_ATTR) === '1' &&
+          (feedAdvanceRetries.get(slide) || 0) < FEED_ADVANCE_MAX_RETRIES
+        ) {
+          feedAdvanceRetries.set(slide, (feedAdvanceRetries.get(slide) || 0) + 1);
+          slide.removeAttribute(FEED_ADVANCE_REQUESTED_ATTR);
+          advanceFromBlockedActiveSlide(slide, normalizedDirection);
+        }
+      }, FEED_ADVANCE_VERIFY_MS);
     } catch {
       slide.removeAttribute(FEED_ADVANCE_REQUESTED_ATTR);
+    }
+  }
+
+  function navigateFeed(navigator, direction) {
+    const native = direction < 0 ? navigator.playPrev : navigator.playNext;
+    if (native) native();
+    else if (direction < 0) navigator.swiper.slidePrev();
+    else navigator.swiper.slideNext();
+  }
+
+  // 抖音只预加载少量条目，脚本直接切换轮播不会触发补货。屏蔽项恰好是已加载的最后一条时，
+  // 先调用一次原生“下一条”让抖音请求后续内容，等下一条渲染出来后再跳过屏蔽项。
+  function loadMoreFeedThenAdvance(slide, navigator) {
+    if (feedLoadMoreWaits.has(slide)) return;
+    feedLoadMoreWaits.add(slide);
+    try {
+      navigator.playNext();
+    } catch {
+      feedLoadMoreWaits.delete(slide);
+      return;
+    }
+    const deadline = Date.now() + FEED_LOAD_MORE_WAIT_MS;
+    const check = () => {
+      const stillBlockedAndActive =
+        slide.isConnected &&
+        slide.getAttribute(FEED_BLOCKED_ATTR) === '1' &&
+        isFeedSlideAtViewportCenter(slide);
+      if (!stillBlockedAndActive || Date.now() >= deadline) {
+        feedLoadMoreWaits.delete(slide);
+        return;
+      }
+      if (getLoadedAdjacentFeedSlide(slide, 1)) {
+        feedLoadMoreWaits.delete(slide);
+        advanceFromBlockedActiveSlide(slide, 1);
+        return;
+      }
+      window.setTimeout(check, FEED_LOAD_MORE_POLL_MS);
+    };
+    window.setTimeout(check, FEED_LOAD_MORE_POLL_MS);
+  }
+
+  function isFeedSwiperBusy(swiper) {
+    try {
+      return Boolean(
+        swiper.touchData?.animating ||
+        swiper.touchData?.isTouchDown ||
+        swiper.isDisabled?.()
+      );
+    } catch {
+      return false;
     }
   }
 
@@ -2035,6 +2223,7 @@
     const slide = item.closest(FEED_SLIDE_SELECTOR) || item;
     if (slide.getAttribute(FEED_BLOCKED_ATTR) === '1') {
       neutralizeFeedMediaElement(media);
+      watchFeedSlideActivation(item);
       return;
     }
     processFeedItem(item);
@@ -2119,7 +2308,13 @@
         : '推荐/关注视频作者右键菜单';
       item = feed;
     } else if (siteItem) {
-      info = extractSiteContentInfo(siteItem);
+      const authorInfo = extractSiteContentInfo(siteItem);
+      const clickedLink = target.closest('a[href*="/user/"]');
+      const clickedReference = parseUserReference(clickedLink?.getAttribute('href') || '');
+      // 卡片里的 @提及 等链接指向其他用户时，以点击的链接为准，而不是卡片作者。
+      info = hasStableIdentity(clickedReference) && !isSameUserInfo(clickedReference, authorInfo)
+        ? extractClickedUserInfo(target, siteItem, () => authorInfo)
+        : authorInfo;
       if (siteItem.matches(SEARCH_RESULT_CARD_SELECTOR)) source = '搜索结果作者右键菜单';
       else if (siteItem.matches(DISCOVER_VIDEO_CARD_SELECTOR)) source = '精选视频作者右键菜单';
       else source = '直播内容作者右键菜单';
@@ -2147,6 +2342,9 @@
 
     const card = target.closest(`${SEARCH_RESULT_CARD_SELECTOR}, ${DISCOVER_VIDEO_CARD_SELECTOR}`);
     if (!card) return null;
+    // 内嵌播放器侧栏里的相关推荐等内容属于其他作者，不能落到卡片作者上。
+    const auxiliary = target.closest(FEED_AUXILIARY_SELECTOR);
+    if (auxiliary && card.contains(auxiliary)) return null;
     const profileLink = target.closest('a[href*="/user/"]');
     if (profileLink && card.contains(profileLink)) return card;
 
@@ -2564,12 +2762,12 @@
     if (item.matches?.(LIVE_ITEM_SELECTOR)) {
       link = findAuthorProfileLink(item, findLiveNicknameElement(item));
     } else if (item.matches?.(FEED_CONTENT_SELECTOR)) {
-      link = item.querySelector('[data-e2e="video-avatar"][href*="/user/"], a[href*="/user/"]');
+      link = findFeedAuthorLink(item);
     } else if (item.matches?.(SITE_CONTENT_SELECTOR)) {
       const root = resolveSiteContentRoot(item) || item;
       link = root.matches?.('a[href*="/user/"]')
         ? root
-        : root.querySelector?.('a[href*="/user/"]');
+        : queryOwnContentElement(root, 'a[href*="/user/"]');
     } else if (item.matches?.(COMMENT_ITEM_SELECTOR)) {
       link = findAuthorProfileLink(item, findCommentNicknameElement(item));
     }
@@ -2584,11 +2782,15 @@
     const nestedFeed = root.matches?.(FEED_CONTENT_SELECTOR)
       ? root
       : root.querySelector?.(FEED_CONTENT_SELECTOR);
-    if (nestedFeed) return extractFeedAuthorInfo(nestedFeed);
+    if (nestedFeed) {
+      // 单列搜索结果的作者信息在卡片头部，内嵌播放器只有评论区等侧栏里的用户链接。
+      const feedInfo = extractFeedAuthorInfo(nestedFeed);
+      if (hasAnyIdentity(feedInfo)) return feedInfo;
+    }
 
     const link = root.matches?.('a[href*="/user/"]')
       ? root
-      : root.querySelector?.('a[href*="/user/"]');
+      : queryOwnContentElement(root, 'a[href*="/user/"]');
     const href = link?.getAttribute?.('href') || '';
     const fromHref = parseUserReference(href);
     const nicknameElement = findSiteNicknameElement(root, item, link);
@@ -2600,6 +2802,16 @@
       link?.getAttribute?.('title'),
     ));
 
+    if (!hasStableIdentity(fromHref) && nickname) {
+      const author = findSiteCardVideoAuthor(item);
+      if (
+        hasStableIdentity(author) &&
+        normalizeNickname(author.nickname) === normalizeNickname(nickname)
+      ) {
+        return cleanInfo({ ...author, nickname });
+      }
+    }
+
     return cleanInfo({
       secUid: fromHref.secUid,
       userId: fromHref.userId,
@@ -2608,28 +2820,125 @@
     });
   }
 
+  // 精选瀑布流和多列搜索结果只在卡片上显示“@昵称”，没有作者主页链接。卡片指向的视频 ID
+  // 可以在 React 数据中找到对应作品及其作者；只有作者昵称与卡片显示一致时才采用，
+  // 避免把同一列表中其他作品的作者错认成当前卡片作者。
+  function findSiteCardVideoAuthor(card) {
+    if (!card?.matches?.(`${SEARCH_RESULT_CARD_SELECTOR}, ${DISCOVER_VIDEO_CARD_SELECTOR}`)) return {};
+    const videoId = siteCardVideoId(card);
+    if (!videoId) return {};
+    const cached = siteCardAuthorCache.get(card);
+    if (cached?.videoId === videoId) return cached.author;
+
+    let author = {};
+    const fiberKey = Object.keys(card).find((key) => key.startsWith('__reactFiber$'));
+    let fiber = fiberKey ? card[fiberKey] : null;
+    for (let level = 0; fiber && level < 10 && !hasStableIdentity(author); level += 1, fiber = fiber.return) {
+      try {
+        const aweme = findAwemeInProps(fiber.memoizedProps, videoId);
+        if (aweme) author = awemeAuthorInfo(aweme);
+      } catch {
+        // React 私有数据结构随版本变化；读取失败时退回昵称匹配。
+      }
+    }
+    if (hasStableIdentity(author)) siteCardAuthorCache.set(card, { videoId, author });
+    return author;
+  }
+
+  function siteCardVideoId(card) {
+    for (const element of card.querySelectorAll('[href*="/video/"], [data-aweme-id]')) {
+      const fromHref = /\/video\/(\d+)/.exec(element.getAttribute('href') || '')?.[1];
+      const videoId = normalizeId(fromHref || element.getAttribute('data-aweme-id'));
+      if (/^\d+$/.test(videoId)) return videoId;
+    }
+    return '';
+  }
+
+  function findAwemeInProps(props, videoId) {
+    if (!props || typeof props !== 'object') return null;
+    for (const value of Object.values(props).slice(0, 60)) {
+      if (!value || typeof value !== 'object') continue;
+      if (Array.isArray(value)) {
+        const aweme = awemeListIndex(value).get(videoId);
+        if (aweme) return aweme;
+        continue;
+      }
+      for (const candidate of [value, value.awemeInfo, value.aweme_info, value.aweme]) {
+        if (candidate && typeof candidate === 'object' && awemeIdOf(candidate) === videoId) return candidate;
+      }
+    }
+    return null;
+  }
+
+  function awemeListIndex(list) {
+    const cached = awemeListIndexCache.get(list);
+    if (cached && cached.size === list.length) return cached.index;
+    const index = new Map();
+    if (list.length && list[0] && typeof list[0] === 'object' && awemeIdOf(list[0])) {
+      for (const aweme of list) {
+        const id = aweme && typeof aweme === 'object' ? awemeIdOf(aweme) : '';
+        if (id && !index.has(id)) index.set(id, aweme);
+      }
+    }
+    awemeListIndexCache.set(list, { size: list.length, index });
+    return index;
+  }
+
+  function awemeIdOf(aweme) {
+    return normalizeId(aweme.awemeId ?? aweme.aweme_id);
+  }
+
+  function awemeAuthorInfo(aweme) {
+    const author = [aweme.authorInfo, aweme.author].find((value) => value && typeof value === 'object');
+    if (!author) return {};
+    return cleanInfo({
+      secUid: firstNonEmpty(scalar(author.secUid), scalar(author.sec_uid)),
+      userId: firstNonEmpty(scalar(author.uid), scalar(author.user_id), scalar(author.id_str)),
+      nickname: firstNonEmpty(scalar(author.nickname), scalar(author.nick_name)),
+    });
+  }
+
   function findSiteNicknameElement(root, item, link) {
     const explicit = item.matches?.(`${LIVE_CARD_AUTHOR_SELECTOR}, ${LIVE_ROOM_AUTHOR_SELECTOR}`)
       ? item
       : root.querySelector?.(`${LIVE_ROOM_AUTHOR_SELECTOR}, ${LIVE_CARD_AUTHOR_SELECTOR}`);
     if (explicit) return explicit;
+    const namedLink = findNamedAuthorLink(root, link);
+    if (namedLink) return namedLink;
 
-    const candidates = [
-      ...root.querySelectorAll(
-        '[data-e2e*="nickname"], [data-e2e*="user-name"], [data-e2e*="user-title"], p, span, strong, h3, h4',
-      ),
-    ];
+    const candidates = queryOwnContentElements(
+      root,
+      '[data-e2e*="nickname"], [data-e2e*="user-name"], [data-e2e*="user-title"], p, span, strong, h3, h4',
+    );
+    // 搜索“用户”卡片整张都包在主页链接里，依次排列昵称、认证主体、抖音号、获赞/粉丝和简介；
+    // 昵称总是第一段独立文字，按文档顺序取首个合格节点，不能按长度挑选。
     let fallback = null;
     for (const candidate of candidates) {
       const text = textOf(candidate);
       if (!text || text.length > 160) continue;
       if (/^@\s*\S/.test(text)) return candidate;
-      if (!link?.contains?.(candidate)) continue;
+      if (fallback || !link?.contains?.(candidate)) continue;
       if (/^(?:抖音号|粉丝|获赞|作品|直播|关注|IP属地|私信)(?:\s|[:：]|$)/.test(text)) continue;
-      if (/^\d+(?:\.\d+)?(?:万|w)?$/.test(text)) continue;
-      if (!fallback || text.length < textOf(fallback).length) fallback = candidate;
+      if (/^\d+(?:\.\d+)?(?:万|w|亿)?\s*(?:粉丝|获赞|作品|关注|喜欢)?$/i.test(text)) continue;
+      if ([...candidate.children].some((child) => textOf(child) && textOf(child) !== text)) continue;
+      fallback = candidate;
     }
     return fallback || link;
+  }
+
+  function findNamedAuthorLink(root, link) {
+    // 单列搜索结果先放无文字的头像链接，再放只含昵称的同主页链接；正文 @提及 不能抢先作为作者昵称。
+    if (!link) return null;
+    const reference = parseUserReference(link.getAttribute?.('href') || '');
+    if (!hasStableIdentity(reference)) return null;
+    return queryOwnContentElements(root, 'a[href*="/user/"]').find((candidate) => {
+      const candidateReference = parseUserReference(candidate.getAttribute('href') || '');
+      if (!isSameUserInfo(reference, candidateReference)) return false;
+      const textNodes = [...candidate.querySelectorAll('*'), candidate]
+        .flatMap((element) => [...element.childNodes])
+        .filter((node) => node.nodeType === Node.TEXT_NODE && normalizeText(node.textContent));
+      return textNodes.length === 1 && Boolean(readElementNickname(candidate));
+    }) || null;
   }
 
   function normalizeSiteNickname(value) {
@@ -2645,9 +2954,7 @@
 
     const nicknameKey = normalizeNickname(clean.nickname);
     if (!nicknameKey) return undefined;
-    const nicknameMatches = entries.filter((entry) =>
-      normalizeNickname(entry.nickname) === nicknameKey
-    );
+    const nicknameMatches = entriesWithNickname(nicknameKey);
     if (nicknameMatches.length !== 1) return undefined;
     const [matched] = nicknameMatches;
     if (matched.secUid && clean.secUid && matched.secUid !== clean.secUid) return undefined;
@@ -2655,12 +2962,34 @@
     return matched;
   }
 
+  function queryOwnContentElement(root, selector) {
+    for (const element of root.querySelectorAll(selector)) {
+      const auxiliary = element.closest(FEED_AUXILIARY_SELECTOR);
+      if (!auxiliary || auxiliary.contains(root)) return element;
+    }
+    return null;
+  }
+
+  function queryOwnContentElements(root, selector) {
+    return [...root.querySelectorAll(selector)].filter((element) => {
+      const auxiliary = element.closest(FEED_AUXILIARY_SELECTOR);
+      return !auxiliary || auxiliary.contains(root);
+    });
+  }
+
+  function findFeedAuthorLink(item) {
+    // 选择器列表按文档顺序返回首个命中，不能表达优先级；先找头像链接，再退回其余作者链接。
+    return queryOwnContentElement(item, '[data-e2e="video-avatar"][href*="/user/"]') ||
+      queryOwnContentElement(item, 'a[href*="/user/"]');
+  }
+
   function extractFeedAuthorInfo(item) {
     const isLiveFeed = item.matches(FEED_LIVE_SELECTOR);
-    const nicknameElement = item.querySelector(
+    const nicknameElement = queryOwnContentElement(
+      item,
       '[data-e2e="feed-video-nickname"], [data-e2e="feed-author-name"]',
     );
-    const link = item.querySelector('[data-e2e="video-avatar"][href*="/user/"], a[href*="/user/"]');
+    const link = findFeedAuthorLink(item);
     const nickname = normalizeUserNickname(
       firstNonEmpty(
         textOf(nicknameElement),
@@ -2850,7 +3179,7 @@
     const domSecUid = firstNonEmpty(hrefInfo.secUid, readAttr(item, ['data-sec-uid', 'data-secuid']));
     const domUserId = firstNonEmpty(hrefInfo.userId, readAttr(item, ['data-user-id', 'data-uid']));
     const reactInfo = (!domSecUid && !domUserId && explicitNickname)
-      ? extractUserFromReact(item, explicitNickname)
+      ? (liveChatMessageAuthor(item, explicitNickname) || extractUserFromReact(item, explicitNickname))
       : {};
 
     return cleanInfo({
@@ -2859,6 +3188,30 @@
       nickname: firstNonEmpty(explicitNickname, reactInfo.nickname, link?.getAttribute('aria-label'), textOf(link)),
       profileUrl: normalizeProfileUrl(link?.getAttribute('href') || '', hrefInfo),
     });
+  }
+
+  // 直播聊天条目的组件在两层子节点处持有原始 IM 消息，发送者就在 message.payload.user。
+  // 直接读取可省去对 React 树的广度搜索；昵称与条目显示不一致（或被脱敏）时交回通用查找。
+  function liveChatMessageAuthor(item, expectedNickname) {
+    const fiberKey = Object.keys(item).find((key) => key.startsWith('__reactFiber$'));
+    let fiber = fiberKey ? item[fiberKey] : null;
+    for (let depth = 0; fiber && depth < 4; depth += 1, fiber = fiber.child) {
+      try {
+        const user = fiber.memoizedProps?.message?.payload?.user;
+        if (!user || typeof user !== 'object') continue;
+        const info = liveImMessageUserInfo(user);
+        if (
+          hasStableIdentity(info) &&
+          normalizeNickname(info.nickname) === normalizeNickname(expectedNickname)
+        ) {
+          return info;
+        }
+        return null;
+      } catch {
+        return null;
+      }
+    }
+    return null;
   }
 
   function findLiveNicknameElement(item) {
@@ -3052,14 +3405,9 @@
 
   function filterFeedPayloadText(raw) {
     if (!enabled || !settings.hideFeedVideos || !entries.length) return raw;
-    if (
-      !raw.includes('aweme_id') &&
-      !raw.includes('cell_room') &&
-      !raw.includes('cellRoom') &&
-      !raw.includes('user_info') &&
-      !raw.includes('room_list') &&
-      !raw.includes('web_rid')
-    ) return raw;
+    // 单个正则只扫描一遍原文；逐个 includes 会对数 MB 的礼物列表等响应重复扫描六次。
+    if (!FEED_PAYLOAD_KEYWORD_PATTERN.test(raw)) return raw;
+    if (!rawPayloadMayContainBlockedUser(raw)) return raw;
     let payload;
     try {
       payload = JSON.parse(raw);
@@ -3072,6 +3420,34 @@
     } catch {
       return raw;
     }
+  }
+
+  // 精选等列表响应可达数 MB，整份解析、遍历再序列化要占用主线程数十毫秒。先在原文中
+  // 提取所有可能的主页 ID、用户 ID 和昵称并查索引；三者都未命中时说明不含名单用户，
+  // 直接放行原文。嵌套在字符串里的 JSON（如直播间 rawdata）引号带转义，正则一并兼容。
+  function rawPayloadMayContainBlockedUser(raw) {
+    const index = getEntryIndex();
+    for (const match of raw.matchAll(RAW_SEC_UID_PATTERN)) {
+      if (index.bySecUid.has(match[0])) return true;
+    }
+    if (index.byUserId.size) {
+      for (const match of raw.matchAll(RAW_USER_ID_PATTERN)) {
+        if (index.byUserId.has(match[1])) return true;
+      }
+    }
+    if (index.byNickname.size) {
+      for (const match of raw.matchAll(RAW_NICKNAME_PATTERN)) {
+        const nickname = normalizeNickname(normalizeUserNickname(decodeRawJsonText(match[1])));
+        if (nickname && index.byNickname.has(nickname)) return true;
+      }
+    }
+    return false;
+  }
+
+  function decodeRawJsonText(value) {
+    return value
+      .replace(/\\+u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
+      .replace(/\\+(.)/g, '$1');
   }
 
   /**
@@ -3389,14 +3765,39 @@
     return keys.some((key) => key.includes('danmaku') || key.includes('danmu') || key.includes('bullet'));
   }
 
+  // 名单可达上万条，页面上每个评论、视频和弹幕都要做命中检查；逐条线性扫描并做
+  // NFKC 归一化会让一次 DOM 变化耗时上百毫秒。名单数组被替换或增删后按需重建索引。
+  function getEntryIndex() {
+    if (entryIndex?.source === entries && entryIndex.size === entries.length) return entryIndex;
+    const bySecUid = new Map();
+    const byUserId = new Map();
+    const byNickname = new Map();
+    const nicknameOnly = new Map();
+    for (const entry of entries) {
+      if (entry.secUid && !bySecUid.has(entry.secUid)) bySecUid.set(entry.secUid, entry);
+      if (entry.userId && !byUserId.has(entry.userId)) byUserId.set(entry.userId, entry);
+      const nicknameKey = normalizeNickname(entry.nickname);
+      if (!nicknameKey) continue;
+      const sameNickname = byNickname.get(nicknameKey);
+      if (sameNickname) sameNickname.push(entry);
+      else byNickname.set(nicknameKey, [entry]);
+      if (entry.nicknameOnly && !nicknameOnly.has(nicknameKey)) nicknameOnly.set(nicknameKey, entry);
+    }
+    entryIndex = { source: entries, size: entries.length, bySecUid, byUserId, byNickname, nicknameOnly };
+    return entryIndex;
+  }
+
+  function entriesWithNickname(nicknameKey) {
+    return nicknameKey ? getEntryIndex().byNickname.get(nicknameKey) || [] : [];
+  }
+
   function findBlockingEntry(clean) {
     if (!hasAnyIdentity(clean)) return undefined;
-    const nicknameKey = normalizeNickname(clean.nickname);
-    return entries.find((entry) => {
-      if (clean.secUid && entry.secUid && clean.secUid === entry.secUid) return true;
-      if (clean.userId && entry.userId && clean.userId === entry.userId) return true;
-      return Boolean(entry.nicknameOnly && nicknameKey && normalizeNickname(entry.nickname) === nicknameKey);
-    });
+    const index = getEntryIndex();
+    return (clean.secUid && index.bySecUid.get(clean.secUid)) ||
+      (clean.userId && index.byUserId.get(clean.userId)) ||
+      index.nicknameOnly.get(normalizeNickname(clean.nickname)) ||
+      undefined;
   }
 
   function isBlocked(info) {
@@ -3408,7 +3809,7 @@
     // 同一条页面数据同时暴露 secUid 与 userId 时，自动补全本地记录，提升跨评论/弹幕匹配率。
     // 仅凭同名命中的 nicknameOnly 记录保持“按昵称精确匹配”，不能被页面里
     // 第一个同名账号被动升级成某个稳定 ID，否则会悄悄改变原有屏蔽范围。
-    if (matched && !matched.nicknameOnly && mergeEntry(matched, clean, '')) saveEntries();
+    if (matched && !matched.nicknameOnly && mergeEntry(matched, clean, '')) scheduleEntriesSave();
     return Boolean(matched);
   }
 
@@ -3433,16 +3834,14 @@
 
     // 评论、视频弹幕和直播页面有时只暴露 userId 或昵称，而用户主页 URL 只暴露 secUid。
     // 在主页这个明确场景中用精确昵称补全同一条记录，之后即可稳定按 secUid 匹配。
-    const nicknameMatches = entries.filter((entry) =>
-      normalizeNickname(entry.nickname) === nicknameKey
-    );
+    const nicknameMatches = entriesWithNickname(nicknameKey);
     if (nicknameMatches.length !== 1) return false;
     const [matched] = nicknameMatches;
     // 同名只用于桥接“评论只有 userId、主页只有 secUid”这类缺少同类 ID 的场景。
     // 如果双方已经给出了同一种稳定 ID 且值不同，就明确是不同账号，不能按昵称误伤。
     if (matched.secUid && clean.secUid && matched.secUid !== clean.secUid) return false;
     if (matched.userId && clean.userId && matched.userId !== clean.userId) return false;
-    if (mergeEntry(matched, clean, '')) saveEntries();
+    if (mergeEntry(matched, clean, '')) scheduleEntriesSave();
     return true;
   }
 
@@ -3603,7 +4002,10 @@
       note: String(note || ''),
     };
     entries.unshift(entry);
-    saveEntries();
+    // 新条目由已清洗的信息构造且已确认不与现有记录重复，无需重新清洗整份名单。
+    // 写入存储需要序列化整份名单，放到下一个任务执行，避免与本次点击、切换视频
+    // 叠加成一个长任务；内存中的名单与索引已即时生效。
+    window.setTimeout(() => saveEntries({ normalize: entries.length > MAX_BLOCK_ENTRIES }), 0);
     queueMatchingEntryScan(entry);
 
     // 自动前进只绑定到用户实际执行屏蔽的 feed 项。确认期间节点被复用、活动项变化、
@@ -3627,12 +4029,11 @@
   }
 
   function findMatchingEntry(info) {
-    const nicknameKey = normalizeNickname(info.nickname);
-    return entries.find((entry) => {
-      if (info.secUid && entry.secUid && info.secUid === entry.secUid) return true;
-      if (info.userId && entry.userId && info.userId === entry.userId) return true;
-      return Boolean(!info.secUid && !info.userId && entry.nicknameOnly && nicknameKey && normalizeNickname(entry.nickname) === nicknameKey);
-    });
+    const index = getEntryIndex();
+    return (info.secUid && index.bySecUid.get(info.secUid)) ||
+      (info.userId && index.byUserId.get(info.userId)) ||
+      (!info.secUid && !info.userId && index.nicknameOnly.get(normalizeNickname(info.nickname))) ||
+      undefined;
   }
 
   function mergeEntry(entry, info, note, { refreshIdentityData = true } = {}) {
@@ -3671,6 +4072,8 @@
       entry.note = String(note);
       changed = true;
     }
+    // 索引按名单数组和长度判断是否过期；就地补全 ID 时需要显式失效。
+    if (changed) entryIndex = null;
     return changed;
   }
 
@@ -3687,8 +4090,22 @@
     return false;
   }
 
-  function saveEntries() {
-    entries = normalizeEntries(entries);
+  // 浏览时被动补全名单信息（例如页面同时给出 secUid 与 userId）可能在一次扫描中
+  // 连续发生；合并为一次延迟写入，避免每次都序列化整份名单。
+  function scheduleEntriesSave() {
+    if (entriesSaveTimer) return;
+    entriesSaveTimer = window.setTimeout(() => {
+      entriesSaveTimer = 0;
+      saveEntries();
+    }, ENTRIES_SAVE_DELAY_MS);
+  }
+
+  function saveEntries({ normalize = true } = {}) {
+    if (entriesSaveTimer) {
+      window.clearTimeout(entriesSaveTimer);
+      entriesSaveTimer = 0;
+    }
+    if (normalize) entries = normalizeEntries(entries);
     GM_setValue(STORAGE_KEY, entries);
     if (panel) renderManagerList(panel.querySelector('.dy-lb-search')?.value || '');
   }
@@ -3710,7 +4127,8 @@
       return `${hostname}${pathname}`;
     }
     if (hostname === 'www.douyin.com' || hostname === 'douyin.com') {
-      const route = pathname.match(/^\/(?:root\/)?live\/([^/]+)$/i);
+      // 站内直播间除 /live/ 与 /root/live/ 外，还会挂在 /follow/live/ 等入口路径下。
+      const route = pathname.match(/^\/(?:[\w-]+\/)*live\/([^/]+)$/i);
       if (route) return `${hostname}/live/${route[1]}`;
     }
     return '';
@@ -3722,6 +4140,64 @@
     requestAnimationFrame(() => {
       livePlayerPreferenceScanQueued = false;
       applyLivePlayerPreferencesOnEntry();
+      installLiveImFilters();
+    });
+  }
+
+  // 直播聊天与弹幕共用同一条 IM 消息流：解码后的消息经 koa 式中间件链处理，
+  // 链首的中间件在下游全部完成后才派发给聊天列表和 canvas 弹幕层。
+  // 在链尾追加过滤器即可让名单用户的消息既不进入聊天列表，也不绘制到播放器上。
+  function installLiveImFilters() {
+    const now = Date.now();
+    if (now - liveImScannedAt < LIVE_IM_SCAN_INTERVAL_MS) return;
+    liveImScannedAt = now;
+    for (const plugin of document.querySelectorAll(LIVE_DANMAKU_PLUGIN_SELECTOR)) {
+      const client = findLiveImClient(plugin);
+      if (!client || patchedLiveImClients.has(client)) continue;
+      patchedLiveImClients.add(client);
+      client.originMiddleware.push(filterBlockedLiveImMessages);
+    }
+  }
+
+  function findLiveImClient(element) {
+    const fiberKey = Object.keys(element).find((key) => key.startsWith('__reactFiber$'));
+    let fiber = fiberKey ? element[fiberKey] : null;
+    for (let level = 0; fiber && level < 6; level += 1, fiber = fiber.return) {
+      try {
+        const client = fiber.memoizedProps?.store?.singletonStore?.message;
+        if (Array.isArray(client?.originMiddleware)) return client;
+      } catch {
+        // React 与直播 IM 的私有结构随版本变化；读取失败时保留页面层隐藏。
+      }
+    }
+    return null;
+  }
+
+  async function filterBlockedLiveImMessages(context, next) {
+    await next();
+    if (!enabled || !settings.hideLiveChat || !entries.length) return;
+    if (!Array.isArray(context?.msgs)) return;
+    context.msgs = context.msgs.filter((message) => {
+      try {
+        if (!LIVE_IM_FILTERED_METHODS.has(message?.method)) return true;
+        const info = liveImMessageUserInfo(message.payload?.user);
+        return !hasAnyIdentity(info) || !isBlocked(info);
+      } catch {
+        return true;
+      }
+    });
+  }
+
+  function liveImMessageUserInfo(user) {
+    if (!user || typeof user !== 'object') return {};
+    const secUid = scalar(user.sec_uid);
+    const nickname = scalar(user.nickname);
+    // 部分直播间会下发脱敏用户：昵称形如“阿***”，sec_uid 为空，id 为占位值。
+    // 这类消息不含可识别身份，不能参与匹配，否则可能误伤同样被脱敏成相同字符的其他用户。
+    return cleanInfo({
+      secUid,
+      userId: secUid ? firstNonEmpty(scalar(user.id_str), scalar(user.id)) : '',
+      nickname: /\*{2,}/.test(nickname) ? '' : nickname,
     });
   }
 
@@ -3823,7 +4299,7 @@
     const now = Date.now();
     let needsRetry = false;
 
-    if (!liveDanmakuHandledForRoom) {
+    if (!liveDanmakuHandledForRoom && settings.closeLiveDanmaku) {
       const settingsButton = document.querySelector(LIVE_DANMAKU_SETTINGS_SELECTOR);
       const readyToggle = document.querySelector(LIVE_DANMAKU_SWITCH_SELECTOR);
       if (!liveDanmakuReadyAt && settingsButton) liveDanmakuReadyAt = now;
@@ -4014,9 +4490,7 @@
         if (!event.isTrusted) return;
         let matchedEntry = findMatchingEntry(cleanInfo(profileInfo));
         if (!matchedEntry) {
-          const nicknameMatches = entries.filter((entry) =>
-            normalizeNickname(entry.nickname) === normalizeNickname(profileInfo.nickname)
-          );
+          const nicknameMatches = entriesWithNickname(normalizeNickname(profileInfo.nickname));
           if (nicknameMatches.length === 1) [matchedEntry] = nicknameMatches;
         }
         if (!matchedEntry || !removeEntry(matchedEntry.id)) {
@@ -4299,7 +4773,7 @@
                 <input type="checkbox" data-setting="hideDanmaku">
               </label>
               <label class="dy-onboard-option">
-                <span class="dy-onboard-option-copy"><strong>直播聊天</strong><span>直播评论与互动消息。</span></span>
+                <span class="dy-onboard-option-copy"><strong>直播聊天</strong><span>直播评论、互动消息与直播弹幕。</span></span>
                 <input type="checkbox" data-setting="hideLiveChat">
               </label>
               <label class="dy-onboard-option">
@@ -4432,6 +4906,13 @@
                 </label>
               </div>
               <div class="dy-set-section">
+                <div class="dy-set-section-title">直播播放</div>
+                <label class="dy-set-setting">
+                  <span class="dy-set-setting-copy"><strong>进入直播间时关闭弹幕</strong><span>每次进入直播间时自动关闭播放器弹幕；关闭此项后沿用抖音自身的弹幕状态。</span></span>
+                  <input type="checkbox" id="dy-set-close-live-danmaku">
+                </label>
+              </div>
+              <div class="dy-set-section">
                 <div class="dy-set-section-title">设置向导</div>
                 <div class="dy-set-action-row">
                   <span>逐项配置快捷入口、确认方式和屏蔽范围。</span>
@@ -4462,7 +4943,7 @@
                   <input type="checkbox" id="dy-set-hide-danmaku">
                 </label>
                 <label class="dy-set-setting">
-                  <span class="dy-set-setting-copy"><strong>直播聊天</strong><span>隐藏名单用户发送的直播评论和互动消息。</span></span>
+                  <span class="dy-set-setting-copy"><strong>直播聊天</strong><span>隐藏名单用户发送的直播评论、互动消息和播放器上的直播弹幕。</span></span>
                   <input type="checkbox" id="dy-set-hide-live">
                 </label>
                 <label class="dy-set-setting">
@@ -4606,6 +5087,7 @@
     overlay.querySelector('#dy-set-enabled').checked = enabled;
     overlay.querySelector('#dy-set-show-comment-button').checked = settings.showCommentButton;
     overlay.querySelector('#dy-set-show-settings-button').checked = settings.showSettingsButton;
+    overlay.querySelector('#dy-set-close-live-danmaku').checked = settings.closeLiveDanmaku;
     overlay.querySelector('#dy-set-confirm').checked = settings.confirmBeforeBlocking;
     overlay.querySelector('#dy-set-hide-comments').checked = settings.hideComments;
     overlay.querySelector('#dy-set-hide-danmaku').checked = settings.hideDanmaku;
@@ -4693,6 +5175,7 @@
       saveSettings({
         showCommentButton: overlay.querySelector('#dy-set-show-comment-button').checked,
         showSettingsButton: overlay.querySelector('#dy-set-show-settings-button').checked,
+        closeLiveDanmaku: overlay.querySelector('#dy-set-close-live-danmaku').checked,
         confirmBeforeBlocking: overlay.querySelector('#dy-set-confirm').checked,
         hideComments: overlay.querySelector('#dy-set-hide-comments').checked,
         hideDanmaku: overlay.querySelector('#dy-set-hide-danmaku').checked,

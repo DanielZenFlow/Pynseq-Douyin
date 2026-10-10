@@ -10,8 +10,8 @@
 
 - 在推荐、关注、搜索、精选和直播页面隐藏名单用户发布的视频与直播；能够在数据层识别的条目不会进入内容列表，已渲染条目由页面层即时隐藏。推荐与关注信息流不会为被屏蔽视频显示本地占位页，残留屏蔽项成为当前项时会沿当前浏览方向自动跳过。
 - 在名单用户主页隐藏作品区域，同时提供快捷解除屏蔽入口。
-- 隐藏名单用户发布的视频评论、回复、弹幕和直播聊天内容。
-- 进入 `live.douyin.com` 直播间或站内 `/root/live/` 直播页时，默认关闭播放器弹幕并自动选择可用的最高画质；进入后仍可手动调整。
+- 隐藏名单用户发布的视频评论、回复、弹幕和直播聊天内容；直播间里名单用户的聊天、表情和礼物消息在进入聊天列表前即被移除，也不会绘制到播放器的直播弹幕上。
+- 进入 `live.douyin.com` 直播间或站内直播页时，自动选择可用的最高画质，并默认关闭播放器弹幕；弹幕自动关闭可在「设置 → 常规 → 直播播放」中关闭，进入后两者仍可手动调整。
 - 在推荐/关注视频作者、搜索/精选视频作者、直播主播、评论用户和直播用户的右键菜单中提供屏蔽操作。
 - 在推荐页和关注页的视频作者及直播主播右键菜单中提供“屏蔽并标记不感兴趣”：视频提交抖音原生“不感兴趣”，直播在二级菜单中选择“不想看该主播”，随后写入本地屏蔽名单。本地成功提示会水平居中显示在抖音原生反馈正上方，并跟随原生反馈消失。
 - 可选择在评论区显示“本地屏蔽”快捷按钮，并可开启屏蔽前确认。
@@ -51,7 +51,7 @@
 
 - 评论和回复
 - 视频弹幕
-- 直播聊天
+- 直播聊天（包括播放器上的直播弹幕）
 - 站内视频与直播（推荐、关注、搜索、精选和直播页面）
 - 已屏蔽用户的主页作品
 
@@ -71,7 +71,8 @@
 
 - 过滤依赖抖音网页当前提供的用户标识和页面结构；抖音更新页面后，部分功能可能需要适配。
 - 用户信息尚未加载或页面未提供可识别身份时，相关内容可能需要等待数据加载后才能被过滤。
-- 站内内容由抖音动态加载，脚本只能处理浏览器当前接收到并能够识别作者的内容；未公开稳定用户标识的卡片使用本地名单中的唯一、完全一致昵称匹配。
+- 部分直播间会对观众身份脱敏（昵称显示为“阿***”等形式且不下发用户标识），这类直播间中的聊天和弹幕无法识别发送者，因此不会被过滤。
+- 站内内容由抖音动态加载，脚本只能处理浏览器当前接收到并能够识别作者的内容；精选瀑布流和多列搜索结果卡片按所属视频读取作者的用户标识，从这些卡片屏蔽的用户会以稳定标识记录；仍无法识别作者标识的卡片使用本地名单中的唯一、完全一致昵称匹配。
 - 本地屏蔽不等同于抖音官方拉黑，被屏蔽用户不会收到通知，平台推荐模型也不会因此直接改变。使用“屏蔽 @用户名+不感兴趣”时，只有其中的“不感兴趣”会影响推荐。
 - 视频“不感兴趣”通过抖音自带的右键菜单提交；直播通过播放器右键菜单提交，并选择二级菜单中的“不想看该主播”。这些操作依赖抖音菜单及反馈提示的现有文字和结构。抖音改动相关内容后，该操作或双提示框对齐可能失效；此时脚本仍会完成本地屏蔽、执行一次自动前进并给出独立提示。原生反馈成功时不再额外触发自动前进，避免重复切换或返回上一条内容。
 
@@ -100,8 +101,8 @@
 
 - Hides videos and live streams from blocked users across recommendations, following, search, featured-video, and live pages. Recognizable response records are removed before rendering, while already rendered records are hidden immediately in the page. Blocked videos in recommendation and following feeds do not produce a local placeholder; if a residual blocked item becomes active, the script skips it in the current browsing direction.
 - Hides the works section on a blocked user's profile and provides a quick unblock action.
-- Hides video comments, replies, danmaku, and live-chat messages posted by blocked users.
-- Turns off player danmaku and selects the highest available quality when entering a `live.douyin.com` room or an in-site `/root/live/` page; both can still be adjusted manually afterward.
+- Hides video comments, replies, danmaku, and live-chat messages posted by blocked users. In live rooms, chat, emoji, and gift messages from blocked users are removed before they reach the chat list, so they are not drawn as live danmaku on the player either.
+- Selects the highest available quality and, by default, turns off player danmaku when entering a `live.douyin.com` room or an in-site live page. Automatic danmaku shutoff can be disabled under “Settings → General → Live playback”; both can still be adjusted manually afterward.
 - Adds blocking actions to context menus for recommendation/following, search, and featured-video authors, live-stream hosts, commenters, and live-chat users.
 - Adds a “block and mark as not interested” action to the context menu for video authors and live-stream hosts in the recommendation and following feeds. Videos submit Douyin's native “not interested” signal; live streams select “不想看该主播” from its second-level menu before the author or host is added to the local blocklist. The local success notice is centered directly above Douyin's native feedback and disappears with it.
 - Optionally displays a “Local Block” shortcut in comments and supports confirmation before blocking.
@@ -141,7 +142,7 @@ Open “Settings → Blocking” to control filtering for:
 
 - Comments and replies
 - Video danmaku
-- Live chat
+- Live chat, including live danmaku on the player
 - Site-wide videos and live streams (recommendations, following, search, featured videos, and live pages)
 - Works on blocked user profiles
 
@@ -161,7 +162,8 @@ Export the blocklist under “Settings → Local Blocklist”. The exported file
 
 - Filtering depends on user identifiers and page structures exposed by the current Douyin website. Some features may require updates after Douyin changes its interface.
 - Content may remain visible until identity data becomes available when a page has not finished loading or does not expose identifiable user information.
-- Douyin loads site content dynamically. The script can only process content received by the current browser whose author can be identified. Cards without a stable public user identifier are matched only when their nickname exactly and uniquely matches an entry in the local blocklist.
+- Some live rooms anonymize viewers (nicknames appear as “阿***” and no user identifier is sent). Chat messages and danmaku in these rooms cannot be attributed to a sender and are therefore not filtered.
+- Douyin loads site content dynamically. The script can only process content received by the current browser whose author can be identified. Featured-video and multi-column search cards resolve the author identifier from the video they show, so users blocked from those cards are stored with stable identifiers; cards whose author still cannot be identified are matched only when their nickname exactly and uniquely matches an entry in the local blocklist.
 - Local blocking is not the same as Douyin's official blocking feature. Blocked users are not notified, and the platform recommendation model is not directly changed. With “屏蔽 @username+不感兴趣”, only the “not interested” part affects recommendations.
 - For videos, the “not interested” signal is submitted through Douyin's own context menu. For live streams, it is submitted through the player's context menu by selecting “不想看该主播” from the second level. Both flows depend on the current wording and structure of Douyin's menus and feedback notice. If Douyin changes them, the action or dual-notice alignment may stop working; the script still completes the local block, advances once, and displays a standalone status notice. When the native signal succeeds, the script does not advance again, preventing duplicate transitions or a return to the previous item.
 
