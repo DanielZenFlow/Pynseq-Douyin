@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.2] - 2026-10-12
+
+### Fixed
+
+- 在推荐页已加载列表的最后一条使用“屏蔽 @用户名+不感兴趣”后，不再退回上一条视频。打开右键菜单时即预先加载后续内容，抖音移除当前条目后由下一条直接接上；加载未及时完成时，待后续内容出现后自动前进到新视频。
+
 ## [2.0.1] - 2026-10-10
 
 ### Changed

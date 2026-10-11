@@ -41,7 +41,7 @@
 ### 添加用户
 
 - 在推荐/关注、搜索、精选页面的视频作者或直播主播，以及评论用户、直播聊天用户上点击鼠标右键，然后选择屏蔽。
-- 在推荐页或关注页的视频作者或直播主播上点击鼠标右键，选择“屏蔽 @用户名+不感兴趣”。视频会触发抖音原生“不感兴趣”；直播会继续选择二级菜单中的“不想看该主播”。随后作者或主播会加入本地名单；原生反馈成功时由抖音切换内容，本地成功提示在原生反馈正上方居中显示并同步消失。触发失败时由本地屏蔽流程执行一次自动前进并显示提示。
+- 在推荐页或关注页的视频作者或直播主播上点击鼠标右键，选择“屏蔽 @用户名+不感兴趣”。视频会触发抖音原生“不感兴趣”；直播会继续选择二级菜单中的“不想看该主播”。随后作者或主播会加入本地名单；原生反馈成功时由抖音切换内容，本地成功提示在原生反馈正上方居中显示并同步消失。当前内容是已加载列表的最后一条时，打开右键菜单即预先加载后续内容，操作后直接切换到新内容，不会退回上一条。触发失败时由本地屏蔽流程执行一次自动前进并显示提示。
 - 在评论区点击“本地屏蔽”快捷按钮。
 - 在“设置 → 本地屏蔽名单”中粘贴用户主页链接或输入可识别的用户信息。
 
@@ -132,7 +132,7 @@ The project does not support the Douyin mobile application.
 ### Add a user
 
 - Right-click an author or host on recommendation/following, search, featured-video, or live pages, or right-click a commenter or live-chat user, and select the blocking action.
-- Right-click a video author or live-stream host in the recommendation or following feed and select “屏蔽 @username+不感兴趣”. Videos trigger Douyin's native “not interested” action; live streams continue through the second-level menu and select “不想看该主播”. The author or host is then added to the local blocklist. When the signal succeeds, Douyin handles the transition and the local success notice appears centered directly above the native feedback until it disappears. If the signal cannot be triggered, the local blocking flow advances once and displays a standalone notice.
+- Right-click a video author or live-stream host in the recommendation or following feed and select “屏蔽 @username+不感兴趣”. Videos trigger Douyin's native “not interested” action; live streams continue through the second-level menu and select “不想看该主播”. The author or host is then added to the local blocklist. When the signal succeeds, Douyin handles the transition and the local success notice appears centered directly above the native feedback until it disappears. When the current item is the last one loaded, opening the context menu preloads the following items, so the feed moves on to new content instead of returning to the previous item. If the signal cannot be triggered, the local blocking flow advances once and displays a standalone notice.
 - Select the “Local Block” shortcut displayed beside a comment.
 - Paste a profile link or enter identifiable user information under “Settings → Local Blocklist”.
 
