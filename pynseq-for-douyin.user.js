@@ -3,7 +3,7 @@
 // @name:zh-CN   Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @name:en      Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @namespace    https://github.com/DanielZenFlow
-// @version      2.1.0
+// @version      2.1.1
 // @description  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户在推荐、关注、搜索、精选、直播和主页中的内容，以及评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:zh-CN  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户在推荐、关注、搜索、精选、直播和主页中的内容，以及评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:en  Locally hide selected users across Douyin recommendations, following, search, featured videos, live streams, profiles, comments, danmaku, and live chat, with blocklist management and import/export.
@@ -17,6 +17,7 @@
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
+// @grant        GM_addValueChangeListener
 // @grant        GM_registerMenuCommand
 // @grant        GM_addStyle
 // @grant        GM_setClipboard
@@ -29,11 +30,12 @@
   'use strict';
 
   const SCRIPT_NAME = 'Pynseq for Douyin｜屏序·抖音';
-  const SCRIPT_VERSION = '2.1.0';
+  const SCRIPT_VERSION = '2.1.1';
   const GITHUB_URL = 'https://github.com/DanielZenFlow/Douyin-User-Blocker';
   const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/danielzenflow';
   const BUY_ME_A_COFFEE_ICON_URL = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODg0IiBoZWlnaHQ9IjEyNzkiIHZpZXdCb3g9IjAgMCA4ODQgMTI3OSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTc5MS4xMDkgMjk3LjUxOEw3OTAuMjMxIDI5Ny4wMDJMNzg4LjIwMSAyOTYuMzgzQzc4OS4wMTggMjk3LjA3MiA3OTAuMDQgMjk3LjQ3MiA3OTEuMTA5IDI5Ny41MThWMjk3LjUxOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTgwMy44OTYgMzg4Ljg5MUw4MDIuOTE2IDM4OS4xNjZMODAzLjg5NiAzODguODkxWiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNNzkxLjQ4NCAyOTcuMzc3Qzc5MS4zNTkgMjk3LjM2MSA3OTEuMjM3IDI5Ny4zMzIgNzkxLjExOCAyOTcuMjlDNzkxLjExMSAyOTcuMzcxIDc5MS4xMTEgMjk3LjQ1MyA3OTEuMTE4IDI5Ny41MzRDNzkxLjI1MiAyOTcuNTE2IDc5MS4zNzkgMjk3LjQ2MiA3OTEuNDg0IDI5Ny4zNzdWMjk3LjM3N1oiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5MS4xMTMgMjk3LjUyOUg3OTEuMjQ0VjI5Ny40NDdMNzkxLjExMyAyOTcuNTI5WiIgZmlsbD0iIzBEMEMyMiIvPgo8cGF0aCBkPSJNODAzLjExMSAzODguNzI2TDgwNC41OTEgMzg3Ljg4M0w4MDUuMTQyIDM4Ny41NzNMODA1LjY0MSAzODcuMDRDODA0LjcwMiAzODcuNDQ0IDgwMy44NDYgMzg4LjAxNiA4MDMuMTExIDM4OC43MjZWMzg4LjcyNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTc5My42NjkgMjk5LjUxNUw3OTIuMjIzIDI5OC4xMzhMNzkxLjI0MyAyOTcuNjA1Qzc5MS43NyAyOTguNTM1IDc5Mi42NDEgMjk5LjIyMSA3OTMuNjY5IDI5OS41MTVWMjk5LjUxNVoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTQzMC4wMTkgMTE4Ni4xOEM0MjguODY0IDExODYuNjggNDI3Ljg1MiAxMTg3LjQ2IDQyNy4wNzYgMTE4OC40NUw0MjcuOTg4IDExODcuODdDNDI4LjYwOCAxMTg3LjMgNDI5LjQ4NSAxMTg2LjYzIDQzMC4wMTkgMTE4Ni4xOFoiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTY0MS4xODcgMTE0NC42M0M2NDEuMTg3IDExNDMuMzMgNjQwLjU1MSAxMTQzLjU3IDY0MC43MDUgMTE0OC4yMUM2NDAuNzA1IDExNDcuODQgNjQwLjg2IDExNDcuNDYgNjQwLjkyOSAxMTQ3LjFDNjQxLjAxNSAxMTQ2LjI3IDY0MS4wODQgMTE0NS40NiA2NDEuMTg3IDExNDQuNjNaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik02MTkuMjg0IDExODYuMThDNjE4LjEyOSAxMTg2LjY4IDYxNy4xMTggMTE4Ny40NiA2MTYuMzQyIDExODguNDVMNjE3LjI1NCAxMTg3Ljg3QzYxNy44NzMgMTE4Ny4zIDYxOC43NTEgMTE4Ni42MyA2MTkuMjg0IDExODYuMThaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik0yODEuMzA0IDExOTYuMDZDMjgwLjQyNyAxMTk1LjMgMjc5LjM1NCAxMTk0LjggMjc4LjIwNyAxMTk0LjYxQzI3OS4xMzYgMTE5NS4wNiAyODAuMDY1IDExOTUuNTEgMjgwLjY4NCAxMTk1Ljg1TDI4MS4zMDQgMTE5Ni4wNloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTI0Ny44NDEgMTE2NC4wMUMyNDcuNzA0IDExNjIuNjYgMjQ3LjI4OCAxMTYxLjM1IDI0Ni42MTkgMTE2MC4xNkMyNDcuMDkzIDExNjEuMzkgMjQ3LjQ4OSAxMTYyLjY2IDI0Ny44MDYgMTE2My45NEwyNDcuODQxIDExNjQuMDFaIiBmaWxsPSIjMEQwQzIyIi8+CjxwYXRoIGQ9Ik00NzIuNjIzIDU5MC44MzZDNDI2LjY4MiA2MTAuNTAzIDM3NC41NDYgNjMyLjgwMiAzMDYuOTc2IDYzMi44MDJDMjc4LjcxIDYzMi43NDYgMjUwLjU4IDYyOC44NjggMjIzLjM1MyA2MjEuMjc0TDI3MC4wODYgMTEwMS4wOEMyNzEuNzQgMTEyMS4xMyAyODAuODc2IDExMzkuODMgMjk1LjY3OSAxMTUzLjQ2QzMxMC40ODIgMTE2Ny4wOSAzMjkuODcgMTE3NC42NSAzNDkuOTkyIDExNzQuNjVDMzQ5Ljk5MiAxMTc0LjY1IDQxNi4yNTQgMTE3OC4wOSA0MzguMzY1IDExNzguMDlDNDYyLjE2MSAxMTc4LjA5IDUzMy41MTYgMTE3NC42NSA1MzMuNTE2IDExNzQuNjVDNTUzLjYzNiAxMTc0LjY1IDU3My4wMTkgMTE2Ny4wOCA1ODcuODE5IDExNTMuNDVDNjAyLjYxOSAxMTM5LjgyIDYxMS43NTIgMTEyMS4xMyA2MTMuNDA2IDExMDEuMDhMNjYzLjQ1OSA1NzAuODc2QzY0MS4wOTEgNTYzLjIzNyA2MTguNTE2IDU1OC4xNjEgNTkzLjA2OCA1NTguMTYxQzU0OS4wNTQgNTU4LjE0NCA1MTMuNTkxIDU3My4zMDMgNDcyLjYyMyA1OTAuODM2WiIgZmlsbD0iI0ZGREQwMCIvPgo8cGF0aCBkPSJNNzguNjg4NSAzODYuMTMyTDc5LjQ3OTkgMzg2Ljg3Mkw3OS45OTYyIDM4Ny4xODJDNzkuNTk4NyAzODYuNzg3IDc5LjE2MDMgMzg2LjQzNSA3OC42ODg1IDM4Ni4xMzJWMzg2LjEzMloiIGZpbGw9IiMwRDBDMjIiLz4KPHBhdGggZD0iTTg3OS41NjcgMzQxLjg0OUw4NzIuNTMgMzA2LjM1MkM4NjYuMjE1IDI3NC41MDMgODUxLjg4MiAyNDQuNDA5IDgxOS4xOSAyMzIuODk4QzgwOC43MTEgMjI5LjIxNSA3OTYuODIxIDIyNy42MzMgNzg4Ljc4NiAyMjAuMDFDNzgwLjc1MSAyMTIuMzg4IDc3OC4zNzYgMjAwLjU1IDc3Ni41MTggMTg5LjU3MkM3NzMuMDc2IDE2OS40MjMgNzY5Ljg0MiAxNDkuMjU3IDc2Ni4zMTQgMTI5LjE0M0M3NjMuMjY5IDExMS44NSA3NjAuODYgOTIuNDI0MyA3NTIuOTI4IDc2LjU2Qzc0Mi42MDQgNTUuMjU4NCA3MjEuMTgyIDQyLjgwMDkgNjk5Ljg4IDM0LjU1OUM2ODguOTY1IDMwLjQ4NDQgNjc3LjgyNiAyNy4wMzc1IDY2Ni41MTcgMjQuMjM1MkM2MTMuMjk3IDEwLjE5NDcgNTU3LjM0MiA1LjAzMjc3IDUwMi41OTEgMi4wOTA0N0M0MzYuODc1IC0xLjUzNTc3IDM3MC45ODMgLTAuNDQzMjM0IDMwNS40MjIgNS4zNTk2OEMyNTYuNjI1IDkuNzk4OTQgMjA1LjIyOSAxNS4xNjc0IDE1OC44NTggMzIuMDQ2OUMxNDEuOTEgMzguMjI0IDEyNC40NDUgNDUuNjM5OSAxMTEuNTU4IDU4LjczNDFDOTUuNzQ0OCA3NC44MjIxIDkwLjU4MjkgOTkuNzAyNiAxMDIuMTI4IDExOS43NjVDMTEwLjMzNiAxMzQuMDEyIDEyNC4yMzkgMTQ0LjA3OCAxMzguOTg1IDE1MC43MzdDMTU4LjE5MiAxNTkuMzE3IDE3OC4yNTEgMTY1Ljg0NiAxOTguODI5IDE3MC4yMTVDMjU2LjEyNiAxODIuODc5IDMxNS40NzEgMTg3Ljg1MSAzNzQuMDA3IDE4OS45NjhDNDM4Ljg4NyAxOTIuNTg2IDUwMy44NyAxOTAuNDY0IDU2OC40NCAxODMuNjE4QzU4NC40MDggMTgxLjg2MyA2MDAuMzQ3IDE3OS43NTggNjE2LjI1NyAxNzcuMzA0QzYzNC45OTUgMTc0LjQzIDY0Ny4wMjIgMTQ5LjkyOCA2NDEuNDk5IDEzMi44NTlDNjM0Ljg5MSAxMTIuNDUzIDYxNy4xMzQgMTA0LjUzOCA1OTcuMDU1IDEwNy42MThDNTk0LjA5NSAxMDguMDgyIDU5MS4xNTMgMTA4LjUxMiA1ODguMTkzIDEwOC45NDJMNTg2LjA2IDEwOS4yNTJDNTc5LjI1NyAxMTAuMTEzIDU3Mi40NTUgMTEwLjkxNSA1NjUuNjUzIDExMS42NjFDNTUxLjYwMSAxMTMuMTc1IDUzNy41MTUgMTE0LjQxNCA1MjMuMzk0IDExNS4zNzhDNDkxLjc2OCAxMTcuNTggNDYwLjA1NyAxMTguNTk1IDQyOC4zNjMgMTE4LjY0N0MzOTcuMjE5IDExOC42NDcgMzY2LjA1OCAxMTcuNzY5IDMzNC45ODMgMTE1LjcyMkMzMjAuODA1IDExNC43OTMgMzA2LjY2MSAxMTMuNjExIDI5Mi41NTIgMTEyLjE3N0MyODYuMTM0IDExMS41MDYgMjc5LjczMyAxMTAuODAxIDI3My4zMzMgMTEwLjAwOUwyNjcuMjQxIDEwOS4yMzVMMjY1LjkxNyAxMDkuMDQ2TDI1OS42MDIgMTA4LjEzNEMyNDYuNjk3IDEwNi4xODkgMjMzLjc5MiAxMDMuOTUzIDIyMS4wMjUgMTAxLjI1MUMyMTkuNzM3IDEwMC45NjUgMjE4LjU4NCAxMDAuMjQ5IDIxNy43NTggOTkuMjE5M0MyMTYuOTMyIDk4LjE5MDEgMjE2LjQ4MiA5Ni45MDk5IDIxNi40ODIgOTUuNTkwM0MyMTYuNDgyIDk0LjI3MDYgMjE2LjkzMiA5Mi45OTA0IDIxNy43NTggOTEuOTYxMkMyMTguNTg0IDkwLjkzMTkgMjE5LjczNyA5MC4yMTUyIDIyMS4wMjUgODkuOTI5M0gyMjEuMjY2QzIzMi4zMyA4Ny41NzIxIDI0My40NzkgODUuNTU4OSAyNTQuNjYzIDgzLjgwMzhDMjU4LjM5MiA4My4yMTg4IDI2Mi4xMzEgODIuNjQ1MyAyNjUuODgyIDgyLjA4MzJIMjY1Ljk4NUMyNzIuOTg4IDgxLjYxODYgMjgwLjAyNiA4MC4zNjI1IDI4Ni45OTQgNzkuNTM2NkMzNDcuNjI0IDczLjIzMDIgNDA4LjYxNCA3MS4wODAxIDQ2OS41MzggNzMuMTAxNEM0OTkuMTE1IDczLjk2MTggNTI4LjY3NiA3NS42OTk2IDU1OC4xMTYgNzguNjkzNUM1NjQuNDQ4IDc5LjM0NzQgNTcwLjc0NiA4MC4wMzU3IDU3Ny4wNDMgODAuODA5OUM1NzkuNDUyIDgxLjEwMjUgNTgxLjg3OCA4MS40NDY1IDU4NC4zMDUgODEuNzM5MUw1ODkuMTkxIDgyLjQ0NDVDNjAzLjQzOCA4NC41NjY3IDYxNy42MSA4Ny4xNDE5IDYzMS43MDggOTAuMTcwM0M2NTIuNTk3IDk0LjcxMjggNjc5LjQyMiA5Ni4xOTI1IDY4OC43MTMgMTE5LjA3N0M2OTEuNjczIDEyNi42MzggNjkzLjAxNSAxMzQuNDA4IDY5NC42NDkgMTQyLjAzTDY5Ni43MzEgMTUxLjc1MkM2OTYuNzg2IDE1MS45MjYgNjk2LjgyNiAxNTIuMTA1IDY5Ni44NTIgMTUyLjI4NUM3MDEuNzczIDE3NS4yMjcgNzA2LjcgMTk4LjE2OSA3MTEuNjMyIDIyMS4xMTFDNzExLjk5NCAyMjIuODA2IDcxMi4wMDIgMjI0LjU1NyA3MTEuNjU3IDIyNi4yNTVDNzExLjMxMiAyMjcuOTU0IDcxMC42MjEgMjI5LjU2MiA3MDkuNjI2IDIzMC45ODJDNzA4LjYzMiAyMzIuNDAxIDcwNy4zNTUgMjMzLjYgNzA1Ljg3NyAyMzQuNTA0QzcwNC4zOTggMjM1LjQwOCA3MDIuNzUgMjM1Ljk5NyA3MDEuMDMzIDIzNi4yMzZINzAwLjg5NUw2OTcuODg0IDIzNi42NDlMNjk0LjkwOCAyMzcuMDQ0QzY4NS40NzggMjM4LjI3MiA2NzYuMDM4IDIzOS40MTkgNjY2LjU4NiAyNDAuNDg2QzY0Ny45NjggMjQyLjYwOCA2MjkuMzIyIDI0NC40NDMgNjEwLjY0OCAyNDUuOTkyQzU3My41MzkgMjQ5LjA3NyA1MzYuMzU2IDI1MS4xMDIgNDk5LjA5OCAyNTIuMDY2QzQ4MC4xMTQgMjUyLjU3IDQ2MS4xMzUgMjUyLjgwNiA0NDIuMTYyIDI1Mi43NzFDMzY2LjY0MyAyNTIuNzEyIDI5MS4xODkgMjQ4LjMyMiAyMTYuMTczIDIzOS42MjVDMjA4LjA1MSAyMzguNjYyIDE5OS45MyAyMzcuNjI5IDE5MS44MDggMjM2LjU4QzE5OC4xMDYgMjM3LjM4OSAxODcuMjMxIDIzNS45NiAxODUuMDI5IDIzNS42NTFDMTc5Ljg2NyAyMzQuOTI4IDE3NC43MDUgMjM0LjE3NyAxNjkuNTQzIDIzMy4zOTdDMTUyLjIxNiAyMzAuNzk4IDEzNC45OTMgMjI3LjU5OCAxMTcuNyAyMjQuNzkzQzk2Ljc5NDQgMjIxLjM1MiA3Ni44MDA1IDIyMy4wNzMgNTcuODkwNiAyMzMuMzk3QzQyLjM2ODUgMjQxLjg5MSAyOS44MDU1IDI1NC45MTYgMjEuODc3NiAyNzAuNzM1QzEzLjcyMTcgMjg3LjU5NyAxMS4yOTU2IDMwNS45NTYgNy42NDc4NiAzMjQuMDc1QzQuMDAwMDkgMzQyLjE5MyAtMS42NzgwNSAzNjEuNjg4IDAuNDcyNzUxIDM4MC4yODhDNS4xMDEyOCA0MjAuNDMxIDMzLjE2NSA0NTMuMDU0IDczLjUzMTMgNDYwLjM1QzExMS41MDYgNDY3LjIzMiAxNDkuNjg3IDQ3Mi44MDcgMTg3Ljk3MSA0NzcuNTU2QzMzOC4zNjEgNDk1Ljk3NSA0OTAuMjk0IDQ5OC4xNzggNjQxLjE1NSA0ODQuMTI5QzY1My40NCA0ODIuOTgyIDY2NS43MDggNDgxLjczMiA2NzcuOTU5IDQ4MC4zNzhDNjgxLjc4NiA0NzkuOTU4IDY4NS42NTggNDgwLjM5OCA2ODkuMjkyIDQ4MS42NjhDNjkyLjkyNiA0ODIuOTM4IDY5Ni4yMyA0ODUuMDA1IDY5OC45NjIgNDg3LjcxN0M3MDEuNjk0IDQ5MC40MjkgNzAzLjc4NCA0OTMuNzE4IDcwNS4wOCA0OTcuMzQyQzcwNi4zNzcgNTAwLjk2NyA3MDYuODQ2IDUwNC44MzYgNzA2LjQ1MyA1MDguNjY1TDcwMi42MzMgNTQ1Ljc5N0M2OTQuOTM2IDYyMC44MjggNjg3LjIzOSA2OTUuODU0IDY3OS41NDIgNzcwLjg3NEM2NzEuNTEzIDg0OS42NTcgNjYzLjQzMSA5MjguNDM0IDY1NS4yOTggMTAwNy4yQzY1My4wMDQgMTAyOS4zOSA2NTAuNzEgMTA1MS41NyA2NDguNDE2IDEwNzMuNzRDNjQ2LjIxMyAxMDk1LjU4IDY0NS45MDQgMTExOC4xIDY0MS43NTcgMTEzOS42OEM2MzUuMjE4IDExNzMuNjEgNjEyLjI0OCAxMTk0LjQ1IDU3OC43MyAxMjAyLjA3QzU0OC4wMjIgMTIwOS4wNiA1MTYuNjUyIDEyMTIuNzMgNDg1LjE2MSAxMjEzLjAxQzQ1MC4yNDkgMTIxMy4yIDQxNS4zNTUgMTIxMS42NSAzODAuNDQzIDEyMTEuODRDMzQzLjE3MyAxMjEyLjA1IDI5Ny41MjUgMTIwOC42MSAyNjguNzU2IDExODAuODdDMjQzLjQ3OSAxMTU2LjUxIDIzOS45ODYgMTExOC4zNiAyMzYuNTQ1IDEwODUuMzdDMjMxLjk1NyAxMDQxLjcgMjI3LjQwOSA5OTguMDM5IDIyMi45IDk1NC4zODFMMTk3LjYwNyA3MTEuNjE1TDE4MS4yNDQgNTU0LjUzOEMxODAuOTY4IDU1MS45NCAxODAuNjkzIDU0OS4zNzYgMTgwLjQzNSA1NDYuNzZDMTc4LjQ3MyA1MjguMDIzIDE2NS4yMDcgNTA5LjY4MSAxNDQuMzAxIDUxMC42MjdDMTI2LjQwNyA1MTEuNDE4IDEwNi4wNjkgNTI2LjYyOSAxMDguMTY4IDU0Ni43NkwxMjAuMjk4IDY2My4yMTRMMTQ1LjM4NSA5MDQuMTA0QzE1Mi41MzIgOTcyLjUyOCAxNTkuNjYxIDEwNDAuOTYgMTY2Ljc3MyAxMTA5LjQxQzE2OC4xNSAxMTIyLjUyIDE2OS40NCAxMTM1LjY3IDE3MC44ODUgMTE0OC43OEMxNzguNzQ5IDEyMjAuNDMgMjMzLjQ2NSAxMjU5LjA0IDMwMS4yMjQgMTI2OS45MUMzNDAuNzk5IDEyNzYuMjggMzgxLjMzNyAxMjc3LjU5IDQyMS40OTcgMTI3OC4yNEM0NzIuOTc5IDEyNzkuMDcgNTI0Ljk3NyAxMjgxLjA1IDU3NS42MTUgMTI3MS43MkM2NTAuNjUzIDEyNTcuOTUgNzA2Ljk1MiAxMjA3Ljg1IDcxNC45ODcgMTEzMC4xM0M3MTcuMjgyIDExMDcuNjkgNzE5LjU3NiAxMDg1LjI1IDcyMS44NyAxMDYyLjhDNzI5LjQ5OCA5ODguNTU5IDczNy4xMTUgOTE0LjMxMyA3NDQuNzIgODQwLjA2MUw3NjkuNjAxIDU5Ny40NTFMNzgxLjAwOSA0ODYuMjYzQzc4MS41NzcgNDgwLjc0OSA3ODMuOTA1IDQ3NS41NjUgNzg3LjY0OSA0NzEuNDc4Qzc5MS4zOTIgNDY3LjM5MSA3OTYuMzUyIDQ2NC42MTcgODAxLjc5NCA0NjMuNTY3QzgyMy4yNSA0NTkuMzg2IDg0My43NjEgNDUyLjI0NSA4NTkuMDIzIDQzNS45MTZDODgzLjMxOCA0MDkuOTE4IDg4OC4xNTMgMzc2LjAyMSA4NzkuNTY3IDM0MS44NDlaTTcyLjQzMDEgMzY1LjgzNUM3Mi43NTcgMzY1LjY4IDcyLjE1NDggMzY4LjQ4NCA3MS44OTY3IDM2OS43OTJDNzEuODQ1MSAzNjcuODEzIDcxLjk0ODMgMzY2LjA1OCA3Mi40MzAxIDM2NS44MzVaTTc0LjUxMjEgMzgxLjk0Qzc0LjY4NDIgMzgxLjgxOSA3NS4yMDAzIDM4Mi41MDggNzUuNzMzNyAzODMuMzM0Qzc0LjkyNSAzODIuNTc2IDc0LjQwODkgMzgyLjAwOSA3NC40OTQ5IDM4MS45NEg3NC41MTIxWk03Ni41NTk3IDM4NC42NDFDNzcuMjk5NiAzODUuODk3IDc3LjY5NTMgMzg2LjY4OSA3Ni41NTk3IDM4NC42NDFWMzg0LjY0MVpNODAuNjcyIDM4Ny45NzlIODAuNzc1MkM4MC43NzUyIDM4OC4xIDgwLjk2NDUgMzg4LjIyIDgxLjAzMzMgMzg4LjM0MUM4MC45MTkyIDM4OC4yMDggODAuNzkyNSAzODguMDg3IDgwLjY1NDggMzg3Ljk3OUg4MC42NzJaTTgwMC43OTYgMzgyLjk4OUM3OTMuMDg4IDM5MC4zMTkgNzgxLjQ3MyAzOTMuNzI2IDc2OS45OTYgMzk1LjQzQzY0MS4yOTIgNDE0LjUyOSA1MTAuNzEzIDQyNC4xOTkgMzgwLjU5NyA0MTkuOTMyQzI4Ny40NzYgNDE2Ljc0OSAxOTUuMzM2IDQwNi40MDcgMTAzLjE0NCAzOTMuMzgyQzk0LjExMDIgMzkyLjEwOSA4NC4zMTk3IDM5MC40NTcgNzguMTA4MiAzODMuNzk4QzY2LjQwNzggMzcxLjIzNyA3Mi4xNTQ4IDM0NS45NDQgNzUuMjAwMyAzMzAuNzY4Qzc3Ljk4NzggMzE2Ljg2NSA4My4zMjE4IDI5OC4zMzQgOTkuODU3MiAyOTYuMzU1QzEyNS42NjcgMjkzLjMyNyAxNTUuNjQgMzA0LjIxOCAxODEuMTc1IDMwOC4wOUMyMTEuOTE3IDMxMi43ODEgMjQyLjc3NCAzMTYuNTM4IDI3My43NDUgMzE5LjM2QzQwNS45MjUgMzMxLjQwNSA1NDAuMzI1IDMyOS41MjkgNjcxLjkyIDMxMS45MUM2OTUuOTA1IDMwOC42ODYgNzE5LjgwNSAzMDQuOTQxIDc0My42MTkgMzAwLjY3NEM3NjQuODM1IDI5Ni44NzEgNzg4LjM1NiAyODkuNzMxIDgwMS4xNzUgMzExLjcwM0M4MDkuOTY3IDMyNi42NzMgODExLjEzNyAzNDYuNzAxIDgwOS43NzggMzYzLjYxNUM4MDkuMzU5IDM3MC45ODQgODA2LjEzOSAzNzcuOTE1IDgwMC43NzkgMzgyLjk4OUg4MDAuNzk2WiIgZmlsbD0iIzBEMEMyMiIvPgo8L3N2Zz4K';
   const STORAGE_KEY = 'dy_local_user_blocker_entries_v1';
+  const ENTRIES_REVISION_KEY = 'dy_local_user_blocker_entries_revision_v1';
   const ENABLED_KEY = 'dy_local_user_blocker_enabled_v1';
   const SETTINGS_KEY = 'dy_local_user_blocker_settings_v1';
   const ONBOARDING_DONE_KEY = 'dy_local_user_blocker_onboarding_done_v1';
@@ -180,6 +182,10 @@
   let settings = loadSettings();
   let entryIndex = null;
   let entriesSaveTimer = 0;
+  let entriesRevision = String(GM_getValue(ENTRIES_REVISION_KEY, ''));
+  /** @type {Array<(list: BlockEntry[]) => void>} */
+  const pendingEntryChanges = [];
+  let pendingEntryNormalize = false;
 
   /** @type {Map<string, UserInfo>} */
   const danmakuById = new Map();
@@ -1110,6 +1116,7 @@
   `);
 
   registerMenus();
+  watchSharedStorage();
   patchDouyinDataStreams();
   startWhenReady();
 
@@ -1119,7 +1126,10 @@
   }
 
   function loadSettings() {
-    const stored = GM_getValue(SETTINGS_KEY, {});
+    return settingsFromStored(GM_getValue(SETTINGS_KEY, {}));
+  }
+
+  function settingsFromStored(stored) {
     const value = stored && typeof stored === 'object' ? stored : {};
     return {
       showCommentButton: value.showCommentButton !== false,
@@ -1140,6 +1150,10 @@
       ...(nextSettings && typeof nextSettings === 'object' ? nextSettings : {}),
     };
     GM_setValue(SETTINGS_KEY, settings);
+    applySettingsState();
+  }
+
+  function applySettingsState() {
     if (!enabled || !settings.hideFeedVideos) {
       blockedFeedVideoIds.clear();
       clearFeedSkip();
@@ -4012,7 +4026,7 @@
     // 同一条页面数据同时暴露 secUid 与 userId 时，自动补全本地记录，提升跨评论/弹幕匹配率。
     // 仅凭同名命中的 nicknameOnly 记录保持“按昵称精确匹配”，不能被页面里
     // 第一个同名账号被动升级成某个稳定 ID，否则会悄悄改变原有屏蔽范围。
-    if (matched && !matched.nicknameOnly && mergeEntry(matched, clean, '')) scheduleEntriesSave();
+    if (matched && !matched.nicknameOnly) mergeStoredEntry(matched, clean, '', {}, 'later');
     return Boolean(matched);
   }
 
@@ -4044,7 +4058,7 @@
     // 如果双方已经给出了同一种稳定 ID 且值不同，就明确是不同账号，不能按昵称误伤。
     if (matched.secUid && clean.secUid && matched.secUid !== clean.secUid) return false;
     if (matched.userId && clean.userId && matched.userId !== clean.userId) return false;
-    if (mergeEntry(matched, clean, '')) scheduleEntriesSave();
+    mergeStoredEntry(matched, clean, '', {}, 'later');
     return true;
   }
 
@@ -4181,8 +4195,7 @@
 
     const existing = findMatchingEntry(clean);
     if (existing) {
-      const changed = mergeEntry(existing, clean, note);
-      if (changed) saveEntries();
+      const changed = mergeStoredEntry(existing, clean, note);
       if (showResultToast) {
         toast(`已经在本地名单中：${displayName(existing)}`, {
           placement: resultToastPlacement,
@@ -4204,11 +4217,12 @@
       createdAt: new Date().toISOString(),
       note: String(note || ''),
     };
-    entries.unshift(entry);
     // 新条目由已清洗的信息构造且已确认不与现有记录重复，无需重新清洗整份名单。
     // 写入存储需要序列化整份名单，放到下一个任务执行，避免与本次点击、切换视频
     // 叠加成一个长任务；内存中的名单与索引已即时生效。
-    window.setTimeout(() => saveEntries({ normalize: entries.length > MAX_BLOCK_ENTRIES }), 0);
+    recordEntryChange((list) => {
+      if (!findEntryInList(list, entry)) list.unshift({ ...entry });
+    }, { flush: 'next-task', normalize: entries.length >= MAX_BLOCK_ENTRIES });
     queueMatchingEntryScan(entry);
 
     // 自动前进只绑定到用户实际执行屏蔽的 feed 项。确认期间节点被复用、活动项变化、
@@ -4281,36 +4295,162 @@
   }
 
   function removeEntry(id) {
-    const before = entries.length;
     const removedEntry = entries.find((entry) => entry.id === id);
-    entries = entries.filter((entry) => entry.id !== id);
-    if (entries.length !== before) {
-      blockedFeedVideoIds.clear();
-      saveEntries();
-      if (removedEntry) queueMatchingEntryScan(removedEntry);
-      return true;
-    }
-    return false;
+    if (!removedEntry) return false;
+    const target = entryIdentity(removedEntry);
+    recordEntryChange((list) => {
+      for (let index = list.length - 1; index >= 0; index -= 1) {
+        if (list[index].id === target.id || isSameEntryIdentity(list[index], target)) list.splice(index, 1);
+      }
+    });
+    blockedFeedVideoIds.clear();
+    queueMatchingEntryScan(removedEntry);
+    return true;
   }
 
-  // 浏览时被动补全名单信息（例如页面同时给出 secUid 与 userId）可能在一次扫描中
-  // 连续发生；合并为一次延迟写入，避免每次都序列化整份名单。
-  function scheduleEntriesSave() {
-    if (entriesSaveTimer) return;
+  // 多个标签页共用同一份名单存储，任何写入都不能用本页内存中的名单整份覆盖：
+  // 本页内存可能早于其他标签页的新增或移除。每次改动都以“操作”记录，并立即作用于
+  // 本页内存；写入前若存储已被其他标签页更新，就以存储中的最新名单为基础重放尚未写入的
+  // 操作，再整体写回。其他标签页的写入经变更监听即时同步到本页。
+  //
+  // flush：'now' 立即写入；'next-task' 放到下一个任务，避免与点击、切换叠加成长任务；
+  // 'later' 合并浏览中被动补全信息等连续改动，延迟写入。
+  function recordEntryChange(change, { flush = 'now', normalize = false, applied = false } = {}) {
+    if (!applied) change(entries);
+    entryIndex = null;
+    pendingEntryChanges.push(change);
+    if (normalize) pendingEntryNormalize = true;
+    if (flush === 'now') flushEntryChanges();
+    else scheduleEntryFlush(flush === 'next-task' ? 0 : ENTRIES_SAVE_DELAY_MS);
+  }
+
+  function scheduleEntryFlush(delay) {
+    if (entriesSaveTimer) {
+      if (delay > 0) return;
+      window.clearTimeout(entriesSaveTimer);
+    }
     entriesSaveTimer = window.setTimeout(() => {
       entriesSaveTimer = 0;
-      saveEntries();
-    }, ENTRIES_SAVE_DELAY_MS);
+      flushEntryChanges();
+    }, delay);
   }
 
-  function saveEntries({ normalize = true } = {}) {
+  function flushEntryChanges() {
     if (entriesSaveTimer) {
       window.clearTimeout(entriesSaveTimer);
       entriesSaveTimer = 0;
     }
-    if (normalize) entries = normalizeEntries(entries);
+    if (!pendingEntryChanges.length) return;
+    if (String(GM_getValue(ENTRIES_REVISION_KEY, '')) !== entriesRevision) {
+      replaceEntriesFromStorage(GM_getValue(STORAGE_KEY, []));
+    }
+    pendingEntryChanges.length = 0;
+    if (pendingEntryNormalize) {
+      entries = normalizeEntries(entries);
+      pendingEntryNormalize = false;
+    }
+    entryIndex = null;
+    // 先写版本号再写名单：其他标签页收到名单变更时读到的已是新版本号。
+    entriesRevision = makeId();
+    GM_setValue(ENTRIES_REVISION_KEY, entriesRevision);
     GM_setValue(STORAGE_KEY, entries);
     if (panel) renderManagerList(panel.querySelector('.dy-lb-search')?.value || '');
+  }
+
+  // 以存储中的名单替换本页内存，并在其上重放本页尚未写入的改动。
+  function replaceEntriesFromStorage(stored) {
+    const latest = normalizeEntries(stored);
+    for (const change of pendingEntryChanges) change(latest);
+    entries = latest;
+    entryIndex = null;
+    blockedFeedVideoIds.clear();
+  }
+
+  // 其他标签页写入名单、开关或设置后即时同步到本页，并按新状态重新处理页面内容。
+  // 只处理来自其他标签页的变更；不支持变更监听的脚本管理器仍可依靠写入前的版本校验避免覆盖。
+  function watchSharedStorage() {
+    if (typeof GM_addValueChangeListener !== 'function') return;
+    GM_addValueChangeListener(STORAGE_KEY, (_key, _oldValue, newValue, remote) => {
+      if (!remote) return;
+      replaceEntriesFromStorage(newValue);
+      entriesRevision = String(GM_getValue(ENTRIES_REVISION_KEY, ''));
+      if (pendingEntryChanges.length) scheduleEntryFlush(0);
+      queueFullScan();
+      if (panel) renderManagerList(panel.querySelector('.dy-lb-search')?.value || '');
+    });
+    GM_addValueChangeListener(ENABLED_KEY, (_key, _oldValue, newValue, remote) => {
+      if (!remote) return;
+      enabled = Boolean(newValue);
+      applySettingsState();
+      syncSettingsPanelControls();
+      queueFullScan();
+    });
+    GM_addValueChangeListener(SETTINGS_KEY, (_key, _oldValue, newValue, remote) => {
+      if (!remote) return;
+      settings = settingsFromStored(newValue);
+      applySettingsState();
+      syncSettingsPanelControls();
+      queueFullScan();
+    });
+  }
+
+  // 设置面板的开关反映当前生效的开关与设置；其他标签页改动后同步刷新，
+  // 避免在早已打开的面板中保存时把旧值写回。
+  function syncSettingsPanelControls(overlay = panel) {
+    if (!overlay) return;
+    const controls = {
+      '#dy-set-enabled': enabled,
+      '#dy-set-show-comment-button': settings.showCommentButton,
+      '#dy-set-show-settings-button': settings.showSettingsButton,
+      '#dy-set-close-live-danmaku': settings.closeLiveDanmaku,
+      '#dy-set-confirm': settings.confirmBeforeBlocking,
+      '#dy-set-hide-comments': settings.hideComments,
+      '#dy-set-hide-danmaku': settings.hideDanmaku,
+      '#dy-set-hide-live': settings.hideLiveChat,
+      '#dy-set-hide-feed-videos': settings.hideFeedVideos,
+      '#dy-set-hide-profile-videos': settings.hideBlockedProfileVideos,
+    };
+    for (const [selector, value] of Object.entries(controls)) {
+      const input = overlay.querySelector(selector);
+      if (input) input.checked = Boolean(value);
+    }
+  }
+
+  function findEntryInList(list, target, { matchId = true } = {}) {
+    if (matchId && target.id) {
+      const byId = list.find((entry) => entry.id === target.id);
+      if (byId) return byId;
+    }
+    return list.find((entry) => isSameEntryIdentity(entry, target));
+  }
+
+  function isSameEntryIdentity(entry, target) {
+    if (entry.secUid && target.secUid && entry.secUid === target.secUid) return true;
+    if (entry.userId && target.userId && entry.userId === target.userId) return true;
+    return Boolean(
+      !entry.secUid && !entry.userId && !target.secUid && !target.userId &&
+      entry.nickname && normalizeNickname(entry.nickname) === normalizeNickname(target.nickname)
+    );
+  }
+
+  function entryIdentity(entry) {
+    return {
+      id: entry.id,
+      secUid: entry.secUid,
+      userId: entry.userId,
+      nickname: entry.nickname,
+    };
+  }
+
+  // 就地补全一条已有记录，并把同样的补全记录为可重放的改动。
+  function mergeStoredEntry(entry, info, note, options = {}, flush = 'now') {
+    const target = entryIdentity(entry);
+    if (!mergeEntry(entry, info, note, options)) return false;
+    recordEntryChange((list) => {
+      const stored = findEntryInList(list, target);
+      if (stored) mergeEntry(stored, info, note, options);
+    }, { flush, applied: true });
+    return true;
   }
 
   function queueFullScan() {
@@ -5287,16 +5427,7 @@
       if (validPage === 'about') renderStarReminderStatus();
     };
 
-    overlay.querySelector('#dy-set-enabled').checked = enabled;
-    overlay.querySelector('#dy-set-show-comment-button').checked = settings.showCommentButton;
-    overlay.querySelector('#dy-set-show-settings-button').checked = settings.showSettingsButton;
-    overlay.querySelector('#dy-set-close-live-danmaku').checked = settings.closeLiveDanmaku;
-    overlay.querySelector('#dy-set-confirm').checked = settings.confirmBeforeBlocking;
-    overlay.querySelector('#dy-set-hide-comments').checked = settings.hideComments;
-    overlay.querySelector('#dy-set-hide-danmaku').checked = settings.hideDanmaku;
-    overlay.querySelector('#dy-set-hide-live').checked = settings.hideLiveChat;
-    overlay.querySelector('#dy-set-hide-feed-videos').checked = settings.hideFeedVideos;
-    overlay.querySelector('#dy-set-hide-profile-videos').checked = settings.hideBlockedProfileVideos;
+    syncSettingsPanelControls(overlay);
 
     overlay.addEventListener('click', (event) => { if (event.target === overlay) close(); });
     overlay.querySelector('.dy-cancel').addEventListener('click', close);
@@ -5393,9 +5524,10 @@
     overlay.querySelector('.dy-clear').addEventListener('click', () => {
       if (!entries.length) return;
       if (!confirm(`确定清空 ${entries.length} 条本地屏蔽记录？建议先导出备份。`)) return;
-      entries = [];
+      recordEntryChange((list) => {
+        list.length = 0;
+      });
       blockedFeedVideoIds.clear();
-      saveEntries();
       queueFullScan();
       toast('本地屏蔽名单已清空');
     });
@@ -5512,14 +5644,13 @@
         const entry = entries.find((candidate) => candidate.id === id);
         if (!entry || entry.nickname || !hasStableIdentity(entry)) continue;
         const enriched = await enrichManualInfo(entry);
-        if (enriched.nickname && mergeEntry(entry, enriched, '')) changed = true;
+        if (enriched.nickname && mergeStoredEntry(entry, enriched, '', {}, 'later')) changed = true;
       }
     } finally {
       entryNicknameRepairRunning = false;
     }
     if (changed) {
-      entries = normalizeEntries(entries);
-      GM_setValue(STORAGE_KEY, entries);
+      flushEntryChanges();
       queueFullScan();
     }
     if (panel) renderManagerList(panel.querySelector('.dy-lb-search')?.value || '');
@@ -5594,20 +5725,47 @@
   }
 
   function mergeImported(imported) {
+    const prepared = imported.map((candidate) => ({ ...candidate, id: candidate.id || makeId() }));
+    let result = { added: 0, updated: 0 };
+    recordEntryChange((list) => {
+      const outcome = applyImportedEntries(list, prepared);
+      if (list === entries) result = outcome;
+    }, { normalize: true });
+    queueFullScan();
+    toast(`导入完成：新增 ${result.added}，补全 ${result.updated}`);
+  }
+
+  // 导入只按主页 ID、用户 ID 或纯昵称记录匹配，不按记录 ID：导入文件可能来自其他浏览器。
+  function applyImportedEntries(list, imported) {
+    const bySecUid = new Map();
+    const byUserId = new Map();
+    const byNickname = new Map();
+    const remember = (entry) => {
+      if (entry.secUid && !bySecUid.has(entry.secUid)) bySecUid.set(entry.secUid, entry);
+      if (entry.userId && !byUserId.has(entry.userId)) byUserId.set(entry.userId, entry);
+      if (!entry.secUid && !entry.userId && entry.nickname) {
+        const key = normalizeNickname(entry.nickname);
+        if (key && !byNickname.has(key)) byNickname.set(key, entry);
+      }
+    };
+    for (const entry of list) remember(entry);
     let added = 0;
     let updated = 0;
     for (const candidate of imported) {
-      const existing = findMatchingEntry(candidate);
+      const existing = (candidate.secUid && bySecUid.get(candidate.secUid)) ||
+        (candidate.userId && byUserId.get(candidate.userId)) ||
+        (!candidate.secUid && !candidate.userId && byNickname.get(normalizeNickname(candidate.nickname)));
       if (existing) {
         if (mergeEntry(existing, candidate, candidate.note, { refreshIdentityData: false })) updated += 1;
+        remember(existing);
       } else {
-        entries.push({ ...candidate, id: candidate.id || makeId() });
+        const entry = { ...candidate };
+        list.push(entry);
+        remember(entry);
         added += 1;
       }
     }
-    saveEntries();
-    queueFullScan();
-    toast(`导入完成：新增 ${added}，补全 ${updated}`);
+    return { added, updated };
   }
 
   function normalizeEntries(value) {

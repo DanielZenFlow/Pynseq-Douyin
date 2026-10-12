@@ -64,6 +64,7 @@
 - 屏蔽名单、设置和提醒状态保存在当前浏览器的用户脚本存储空间中。
 - 脚本不会调用抖音官方拉黑接口，也不会修改抖音账户中的平台黑名单。
 - 例外：右键菜单中的“屏蔽 @用户名+不感兴趣”会触发抖音自带的“不感兴趣”，该反馈由抖音记录在账户中并影响推荐结果。只使用“屏蔽 @用户名”时不会发生这一行为。
+- 同一浏览器中同时打开的多个抖音页面共用同一份名单和设置：在任一页面添加、移除或导入记录以及修改设置，其他页面会即时同步，彼此的改动不会互相覆盖。
 - 本地名单不会自动同步到其他浏览器、浏览器配置文件或设备。
 - 清除浏览器数据、删除用户脚本或重置用户脚本存储前，建议先导出名单。
 
@@ -155,6 +156,7 @@ Export the blocklist under “Settings → Local Blocklist”. The exported file
 - The blocklist, settings, and reminder state are stored in the userscript storage of the current browser.
 - The script does not call Douyin's official blocking API or modify the platform blocklist associated with the Douyin account.
 - One exception: the “屏蔽 @username+不感兴趣” context-menu action triggers Douyin's own “not interested” feedback, which Douyin records against the account and uses to adjust recommendations. The plain blocking action never does this.
+- Douyin pages open at the same time in one browser share the same blocklist and settings. Records added, removed, or imported and settings changed in any page are synchronized to the other pages immediately, and changes made in different pages do not overwrite each other.
 - Local data is not automatically synchronized across browsers, browser profiles, or devices.
 - Export the blocklist before clearing browser data, removing the userscript, or resetting userscript storage.
 
