@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.2] - 2026-10-15
+
+### Fixed
+
+- 修复直播间（`live.douyin.com/房间号` 及 `www.douyin.com` 下 `/live/`、`/root/live/`、`/follow/live/` 等直播路径）右键菜单闪现后立即消失、无法选择的问题，直播已结束页面的“猜你喜欢”卡片尤为明显。右键菜单现在只会被真实的鼠标点击关闭；开启“进入直播间时关闭弹幕”时，若弹幕开关无法切换，会在进入直播间数秒后停止重试，不再持续模拟点击。
+
 ## [2.1.1] - 2026-10-12
 
 ### Fixed

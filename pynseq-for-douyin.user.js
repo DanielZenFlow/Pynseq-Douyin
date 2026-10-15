@@ -3,7 +3,7 @@
 // @name:zh-CN   Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @name:en      Pynseq for Douyin｜屏序·抖音｜本地隐藏指定用户的推荐视频 主页 作品评论
 // @namespace    https://github.com/DanielZenFlow
-// @version      2.1.1
+// @version      2.1.2
 // @description  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户在推荐、关注、搜索、精选、直播和主页中的内容，以及评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:zh-CN  不调用抖音官方拉黑接口，在浏览器本地隐藏指定用户在推荐、关注、搜索、精选、直播和主页中的内容，以及评论、弹幕和直播聊天；支持名单管理、导入导出。
 // @description:en  Locally hide selected users across Douyin recommendations, following, search, featured videos, live streams, profiles, comments, danmaku, and live chat, with blocklist management and import/export.
@@ -1324,7 +1324,8 @@
     document.addEventListener('playing', onFeedMediaPlayback, true);
     document.addEventListener('canplay', onFeedMediaPlayback, true);
     document.addEventListener('pointerdown', (event) => {
-      if (event.button !== 0 || Date.now() - contextMenuOpenedAt < 80) return;
+      // 只响应真实点击；脚本或页面派发的模拟点击（如直播间自动关弹幕）不能关闭菜单。
+      if (!event.isTrusted || event.button !== 0 || Date.now() - contextMenuOpenedAt < 80) return;
       if (contextMenu?.contains(event.target)) return;
       hideUserContextMenu();
     }, true);
@@ -4645,10 +4646,10 @@
     if (!liveDanmakuHandledForRoom && settings.closeLiveDanmaku) {
       const settingsButton = document.querySelector(LIVE_DANMAKU_SETTINGS_SELECTOR);
       const readyToggle = document.querySelector(LIVE_DANMAKU_SWITCH_SELECTOR);
-      if (!liveDanmakuReadyAt && settingsButton) liveDanmakuReadyAt = now;
+      if (!liveDanmakuReadyAt && (settingsButton || readyToggle)) liveDanmakuReadyAt = now;
+      const elapsed = now - liveDanmakuReadyAt;
 
       if (!readyToggle && settingsButton) {
-        const elapsed = now - liveDanmakuReadyAt;
         if (
           (!liveDanmakuSettingsOpenedByScript ||
             now - liveDanmakuLastClickAt >= 1000) &&
@@ -4665,7 +4666,13 @@
         }
       } else if (readyToggle) {
         const danmakuEnabled = liveDanmakuSwitchEnabled(readyToggle);
-        if (danmakuEnabled === true) {
+        if (elapsed >= LIVE_PLAYER_ENTRY_MAX_MS) {
+          // 直播已结束等情况下开关仍在但点击无效，超时后停止，避免持续模拟点击。
+          if (liveDanmakuSettingsOpenedByScript && settingsButton) {
+            leaveLivePlayerControl(settingsButton);
+          }
+          liveDanmakuHandledForRoom = true;
+        } else if (danmakuEnabled === true) {
           if (now - liveDanmakuLastClickAt >= LIVE_PLAYER_ENTRY_RETRY_MS) {
             liveDanmakuLastClickAt = now;
             activateLivePlayerControl(readyToggle);
